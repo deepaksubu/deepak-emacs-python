@@ -1,0 +1,37 @@
+#!/usr/bin/python 
+import threading
+import Queue # Use from Queue on Python 2
+
+
+  class WorkerThread (threading.Thread):
+    def __init__(self,*args,**kwargs):
+        threading.Thread.__init__(self,*args,**kwargs)
+        self.input_queue = Queue.Queue() 
+    def send(self,item):
+        self.input_queue.put(item) 
+    def close(self):
+        self.input_queue.put(None)
+        self.input_queue.join() 
+    def run(self):
+        while True:
+            item = self.input_queue.get() 
+            if item is None:
+                break
+            # Process the item (replace with useful work) 
+            print(item)
+            self.input_queue.task_done()
+        # Done. Indicate that sentinel was received and return 
+        self.input_queue.task_done()
+        return
+# Example use
+# w = WorkerThread() w.start() w.send("hello") w.send("world") w.close()
+# Send items to the worker (via queue)
+
+if __name__ == '__main__':
+    #calNoOnes(10)
+    w = WorkerThread() 
+    w.start() 
+    w.send("hello") 
+    w.send("world")
+    w.close() 
+    
