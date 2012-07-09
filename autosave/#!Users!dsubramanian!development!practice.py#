@@ -3,7 +3,7 @@ import threading
 import Queue # Use from Queue on Python 2
 
 
-  class WorkerThread (threading.Thread):
+class WorkerThread (threading.Thread):
     def __init__(self,*args,**kwargs):
         threading.Thread.__init__(self,*args,**kwargs)
         self.input_queue = Queue.Queue() 
@@ -27,6 +27,7 @@ import Queue # Use from Queue on Python 2
 # w = WorkerThread() w.start() w.send("hello") w.send("world") w.close()
 # Send items to the worker (via queue)
 
+    
 if __name__ == '__main__':
     #calNoOnes(10)
     w = WorkerThread() 
