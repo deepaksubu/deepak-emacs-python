@@ -27,7 +27,6 @@ class WorkerThread (threading.Thread):
 # w = WorkerThread() w.start() w.send("hello") w.send("world") w.close()
 # Send items to the worker (via queue)
 
-    
 if __name__ == '__main__':
     #calNoOnes(10)
     w = WorkerThread() 

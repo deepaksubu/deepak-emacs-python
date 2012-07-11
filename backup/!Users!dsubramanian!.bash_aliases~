@@ -1,0 +1,1 @@
+alias emacs="open /Applications/Emacs.app --args $PWD/$1"

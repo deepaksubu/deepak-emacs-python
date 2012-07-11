@@ -30,3 +30,8 @@
 
 ;;python support
 (add-to-list 'load-path "~/.emacs.d/deepak-python.el")
+(load "~/.emacs.d/deepak-python.el" )
+
+;;zenbburn color theme for emacs
+(add-to-list 'load-path "~/.emacs.d/deepak-color-themes.el")
+(load "~/.emacs.d/deepak-color-themes.el")

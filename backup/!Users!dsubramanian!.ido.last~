@@ -1,0 +1,58 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/Users/" . "dsubramanian/")
+ ("/Users/dsubramanian/.emacs.d/themes/color-theme-6.6.0/" . "themes/")
+ ("/Users/dsubramanian/.emacs.d/themes/" . "color-theme-6.6.0/")
+ ("/Users/dsubramanian/.emacs.d/" . "themes/")
+ ("/Users/dsubramanian/" . "development/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/Users/dsubramanian/development/"
+ "/Users/dsubramanian/.emacs.d/"
+ "/Users/dsubramanian/"
+ "/Users/dsubramanian/.emacs.d/themes/"
+ "/"
+ "/Users/dsubramanian/.emacs.d/themes/color-theme-6.6.0/themes/"
+ "/Users/dsubramanian/.emacs.d/themes/color-theme-6.6.0/"
+ "/Users/dsubramanian/notes/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "practice.py"
+ "deepak-python.el"
+ "deepak-color-themes.el"
+ ".emacs"
+ "deepak-dot-emacs"
+ "zenburn.el"
+ ".bash_aliases"
+ "deepak-theme.el"
+ "#.emacs#"
+ "color-theme-library.el"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/Users/dsubramanian/" (20477 40891) "Public/" "Pictures/" "notes/" "Music/" "Movies/" "Library/" "emacs-meta/" "Dropbox/" "Downloads/" "Documents/" "development/" "Desktop/" "deepak-emacs-python/" ".zenmap-etc/" ".Xauthority" ".viminfo" ".Trash/" ".ssh/" ".sh_history" ".serverauth.12096" ".rnd" ".QuickSynergy.config" ".qt/" ".nx/" ".ido.last" ".gitconfig" ".fontconfig/" ".emacs.d/" ".emacs" ".DS_Store" ".dropbox/" ".CFUserTextEncoding" ".bashrc" ".bash_profile" ".bash_history" ".bash_aliases" ".anyconnect" ".account" "../" "./")
+
+ ("/Users/dsubramanian/.emacs.d/" (20477 40870) "themes/" "README" "readline-6.2.2.tar.gz" "python-mode.el-6.0.10.tar.gz" "python/" "ipython-0.13.tar.gz" "deepak-python.el" "deepak-dot-emacs" "deepak-color-themes.el" "backup/" "autosave/" "auto-save-list/" ".git/" "../" "./")
+
+ ("/Users/dsubramanian/.emacs.d/themes/color-theme-6.6.0/themes/" (20476 56385) "color-theme-library.el" "color-theme-example.el" "../" "./")
+
+ ("/Users/dsubramanian/.emacs.d/themes/color-theme-6.6.0/" (20476 56397) "themes/" "README" "Makefile.defs" "Makefile" "HACKING" "COPYING" "configure-stamp" "color-theme.elc" "color-theme.el" "color-theme-autoloads.in" "ChangeLog" "build-stamp" "BUGS" "AUTHORS" "../" "./")
+
+ ("/Users/dsubramanian/.emacs.d/themes/" (20475 52006) "zenburn.el" "color-theme-6.6.0.tar" "color-theme-6.6.0/" "../" "./")
+
+ ("/Users/dsubramanian/notes/" (20475 51775) "../" "./")
+
+ ("/Users/" (20462 16357) "Shared/" "dsubramanian/" "bigdoggy/" ".localized" "../" "./")
+
+ ("/Users/dsubramanian/development/" (20474 33389) "Ryan-McGuire-Emacs-Environment-05-09-2008.tar.gz" "ropemacs-0.7.tar.gz" "ropemacs-0.7/" "rope-0.9.4.tar.gz" "rope-0.9.4/" "practice.py~" "practice.py" "pinard-Pymacs-v0.25-0-g5989046.tar.gz" "pinard-Pymacs-5989046/" "emacsandpythononmac/" ".ropeproject/" "#practice.py#" "../" "./")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t
