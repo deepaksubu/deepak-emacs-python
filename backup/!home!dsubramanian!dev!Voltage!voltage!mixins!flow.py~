@@ -1,0 +1,33 @@
+"""
+Mixin class for browser type objects
+"""
+
+class FlowMixin(object):
+    @staticmethod
+    def execute(self, test, obj, args=None):
+        if args is None:
+            args = {}
+
+        if str(obj).startswith('<class'):
+            flow = obj(test=test, browser=self, config=self.config, args=args)
+            flow.main()
+        elif str(obj).startswith('<function'):
+            obj(test, self, args)
+        else:
+            msg = 'Unable to execute unknown type: %s' % type(obj)
+            raise Exception(msg)
+
+        return flow
+
+    @staticmethod
+    def execute_flow(self, *args, **kwargs):
+        """
+        This is an alias for :meth:`execute`.
+
+        :meth:`selenium.selenium.do_command` was replaced in WebDriver with
+        :meth:`selenium.webdriver.Remote.execute`.  This alias provides access
+        for :class:`voltage.WebDriverBrowser`, which inherits from both
+        :class:`selenium.webdriver.Remote` and :class:`FlowMixin`.
+        """
+        FlowMixin.execute(self, *args, **kwargs)
+

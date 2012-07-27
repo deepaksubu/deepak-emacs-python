@@ -1,0 +1,11 @@
+#! /usr/bin/python
+def fib(a):
+    if a == 1 or a ==0:
+        yield 1
+    else:
+        yield fib(a-2).next() + fib(a-1).next()
+
+
+if __name__ == "__main__":
+    a = fib(3)
+    print c

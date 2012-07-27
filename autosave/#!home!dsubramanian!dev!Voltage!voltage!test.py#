@@ -1,0 +1,366 @@
+"""
+The test module provides a voltage unittest class that contains references to the configuration files Config, a wrapper around selenium server
+browser and functions to make assertions.
+"""
+
+# Python imports
+import inspect
+import os
+import sys
+import traceback
+
+if sys.version_info < (2, 6):
+    import simplejson as json
+else:
+    import json
+
+# Voltage imports
+import voltage
+from voltage import collection
+from voltage import report
+from voltage import user_exceptions
+from voltage import utils
+
+# Constants
+PASS = 'PASS'
+FAIL = 'FAIL'
+ERROR = 'ERROR'
+STOPPED = 'STOPPED'
+SUSPENDED = 'SUSPENDED'
+UNNEEDED = 'UNNEEDED'
+
+class Assertion(collection.Collection):
+    """
+    Instance of Assertion class represents assertions made in the voltage test
+    cases.  The class provides method to inspect the stack and get filename,
+    line number, function name and the context information from the stack trace.
+
+    """
+
+    def __init__(self, msg=None):
+        #Convert the Message into utf-8 encoded string
+        self.msg = utils.encode_str(msg)
+        self.status = None
+        self.frame = None
+
+        # Get the calling frame info
+        stack_list = inspect.stack()
+        stack_list.reverse()
+
+        for frame in stack_list:
+            if frame[4] is not None:
+                stack_trace = ''.join(frame[4])
+                if self._methods_with_asserts_in_trace(stack_trace):
+                    break
+                if self._assert_methods_in_trace(stack_trace):
+                    break
+
+        caller = inspect.getframeinfo(frame[0])
+        del frame
+
+        # Update attribues with caller info (supporting py26 and py25)
+        try:
+            self.filename = caller.filename
+            self.lineno = caller.lineno
+            self.function = caller.function
+            self.context = caller.code_context
+        except AttributeError, ex:
+            self.filename = caller[0]
+            self.lineno = caller[1]
+            self.function = caller[2]
+            self.context = caller[3]
+
+    def _assert_methods_in_trace(self, stack_trace):
+        #TODO: Add new assert methods in this list if added in test.py
+        ASSERT_METHODS = ['assert_true', 'assert_false', 'assert_equals']
+
+        for tags in ASSERT_METHODS:
+            if tags in stack_trace:
+                return True
+        return False
+
+    def _methods_with_asserts_in_trace(self, stack_trace):
+        #TODO: Add new methods with assert statements in this list if added in browser.py
+        METHODS_WITH_ASSERTS = ['wait_for_text']
+
+        for tags in  METHODS_WITH_ASSERTS:
+            if tags in stack_trace:
+                return True
+        return False
+
+    def evaluate(self, condition):
+        """
+        This method evalautes the passed `condition` and accordingly set the
+        status of the assertion.
+
+        :param condition: Condition to be tested
+        :type condition: :class:`bool`
+        :rtype: :class:`bool`
+        """
+        if condition is True:
+            self.status = PASS
+            return True
+        else:
+            self.status = FAIL
+            return False
+
+class Test(dict):
+    """
+    Instances of Test class represents a unique test case in voltage. The users
+    of voltage mainly deals with instances of this class which provides them
+    with tools to carry out browser and api based testing. This class also
+    provides them with helper methods to make assertions and a reference to
+    their configuration data.
+
+    """
+    def __init__(self, config=None):
+        if config is None:
+            config = voltage.config_loader.get_config()
+
+        self.config = config
+        self._browsers = []
+        self.__dict__['_logger'] = utils.get_logger()
+
+        # Data to be published (keys are published, attrs are not)
+        self['status'] = None
+        self['_screenshots'] = []
+        self['_assertions'] = []
+        self['_stdout'] = []
+        self['is_optional'] = False
+
+    def browser(self):
+        """
+        This method creates a new browser object and returns a reference to that
+        object thus enabling browser based testing
+
+        :rtype: :class:`voltage.browser.Browser`
+
+        """
+        browser = voltage.Browser(self, config=self.config)
+        self._browsers.append(browser)
+
+        return browser
+
+    def http_client(self):
+        """
+        This method returns a new HttpRawClient that enables api based testing
+
+        :rtype: :class:`voltage.protocol.http_raw_client.HttpRawClient`
+
+        """
+        return voltage.HttpRawClient()
+
+    def webdriver_browser(self):
+        """
+        This method creates a new browser object and returns a reference to that
+        object thus enabling browser based testing
+
+        :rtype: :class:`voltage.browser.WebDriverBrowser`
+
+        """
+
+        print "The browser is",self.config.browser
+        if self.config.browser == '*chrome' or self.config.browser == 'growl':
+            browser = voltage.WebDriverChromeBrowser(self, config=self.config)
+        else:
+            print "I am in the test webdriver browser"
+            browser = voltage.WebDriverBrowser(self, config=self.config)
+        self._browsers.append(browser)
+x
+        return browser
+
+    def results(self):
+        """
+        This method is responsible for looping over all the assertions made
+        during the test execution and calculating whether the test case passed
+        or failed. A Test case pass if all the asseertions passes.
+
+        :rtype: Test
+
+        """
+        pages = self.close_browsers()
+
+        if self.config["selenium"]["capture_network_traffic"]:
+            known_pages = self.config["reports"]["url"]["source"]["explicit"]
+            self._logger.info("\n\nKnown Pages Touched")
+            for page in known_pages:
+                if page in pages:
+                    self._logger.info(page)
+
+            self._logger.info("\n\nUnregistered Pages Touched")
+            for page in pages:
+                if page not in known_pages:
+                    self._logger.info(page)
+
+        if not self['status']:
+            # Calculate the overall test status based on all assertions
+            self['status'] = PASS
+            for assertion in self['_assertions']:
+                if assertion.status != PASS:
+                    self['status'] = assertion.status
+                    break
+
+        return self
+
+    def assert_equals(self, arg1, arg2, msg='Values not equal'):
+        """
+        A helper method that makes an equal assertion ie whether arg1 equals
+        arg2. This method adds a new assertion to the test object and also
+        evaluates whether the assertion passed or failed.
+
+        :param arg1: Expected value
+        :type arg1: :class:`str`, :class:`int`, :class:`float`, :class:`list`
+        :param arg2: Agrument to be compared
+        :type arg2: :class:`str`, :class:`int`, :class:`float`, :class:`list`
+        :param msg: The message to be displayed if this assert fails
+        :type msg: :class:`bool`
+
+        Example:::
+
+         from voltage import test
+
+         test_case = test.Test()
+         x = 4
+         y = 10 - 6
+         test_case.assert_equals(x,y,
+                                 "x is not equal to y")
+
+
+        """
+        msg = "%s Expected: %s But was: %s" % (msg, unicode(arg1), unicode(arg2))
+        assertion = Assertion(msg)
+        outcome = assertion.evaluate(arg1 == arg2)
+        self['_assertions'].append(assertion)
+
+        return outcome
+
+    def assert_false(self, arg1, msg='assert_false was True'):
+        """
+        A helper method that makes an assertion whether the given argument is
+        False. This method adds a new assertion to the test object and also
+        evaluates whether the assertion passed or failed.
+
+        :param arg: Agrument to be evaluated
+        :type arg1: :class: `bool`
+        :param msg: The message to be displayed if this assert fails
+        :type msg: :class:`bool`
+
+        Example:::
+
+         from voltage import test
+
+         test_case = test.Test()
+         str = "This is test"
+         test_case.assert_false(isinstance(str,test.Test),
+                                   "str is indeed a object of test.Test")
+        """
+
+        assertion = Assertion(msg)
+        outcome = assertion.evaluate((arg1) is False)
+        self['_assertions'].append(assertion)
+
+        return outcome
+
+    def assert_true(self, arg1, msg='assert_true was False'):
+        """
+        A helper method that makes an assertion whether the given argument is
+        True. This method adds a new assertion to the test object and also
+        evaluates whether the assertion passed or failed.
+
+        :param arg: Agrument to be evaluated
+        :type arg1: :class: `bool`
+        :param msg: The message to be displayed if this assert fails
+        :type msg: :class:`bool`
+
+        Example:::
+
+         from voltage import test
+
+         test_case = test.Test()
+         test_case.assert_true(isinstance(test_case,test.Test),
+                                   "test_case is not a object of test.Test")
+
+        """
+
+        assertion = Assertion(msg)
+        outcome = assertion.evaluate((arg1) is True)
+        self['_assertions'].append(assertion)
+
+        return outcome
+
+    def output(self,msg):
+        """
+        This method to print the specified `msg` to the console and also
+        persists it to the datastore for future references. This is agreat
+        utility for debugging as the ``obj`` could be any *JSON serializable*
+        object like :class:`dict`, :class:`list`, :class:`str`, etc. The
+        publishing page corresponding to this test case has a section for Test
+        output below *configuration used* which displays each test case name and
+        their use of the ``output()`` method.
+
+        """
+        try:
+            #Convert the msg into utf-8 encoded string
+            msg = utils.encode_str(msg)
+            json_obj=json.dumps(msg)
+            self._logger.info(json_obj)
+            self['_stdout'].append(msg)
+        except TypeError:
+            pass
+            #print "object passed is not json serializable"
+
+    def close_browsers(self):
+        """
+        This method closes all the open browser windows.
+
+        """
+        pages = set([])
+        for browser in self._browsers:
+
+            if self.config["selenium"]["capture_network_traffic"]:
+                try:
+                    traffic = browser.captureNetworkTraffic("xml")
+                    # TODO: Persist the traffic somewhere
+                except Exception, ex:
+                    self._logger.exception("")
+            browser.close()
+
+            for page in browser.pages_explored:
+                pages.add(page)
+        return pages
+
+    def stop_exec(self):
+        os.environ['KEEP_RUNNING'] = 'False'
+        self['status'] = voltage.test.STOPPED
+
+    def handle_exception(self):
+        """
+        This method needs to be called within the catch clause in a test case to
+        handle the exception raised within the test case. This method displays
+        the exception along with the stack trace on the standard output and also
+        persists it to the datastore (ninja) so that it can be viewed on the
+        publishing page
+
+        Example:::
+
+         import voltage
+
+         def test_main():
+              test = voltage.Test()
+              browser = voltage.Browser()
+              try:
+                      pass
+              except ex:
+                      test.handle_exception()
+
+        """
+
+        errmsg = 'Exception Encountered: '
+        self['test_exception'] = utils.get_exception_from_stack(errmsg)
+        self['test_exception']['is_handled'] = True
+        self['status'] = voltage.test.ERROR
+
+		# Selenium does not support screenshots in browser other then Firefox *chrome mode
+        if self.config.get('browser_type') not in self.config['browser_list'].keys():
+            for eachBrowser in self._browsers:
+                eachBrowser.screenshot(self['test_exception']['trace'])

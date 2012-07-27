@@ -1,0 +1,48 @@
+#! /usr/bin/env python
+
+# Python imports
+import os
+import sys
+import time
+import pycallgraph
+
+# Calculate the fully qualified path to the project root
+VOLTAGE_ROOT = os.path.dirname(os.path.realpath(__file__))
+VOLTAGE_ROOT = os.path.realpath(os.path.join(VOLTAGE_ROOT, '..', '..'))
+sys.path.insert(0, VOLTAGE_ROOT)
+
+# Calculate the fully qualified path to the shell directory.  The user
+# will be specifying test/filelist/dir paths relative to this
+# directory.  We do not add this directory to the path, as we don't
+# want to expose code in their path, the only code to import is
+# VOLTAGE_ROOT/voltage and in time, any plugins.
+SHELL_ROOT = os.getcwd()
+
+# Voltage imports
+import voltage
+from voltage import config_loader
+from voltage import utils
+from voltage.testrunner import baserunner
+import time
+
+def main(options_dict=None):
+    runner = baserunner.BaseRunner(VOLTAGE_ROOT, SHELL_ROOT)
+    return runner.run(options_dict)
+
+if __name__ == '__main__':
+    try:
+        filterfunc = pycallgraph.GlobbingFilter(
+            include=["voltage.*","*rpaLogin*"]
+            )
+        pycallgraph.start_trace(filter_func=filterfunc)
+        #pycallgraph.start_trace()
+        t = time.time()
+        main()
+        elapsed = time.time() - t;
+        print "Elapsed time", elapsed
+        pycallgraph.make_dot_graph('voltage_test_py6.dot',format='dot',tool='neato')
+    except KeyboardInterrupt, ex:
+        utils.clean_exit(config_loader.load_config(), ex)
+    except Exception, ex:
+        print 'Ooops:'
+        raise

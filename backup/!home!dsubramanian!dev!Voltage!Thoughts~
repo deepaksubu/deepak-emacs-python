@@ -1,0 +1,36 @@
+The main framework is as follows
+2) API based testing
+3) Browser based testing
+
+Some of the code is deprecated and can be
+1) Biggest issue is that the design is undocumented and we may never know why some of the development decisions were taken.
+Example: Usage of custom asserts pointed out by Ofer and Bryce.
+
+
+Seems to be used for functional testing of web applications and apis.
+Pros
+1) It is working well and there are no apparent bugs from an end user perspective. It satisfies the "just runs" paradigm
+2) It is decently customizable.
+3) A lot of the QA actually uses it
+
+
+Cons
+
+The main issues from an end user best practice perspectives are as follows
+1) Every team seems to have its own definitions on how they are using voltage.
+2) There is no meaningful consolidation of testing data to a dashboard. For example, show the percentage of tests which belong to a particular team and then show how much of them are succe   ssful. It seems to be based on the qa environments from the ninja box.
+3) Anyone can mess around with the ninja database (recent experiences)
+4) Support for web driver is unknown
+5) No directions on exactly where to use the framework and where not to. Should it be used for application 
+6) Lack of a standardized nomenclature to name the tests
+7) There is no concept of  (forgive my exception)
+
+
+1) No clear boundaries on where the framework code ends and the actual testing code begins
+2) No usage analysis of the couchdb database and what fields are currently used for the same. Do the testers use all the fields.
+3) A lot of redundancy in the database and the file system for storing the config   uration.
+4) No separation of the types of testing 
+
+
+
+

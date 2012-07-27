@@ -1,0 +1,253 @@
+# coding: utf-8
+import inspect
+import logging
+import os
+import re
+import sys
+import traceback
+from datetime import datetime, timedelta
+
+CYGWIN_HOME = os.environ.get('CYGWIN_HOME', '/cygwin')
+DEFAULT_ENCODING="utf-8"
+LOGGER_NAME = 'voltage_logger'
+RE_SEPERATOR = r'[/\\]+'
+RE_DOUBLE_SLASH = re.compile(r'/+')
+UNIX_TEMP ='tmp'
+WINDOWS_TEMP = 'temp'
+
+def clean_exit(config, ex, stack_trace=False):
+    """
+    If the options dict was passed in with the 'throw_exceptions' flag set,
+    we are executing through a script that wants exceptions instead of sys.exit
+
+    :type config: :class:`voltage.config.Config`
+    :param config: Instance of the config object used to get the
+                   'throw_exceptions' attribute.
+    :type ex: Exception
+    :param ex: The exception that is the reason for exiting.  Will be raised
+               or just printed depending on the value of 'throw_exceptions'.
+    :type stack_trace: bool
+    :param stack_trace: Print out the stack trace corresponding to the
+                        exception passed in if config['throw_exceptions']
+                        is False.
+    """
+
+    # checking if its qa/dvt daemon vs human running the tests
+    if config and config.get('throw_exceptions', False):
+
+        # to make sure the argument is an instance of Exception
+        if isinstance(ex, Exception):
+            ex_type, val, trace = sys.exc_info()
+             
+            # type None indicates user defined exceptions and they need to be re raised a.k.a raise ex
+            if ex_type:
+                # logging any exceptions to stderr before clean_exit
+                get_logger().error(ex, exc_info=True)
+                raise
+            else:
+                # logging any exceptions to stderr before clean_exit                
+                get_logger().error(ex)
+                raise ex
+        else:
+            get_logger().error(ex)             
+            raise Exception(("Expected instance of Exception and not %s") % type(ex))
+    else:
+        # logging any exceptions to stderr before clean_exit
+        if stack_trace:
+            get_logger().error(ex, exc_info=True)
+        else:
+            get_logger().error(ex)
+        sys.exit(1)
+
+def create_logger(verbose=False, stdout=sys.stdout, stderr=sys.stderr):
+    """
+    Creating a custom logger that could be used across Voltage. Should be
+    called once only for setup.
+    """
+    logger = logging.getLogger(LOGGER_NAME)
+
+    # Setting default level to the logger
+    if verbose:
+        logger.setLevel(level=logging.DEBUG)
+    else:
+        logger.setLevel(level=logging.INFO)
+
+
+    # Creating a custom standard console handler for the logger
+    console_handler = logging.StreamHandler(stdout)
+
+    #Creating a custom error handler for the logger
+    error_handler = logging.StreamHandler(stderr)
+    error_handler.setLevel(logging.ERROR)
+
+    # Adding a formatter to the logger to behave like normal print()
+    console_formatter = logging.Formatter("%(message)s")
+    error_formatter = logging.Formatter("%(asctime)s: %(message)s")
+    console_handler.setFormatter(console_formatter)
+    error_handler.setFormatter(error_formatter)
+
+    console_handler.addFilter(InhibitFilter(logging.ERROR));
+
+    #Remove handlers if they already exists
+    logger.handlers = []
+
+    #Adding custom handler to the logger
+    logger.addHandler(console_handler)
+    logger.addHandler(error_handler)
+    logger.propagate = False
+
+    return logger
+
+def cygwin_safe(tmp):
+    if sys.platform.upper() == 'WIN32':
+        return RE_DOUBLE_SLASH.sub('/', (CYGWIN_HOME + '/' + tmp))
+    else:
+        return tmp
+
+def fetch_test_functions(obj):
+    for name, obj in inspect.getmembers(obj):
+        if name.startswith('test_'):
+            yield name
+
+def fetch_unittest_classes(obj):
+    for name, obj in inspect.getmembers(obj):
+        if name.startswith('Test'):
+            yield name
+
+def fetch_unittest_methods(obj):
+    for name, obj in inspect.getmembers(obj):
+        if name.startswith('test_'):
+            yield name
+
+def get_date_from_today_mdy(range):
+    date = datetime.today() + timedelta(range)
+    return datetime.strftime(date, '%m/%d/%y')
+
+def get_date_from_today_ymd(range):
+    date = datetime.today() + timedelta(range)
+    return datetime.strftime(date, '%Y-%m-%d')
+
+def get_exception_from_stack(msg=""):
+    ex_type, ex_value, ex_traceback = sys.exc_info()
+    parts = traceback.format_exception(ex_type, ex_value, ex_traceback)
+    exception_part = '\n'.join(parts)
+    get_logger().error('%s\n\n%s' % (msg, exception_part))
+    return {'message' : msg, 'type':str(ex_type), 'trace': exception_part}
+
+def get_logger():
+    """
+    Method to return instance of the shared logger used across voltage
+    """
+    return logging.getLogger(LOGGER_NAME)
+
+def get_platform_dependent_path(path):
+    path = os.sep.join(re.split(RE_SEPERATOR, path))
+    if path.startswith('\\cygdrive'):
+        path = path[10] + ':' + os.path.normcase(path[11:])
+    return path
+
+def is_temporary_dir(path):
+    """
+    Check if the path is in temp directory in platform dependent way
+    """
+    #Get Only parent directory name of the given path
+    path_dir = os.path.basename(os.path.dirname(path))
+    if sys.platform.upper() == 'WIN32':
+        tempdir = WINDOWS_TEMP
+    else:
+        tempdir = UNIX_TEMP
+    return path_dir == tempdir
+
+def identify_encoding(inputstr):
+    """
+    Returns the encoding for the ``inputstr`` if tis able to determine else
+    returns ``utils.DEFAULT_ENCODING`` by default
+    """
+    #TO DO: Figure out src encoding
+    return DEFAULT_ENCODING
+
+def to_unicode(inputstr, src_encoding=None, errors='ignore'):
+    """
+    Convert given input string ``inputstr`` into unicode using the provided
+    ``src_encoding``. If src_encoding is not provided than it tries to guess the
+    encoding using some regex
+
+
+    :param inputstr: string to be converted into unicode
+    :type inputstr: :class:`str`
+    :param src_encoding: source encoding for ``inputstr``
+    :type src_encoding: :class:`str`
+    :param errror: (optional) possible options ``ignore``, ``replace``,
+                   ``strict``. Default is ``ignore``
+    :type error: :class:`str`
+    :return: ``inputstr`` in unicode
+    :rtype: :class:`unicode`
+
+    >>> from voltage import utils
+    >>>
+    >>> #A unicode string encoded as utf-8
+    >>> inputstr = 'Déconnexion'
+    >>> type(inputstr)
+    <type 'str'>
+    >>> unicodestr = utils.to_unicode(inputstr)
+    >>> type(unicodestr)
+    <type 'unicode'>
+
+    """
+    #Check if inputstr is already a unicode
+    if isinstance(inputstr, unicode):
+        return inputstr
+
+    # If src_encoding not provided, try to identify the encoding using regex
+    if not src_encoding:
+        src_encoding = identify_encoding(inputstr)
+
+    return unicode(inputstr, encoding=src_encoding, errors='ignore')
+
+def encode_str(inputstr, src_encoding=None, dest_encoding=DEFAULT_ENCODING,
+              errors='ignore'):
+    """
+    Encode the given string ``inputstr`` into provided encoding ``dest_encoding``
+
+    :param inputstr: string to be encoded
+    :type inputstr: :class:`str`
+    :param src_encoding: (optional) source encoding for ``inputstr``.
+                        Default is ``utils.DEFAULT_ENCODING``
+    :type src_encoding: :class:`str`
+    :param dest_encoding: (optional) desired encoding for ``inputstr``.
+                         Default is ``utils.DEFAULT_ENCODING``.
+    :type dest_encoding: :class:`str`
+    :param errror: (optional) possible options ``ignore``, ``replace``, ``strict``.
+                   Default is ``ignore``.
+    :type error: :class:`str`
+    :return: ``inputstr`` encoded using ``dest_encoding``
+    :rtype: :class:`str`
+
+    >>> import voltage
+    >>> from voltage import utils
+
+    >>> inputstr = u'Déconnexion'.encode("latin-1")
+    >>> type(inputstr)
+    <type 'str'>
+    >>> # print inputstr
+    >>> #D�connexion
+    >>> outputstr = utils.encode_str(inputstr, src_encoding="latin-1",
+    ...                                 dest_encoding="utf-8")
+    >>> type(outputstr)
+    <type 'str'>
+    >>> #print outputstr
+    >>> #Déconnexion
+    """
+    unicodestr = to_unicode(inputstr, src_encoding, errors)
+    return unicodestr.encode(dest_encoding, errors)
+
+class InhibitFilter(object):
+
+    def __init__(self, inhibit_level):
+        self._inhibit_level = inhibit_level
+
+    def filter(self, logrecord):
+        if logrecord.levelno >= self._inhibit_level:
+            return 0;
+        else:
+            return 1;

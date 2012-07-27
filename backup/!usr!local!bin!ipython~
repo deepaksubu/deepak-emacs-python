@@ -1,0 +1,11 @@
+#!/usr/bin/python
+"""Terminal-based IPython entry point.
+"""
+
+from IPython.frontend.terminal.ipapp import launch_new_instance
+import sys
+
+if "/usr/lib/python2.7/dist-packages" not in sys.path:
+    sys.path.append("/usr/lib/python2.7/dist-packages")
+    
+launch_new_instance()
