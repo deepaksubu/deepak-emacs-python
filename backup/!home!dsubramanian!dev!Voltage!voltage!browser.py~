@@ -1,4 +1,3 @@
-
 """
 Subclass of the upstream selenium browser class.
 """
@@ -22,6 +21,7 @@ cmd_folder = os.path.join(os.path.dirname(__file__), 'vendor')
 if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
 from selenium import webdriver
+from selenium.webdriver.remote.webdriver import WebDriver as Remote
 
 FILESERVER = "http://ninja.mygazoo.com:5554/"
 RE_URL_PROTOCOL = re.compile(r'^(https|http|ftp)://')
@@ -30,6 +30,7 @@ class Browser(selenium_rc, mixins.FlowMixin):
     def __init__(self, test, config=None):
         self.test = test
         self._logger = utils.get_logger()
+
         # Reset the pages count
         self.pages_explored = set([]);
 
@@ -37,7 +38,7 @@ class Browser(selenium_rc, mixins.FlowMixin):
             self.config = voltage.config_loader.get_config()
         else:
             self.config = config
-        print "Deepak:Super Class"
+
         browser = self.config.browser
         target = self.config.target
         #verify if the target url is not malformed
@@ -53,6 +54,8 @@ class Browser(selenium_rc, mixins.FlowMixin):
 
             # Try to startup a browser, and set initial speed
             try:
+                driver  = Remote(desired_capabilities = webdriver.DesiredCapabilities.FIREFOX)
+                super(Browser, self).start(driver = driver)
                 self.start(config["selenium"]["capture_network_traffic"])
                 self.set_speed(int(self.config.speed))
                 self.set_timeout(int(self.config.max_wait))
@@ -69,7 +72,7 @@ class Browser(selenium_rc, mixins.FlowMixin):
                 pass
 
     def execute(self, *args, **kwargs):
-        print "Deepak: execute This is it"
+
         return super(Browser, self).execute(self, *args, **kwargs)
 
     def start(self, capture_network_traffic=False):
@@ -79,7 +82,7 @@ class Browser(selenium_rc, mixins.FlowMixin):
         """
 
         args = [self.browserStartCommand, self.browserURL, self.extensionJs]
-        print "Deepak: start This is it"
+
         # To bypass SSL certs in Chrome we need to pass an extra flag
         if self.config.browser == '*googlechrome':
             args.append('commandLineFlags=--disable-web-security')
@@ -276,6 +279,7 @@ class Browser(selenium_rc, mixins.FlowMixin):
                 self.pages_explored = []
             location = self.get_location()
             page = self.get_page(location)
+            print "Deepak get_page location definition:",self.get_page.__file__
             if not page in self.pages_explored:
                 self.pages_explored.append(page)
         except Exception:
@@ -378,11 +382,9 @@ class WebDriverBrowser(webdriver.Remote, mixins.FlowMixin):
             desired_capabilities=webdriver.DesiredCapabilities.FIREFOX
 
         while True:
-            try:
-                remote = self.config.fetch_remote()
-                self.host, self.port = remote.split(':')
-            except Exception, ex:
-                print "In the exception"
+            remote = self.config.fetch_remote()
+            self.host, self.port = remote.split(':')
+
             try:
                 webdriver.Remote.__init__(
                     self,
@@ -419,7 +421,6 @@ class WebDriverChromeBrowser(webdriver.Chrome, WebDriverBrowser):
     Browser class using the Chrome WebDriver bindings and chromedriver server.
     """
     def __init__(self, test, config=None):
-        print "Hai everyone this is neat"
         self.test = test
         self._logger = utils.get_logger()
 
@@ -432,11 +433,6 @@ class WebDriverChromeBrowser(webdriver.Chrome, WebDriverBrowser):
 
         driver_path = os.path.join(self.config['VOLTAGE_ROOT'], 'lib/chromedriver')
         webdriver.Chrome.__init__(self, executable_path=driver_path)
-
-    def execute(self, *args, **kwargs):
-            print args, kwargs
-            return webdriver.Chrome.execute(self, *args, **kwargs)
-
 
     def close(self):
         if not self.config['selenium']['close_browser_on_completion']:

@@ -13,6 +13,7 @@
 
 
 ;;Support for autocomplete
+(add-to-list 'load-path "~/.emacs.d/python")
 (require 'anything)
 (require 'anything-ipython)
 (when (require 'anything-show-completion nil t)
@@ -25,3 +26,15 @@
 (define-key comint-mode-map (kbd "M-") 'comint-previous-input)
 (define-key comint-mode-map [down] 'comint-next-matching-input-from-input)
 (define-key comint-mode-map [up] 'comint-previous-matching-input-from-input)
+
+;;Add pep8 and pylint to the mix
+(require 'python-pep8)
+(require 'python-pylint)
+
+(defun python-add-breakpoint ()
+  (interactive)
+  (py-newline-and-indent)
+  (insert "import ipdb; ipdb.set_trace()")
+  (highlight-lines-matching-regexp "^[ 	]*import ipdb; ipdb.set_trace()"))
+
+(define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)

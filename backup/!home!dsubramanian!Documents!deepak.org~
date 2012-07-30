@@ -1,4 +1,39 @@
-*Tasks*
-**TODO Understand how selenium RC is normally called
-**TODO Understand how selenium RC is called in voltage
-**TODO Understand how selenium webdriver should be called in voltage
+* Tasks
+** DONE Understand how selenium RC is normally called
+   CLOSED: [2012-07-27 Fri 10:41]
+***   First get a selenium rc instance
+***   Give the instance a url to work with
+      self.selenium = selenium("localhost", 4444, "*firefox",
+      "http://www.google.com/")
+      self.selenium.start()
+** DONE Understand how selenium RC is called in voltage
+   CLOSED: [2012-07-27 Fri 10:41]
+***   The test written by the QA calls the browser class
+***   The browser class inherits from both the selenium browser class and the flow class
+***   The selenium browser class is responsible for creating the browser instance and then starting it
+***   The flow class supplies the URL and related params to the browser session which is opened by selenium
+** DONE Understand how selenium webdriver is normally called
+   CLOSED: [2012-07-27 Fri 10:41]
+*** Option 1
+   # Create a new instance of the Firefox driver
+   driver = webdriver.Firefox()
+
+
+   # go to the google home page
+   driver.get("http://www.google.com")
+   
+   However, another way of doing is using the selenium backed web driver
+*** Option 2
+    driver = RemoteWebDriver(desired_capabilities = DesiredCapabilities.FIREFOX)
+    selenium = DefaultSelenium('localhost', 4444', '*webdriver', 'http://www.google.com')
+    selenium.start(driver = driver)
+    
+
+
+** TODO Understand how selenium webdriver should be called in voltage
+***  Option 2 seems to be a better way of doing the porting. However in the case of this, the problem is that it may need a selenium server. I am gonna try this today
+     In order to achieve this, first need to make the changes in only one place
+     Where the browser class inherits from the selenium browser class. Change this so that it will use web driver and see how it goes.
+     First do not run the selenium server
+
+     
