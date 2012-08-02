@@ -111,7 +111,8 @@
 	This will be explored only if the above method is not pushed through.
      
 
-** TODO   2) Issue: screenshot is not working
+** DONE 2) Issue: screenshot is not working
+   CLOSED: [2012-08-01 Wed 17:35]
      Unable to take screenshot
      1. Issue: Capture screenshot is not well supported in the remote webdriver for python.
      
@@ -124,15 +125,23 @@
 	 
        The second method seems more better as of now. This can be done today.
 
-** TODO Analysis: browser start function has a new argument added.
+** DONE Analysis: browser start function has a new argument added.
+   CLOSED: [2012-08-01 Wed 17:35]
     + With the new issue coming to light as to when start is being used by a test
     + independently of being called from the __init__ constructor, 
     + Hence, need to evaluate as to how to implement the web driver so that 
       tests can be ported by doing one just one change.
       
     + Both of the above functionalities do not seem to be working currently for web driver.   
-** TODO Analyse how the tests are called in voltage and how to add the existing functionalities from remote control to web drive
-r
+** TODO [#C] Analyse how the tests are called in voltage and how to add the existing functionalities from remote control to web driver
+
+** DONE [#A] Setup meeting requests with the QA team for the web driver voltage demo
+   CLOSED: [2012-08-01 Wed 18:11]
+** TODO [#A] Do one more round of testing for web driver and see if there is anything missing
+** TODO [#B] Analysis of the amount of changes that need to be done to start using the webdriver api
+** TODO [#A] List of things to ask the QA before and after the QA
+** TODO [#A] Do a brief presentation of the benefits of Web Driver as opposed to Selenium RC
+
    
 
     

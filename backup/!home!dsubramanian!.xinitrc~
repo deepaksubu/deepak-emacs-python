@@ -49,4 +49,4 @@ done &
 #exec dwm
 
 dwm &
-~./sleeper
+sh /home/dsubramanian/sleeper

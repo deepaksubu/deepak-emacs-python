@@ -1,0 +1,50 @@
+"""
+Car Rental Hold and Purchase Test
+"""
+import voltage
+from voltage.flow.login import rpa_selfservice
+from voltage.flow.travel.rearden import carOnlyHoldPurchase
+
+class RpaCarRentalOnlyHoldQSStation(carOnlyHoldPurchase.Flow):
+    """
+    Metadata
+    ++++++++
+
+    * Priority: P1
+    * Stores: Car
+    
+    Configuration Requirements
+    ++++++++++++++++++++++++++
+
+    #. Userapp URL
+    #. Domain (part of the url)
+
+    Seed Requirements
+    +++++++++++++++++
+
+    #. Activated user in the Personal Assistant
+   
+    """
+    PARENT = carOnlyHoldPurchase.Flow
+        
+    def setup_defaults(self):
+        super(RpaCarRentalOnlyHoldQSStation, self).setup_defaults()
+        self.car_rental_agency = None #Filter results based on the rental agency. None - no filter
+        self.car_search_pickup_type = 'station' #Search types - airport, station, address
+        self.car_search_dropoff_type = 'station' #Search types -airport, station, address
+        self.car_search_from_page = 'quickstart' #Search from page - tripplanner or quickstart
+        self.pickuplocation = 'San Francisco, CA, US (SFP)' ###'Seattle, WA, US (SEA)' ## Not getting results for Seattle
+        self.dropofflocation = 'Fremont, CA, US (FMT)' ##'San Jose, CA, US (SJC)' #### Not getting results for San Jose, CA
+  
+def test_main():
+    test = voltage.Test()
+    browser = test.webdriver_browser()
+    assert isinstance(browser, voltage.Browser) # Tip for Eclipse
+
+    try:
+        browser.execute(test, rpa_selfservice.Login)
+        browser.execute(test, RpaCarRentalOnlyHoldQSStation)
+    except:
+        test.handle_exception()
+
+    return test.results()

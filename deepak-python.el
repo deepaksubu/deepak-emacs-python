@@ -19,6 +19,9 @@
 (when (require 'anything-show-completion nil t)
    (use-anything-show-completion 'anything-ipython-complete
                                  '(length initial-pattern)))
+(define-key python-mode-map (kbd "M-") 'anything-ipython-complete)
+(define-key python-shell-map (kbd "M-") 'anything-ipython-complete)
+(define-key python-mode-map (kbd "C-c M") 'anything-ipython-import-modules-from-buffer)
 
 ;;Deal with interpreter
 (require 'comint)

@@ -29,6 +29,9 @@ STOPPED = 'STOPPED'
 SUSPENDED = 'SUSPENDED'
 UNNEEDED = 'UNNEEDED'
 
+
+
+
 class Assertion(collection.Collection):
     """
     Instance of Assertion class represents assertions made in the voltage test
@@ -158,12 +161,15 @@ class Test(dict):
         :rtype: :class:`voltage.browser.WebDriverBrowser`
 
         """
-        if self.config.browser == '*googlechrome':
-            browser = voltage.WebDriverChromeBrowser(self, config=self.config)
-        else:
-            browser = voltage.WebDriverBrowser(self, config=self.config)
-        self._browsers.append(browser)
+        #        if self.config.browser == '*googlechrome':
+        #    browser = voltage.WebDriverChromeBrowser(self, config=self.config)
+        #else:
+        #browser = voltage.WebDriverBrowser(self, config=self.config)
+        #self._browsers.append(browser)
 
+        browser = voltage.Browser(self, config=self.config, driver=True)
+        self._browsers.append(browser)
+        
         return browser
 
     def results(self):

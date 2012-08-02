@@ -3,7 +3,7 @@ from voltage.flow.login import rpa
 
 def test_main():
     test = voltage.Test()
-    browser = test.webdriver_browser()
+    browser = test.browser()
     #    assert isinstance(browser, voltage.Browser) # Tip for Eclipse
     #expected = u"A\u0301" #parse(login.saml.leave_segment_latest_arrival)
     #departDate = "A" #browser.get_value(depart_date_locator)
