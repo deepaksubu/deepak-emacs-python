@@ -1,8 +1,36 @@
 #!/bin/sh
-rm -rf Voltage/voltage/testrunner/runner.pyc
-#Voltage/bin/run -e dsubramanian-lx -T 9 -t /home/dsubramanian/dev/Voltage/tests/userapp/starcite/rpaStarcitePostbackAirOnlyTripChange1.py
-Voltage/bin/run -f -e qa21 -T 9 -t /home/dsubramanian/dev/Voltage/tests/userapp/carRental/rpaCarRentalOnlyHoldPurchase.py
+
+## Single Test
+## FOR SELENIUM RC UNCOMMENT THIS PART
+#find /home/dsubramanian/dev/Voltage/tests/userapp/ -name "rpaLogin.py" -print | xargs perl -pi -e 's/test\.webdriver_browser\(\)/test\.browser\(\)/g'                       
+#Voltage/bin/run -f -e dsubramanian-lx -T 9 -t /home/dsubramanian/dev/Voltage/tests/userapp/rpaLogin.py
+
+## FOR SELENIUM WEBDRIVER UNCOMMENT THIS PART
+#find /home/dsubramanian/dev/Voltage/tests/userapp/ -name "rpaLogin.py" -print | xargs perl -pi -e 's/test\.browser\(\)/test\.webdriver_browser\(\)/g'                       
+#Voltage/bin/run -f -e dsubramanian-lx -T 9 -t /home/dsubramanian/dev/Voltage/tests/userapp/rpaLogin.py
+
+
+## Directory of Tests
+## FOR SELENIUM RC UNCOMMENT THIS PART
+find ./Voltage/proc_test/procurement_ui/purchase/build_validation -name "*.py" -print | xargs perl -pi -e 's/test\.webdriver_browser\(\)/test\.browser\(\)/g'                       
+Voltage/bin/run -f -e qa3 -C procurement -T 4 -d /home/dsubramanian/dev/Voltage/proc_test/procurement_ui/purchase/build_validation
+
+
+## FOR WEBDRIVER UNCOMMENT THIS PART
+#find ./Voltage/proc_test/procurement_ui/purchase/build_validation -name "*.py" -print | xargs perl -pi -e 's/test\.browser\(\)/test\.webdriver_browser\(\)/g'                       
+#Voltage/bin/run -f -e qa3 -C procurement -T 4 -d /home/dsubramanian/dev/Voltage/proc_test/procurement_ui/purchase/build_validation
+
+
+
+
 #Voltage/bin/run -e dsubramanian-lx -t   /home/dsubramanian/dev/Voltage/tests/dashboard/seed/global_level/global_commit.py 
 #emacs Voltage/voltage/testrunner/runner.py &
 ##java -jar /home/dsubramanian/dev/zgrviewer/zgrviewer/target/zgrviewer-0.8.2.jar ~/dev/voltage_test_py6.dot 
 #./xdot.py voltage_test_py6.dot
+
+#rm -rf Voltage/voltage/testrunner/runner.pyc
+#Voltage/bin/run -e dsubramanian-lx -T 9 -t /home/dsubramanian/dev/Voltage/tests/userapp/starcite/rpaStarcitePostbackAirOnlyTripChange1.py
+#Voltage/bin/run -f -e dsubramanian-lx -T 4 -d /home/dsubramanian/dev/Voltage/tests/userapp/airhotelcar
+#Voltage/bin/run -f -e dsubramanian-lx -T 4 -d /home/dsubramanian/dev/Voltage/tests/userapp/carRental/
+#Voltage/bin/run -b chrome -f -e dsubramanian-lx -T 9 -t /home/dsubramanian/dev/Voltage/tests/userapp/rpaLogin.py
+#Voltage/bin/run -f -e dsubramanian-lx -C travel_regression -T 4 -d /home/dsubramanian/dev/Voltage/tests/userapp/airhotelcar

@@ -16,9 +16,9 @@ from voltage.protocol import http_raw_client
 from voltage.vendor.selenium import selenium as selenium_rc
 
 # The selenium module expects itself to be in the PYTHONPATH
-SELENIU_FOLDER = os.path.join(os.path.dirname(__file__), 'vendor')
-if cmd_folder not in sys.path:
-    sys.path.insert(0, cmd_folder)
+SELENIUM_FOLDER = os.path.join(os.path.dirname(__file__), 'vendor')
+if SELENIUM_FOLDER not in sys.path:
+    sys.path.insert(0, SELENIUM_FOLDER)
 from selenium import webdriver
 from selenium.webdriver.remote.webdriver import WebDriver
 
@@ -27,12 +27,15 @@ RE_URL_PROTOCOL = re.compile(r'^(https|http|ftp)://')
 
 class Browser(selenium_rc, mixins.FlowMixin):
     """
-    This is the main browser class. It is responsible for the creation of a browser instance. It is the primary interface for interacting with the html page displayed in the browser. It is also responsible for controlling the lifecycle of the browser sessions.
+    The Browser class is the primary interface for interacting with the browser. It is responsible for controlling the lifecycle of the browser sessions from its creation to its closure.
 
-    August 1, 2012  Added functionality for Selenium 2 WebDriver. Changes are made to the Browser class to the following functions
-    1) The __init__ function responsible for initializing the instance
-    2) Start functionw which starts the browser instance and gets the sessionid for that session from selenium
-    3) The click function which is now behaving correctly and does not interact with invisible elements as it should have done. This was a bug in Selenium RC and now seems to be fixed in this version. However, it remains to be seen how will this affect when porting legacy voltage tests to WebDriver
+    August 1, 2012  Added functionality for Selenium 2 WebDriver. Changes in the following functions
+    1) __init__: Added the condition to detect if the test wants to use Web Driver functionality. Added the use_webdriver parameter to detect if the test wants to use webdriver.
+    TODO: This is not the most optimum way to check configurations. However, we do not want to use another JSON file for this. Either a DBMS or a configuration management system is the way to go here.
+    2) start: Created a new instance of the remote.WebDriver so that the executing test uses WebDriver. For more information, please read the below link
+    "http://seleniumhq.wordpress.com/2012/02/08/announcing-selenium-2-19-the-prancing-unicorn-release/"
+    3) click: Added an exception so that this will now error out and give an exception if the test uses an element which is invisible. Note that this functionality is enforced by Selenium. This was apparently a bug in Selenium RC.
+    4) screenshot: Changed the screenshot code to use the remote webdriver screenshot function as opposed to the selenium RC screenshot function. The old Selenium RC screenshot functionality apparently does not work directly.
     """
     def __init__(self, test, config=None, use_webdriver=None):
         self.test = test

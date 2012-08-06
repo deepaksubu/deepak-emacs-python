@@ -38,7 +38,7 @@ class RpaCarRentalOnlyHoldQSStation(carOnlyHoldPurchase.Flow):
   
 def test_main():
     test = voltage.Test()
-    browser = test.webdriver_browser()
+    browser = test.browser()
     assert isinstance(browser, voltage.Browser) # Tip for Eclipse
 
     try:

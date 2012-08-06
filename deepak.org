@@ -134,13 +134,34 @@
       
     + Both of the above functionalities do not seem to be working currently for web driver.   
 ** TODO [#C] Analyse how the tests are called in voltage and how to add the existing functionalities from remote control to web driver
-
+   
 ** DONE [#A] Setup meeting requests with the QA team for the web driver voltage demo
    CLOSED: [2012-08-01 Wed 18:11]
-** TODO [#A] Do one more round of testing for web driver and see if there is anything missing
+** DONE [#A] Do one more round of testing for web driver and see if there is anything missing
+   CLOSED: [2012-08-03 Fri 14:07]
 ** TODO [#B] Analysis of the amount of changes that need to be done to start using the webdriver api
-** TODO [#A] List of things to ask the QA before and after the QA
-** TODO [#A] Do a brief presentation of the benefits of Web Driver as opposed to Selenium RC
+   In order to run chrome, the chromedriver has to be downloaded and installed.
+   http://code.google.com/p/selenium/wiki/ChromeDriver
+   
+   For firefox, if you run a lot of threads each opening a browser, it can lead to an exception
+   as this is a property of the webdriver API
+   
+   The click portion seems to be working now
+** DONE [#A] List of things to ask the QA before and after the QA
+   CLOSED: [2012-08-03 Fri 14:07]
+   TBD
+** DONE [#A] Do a brief presentation of the benefits of Web Driver as opposed to Selenium RC
+   CLOSED: [2012-08-03 Fri 14:07]
+   No need
+** TODO Plan the demo
+   1) Demonstrate the normal selenium RC test
+   2) Demonstrate the webdriver support for firefox
+   3) Discuss the shortcomings of webdriver as used by us
+      1 Cannot use a lot of threads for firefox - 4 on my machine
+      2 Cannot use chrome without using chrome driver . This is still a work in progress
+      3 Need to run selenium server still :(
+      3 have not tested for internet explorer
+      4 current tests may not work
 
    
 
