@@ -1,4 +1,4 @@
-* Tasks
+* Work Tasks
 ** DONE Understand how selenium RC is normally called
    CLOSED: [2012-07-27 Fri 10:41]
 ***   First get a selenium rc instance
@@ -133,13 +133,15 @@
       tests can be ported by doing one just one change.
       
     + Both of the above functionalities do not seem to be working currently for web driver.   
-** TODO [#C] Analyse how the tests are called in voltage and how to add the existing functionalities from remote control to web driver
+** DONE [#C] Analyse how the tests are called in voltage and how to add the existing functionalities from remote control to web driver
+   CLOSED: [2012-08-08 Wed 10:32]
    
 ** DONE [#A] Setup meeting requests with the QA team for the web driver voltage demo
    CLOSED: [2012-08-01 Wed 18:11]
 ** DONE [#A] Do one more round of testing for web driver and see if there is anything missing
    CLOSED: [2012-08-03 Fri 14:07]
-** TODO [#B] Analysis of the amount of changes that need to be done to start using the webdriver api
+** DONE [#B] Analysis of the amount of changes that need to be done to start using the webdriver api
+   CLOSED: [2012-08-08 Wed 10:32]
    In order to run chrome, the chromedriver has to be downloaded and installed.
    http://code.google.com/p/selenium/wiki/ChromeDriver
    
@@ -153,7 +155,8 @@
 ** DONE [#A] Do a brief presentation of the benefits of Web Driver as opposed to Selenium RC
    CLOSED: [2012-08-03 Fri 14:07]
    No need
-** TODO Plan the demo
+** DONE Plan the demo
+   CLOSED: [2012-08-08 Wed 10:32]
    1) Demonstrate the normal selenium RC test
    2) Demonstrate the webdriver support for firefox
    3) Discuss the shortcomings of webdriver as used by us
@@ -166,3 +169,109 @@
    
 
     
+
+
+** DONE First create a means to make the changes transparent to the user
+   CLOSED: [2012-08-13 Mon 14:14]
+*** Explore adding a new property for voltage in appconfig or a better way 
+    CLOSED: [2012-08-13 Mon 14:13]
+    First just use a simple text file for capturing the properties
+    of switching between selenium RC and selenium webdriver
+*** First double check that no test is using web driver 
+    CLOSED: [2012-08-13 Mon 14:13]
+    Asked Newman and Paul Yi who had requested the change. They are not aware of people using the change.
+**** TODO Grep for webdriver in entire voltage repository
+     Did this and there is only a single set of tests which are using the webdriver_browser.However,
+     there is no flow related to those tests in the voltage flow module.
+     This maybe an issue during the move but it should not be so big of an issue
+    
+*** Move the changes from browser to webdriver and webdriver chromebrowser.
+    CLOSED: [2012-08-13 Mon 14:14]
+    The OOP way to do it and use new style classes while at it.
+    1) Converted the browser local variable in the Browser class to a field. This wont work
+    2) Call the desired capabilities logic first   
+    3) The Method Resolution Order in python is fucked up. Need to reasses code
+       before submitting
+    4) Current, we do seem to be using new style class however this has to be confirmed
+*** Modify the review request
+    CLOSED: [2012-08-13 Mon 14:14]
+    "" Text for the review request
+    
+    Changes to support webdriver. Also cleaned up the code in the browser module of voltage.
+    The main changes are
+    1) Removed a lot of unwanted comments
+    2) Removed a blank class
+       
+       The changes will be invisible to the testing teams. I have added a use_webdriver flag which will be set by the function is_webdriver_enabled function. Depending on whether this flag is set or unset, voltage will user webdriver or the selenium rc.
+       
+       Note:
+       There are two classes there called WebDriverChromeBrowser and a WebDriverBrowser class in there which I had tested to see if they work but I have not been able to get them to work. The next thing that I am going to move the code to those two classes. This will be more efficient and safe from what I understand. I would be interested in knowing peoples thoughts on this. I have done a grep on
+
+       However, this is how I thought of as a Java programmer and it may not be how a pythonista does it.
+
+       To explain:
+       My changes do the following
+       Class Test calls -> Browser class -> 
+       Inside the browser for each function which is affected by this change, the following logic will run
+       if the use_webdriver flag is true, use the web driver api else use the selenium rc.
+
+       Another Java/OOP way to do this
+    1) If use_webdriver is true, Test calls WebDriverClass or Test calls the SeleniumRC class. 
+       SeleniumRC class only has the selenium RC logic while WebDriver class gets the new logic.
+
+       Depending on how we decide we can do either.
+       ""
+*** Submit the request for code review
+    CLOSED: [2012-08-13 Mon 14:14]
+    
+
+
+** DONE Install emacs 2.4
+   CLOSED: [2012-08-14 Tue 10:20]
+** TODO Setup emacs for python
+** TODO Update the change to the mac
+** TODO Setup voltage on the mac
+** TODO Find out the errrors which are occurring when using the webdriver
+*** DONE Find out the reason and the fix for the below errors for the test
+    CLOSED: [2012-08-15 Wed 12:05]
+    http://ninja.mygazoo.com/rcat/detail?id=12-08-13-11-28-06-dsubramanian_25124-qa3
+    1) Test : /home/dsubramanian/dev/Voltage/proc_test/procurement_ui/purchase/build_validation/PROC_b111_Verify_the_order_totals.py
+       Exception: ERROR,Element is not currently visible and so may not be interacted with
+       This is also erroring out in selenium RC but its for seed data error and not the same error
+       The issue is that the element is not visible to web driver and hence its not being clicked.
+       Solution: Use the below javascript inject method to achieve this
+    element1 = self.driver.find_element_by_css_selector(locator.split('=')[1].split('.')[1])
+    ex_string = 'var a = document.getElementsByClassName("'+locator.split('=')[1].split('.')[1]+'"); a[0].style.visibility="visible";'
+    element1.parent.execute_script(ex_string)
+    element1.click()
+xo
+*** DONE Got an error when tried the above method
+    CLOSED: [2012-08-15 Wed 12:05]
+
+    2012-08-14 18:23:45,733: Unable to click the element css=a.m-checkoutBtn through WebDriver: Message: u'Unable to l
+    ocate element: {"method":"css selector","selector":"m-checkoutBtn"}\nCommand duration or timeout: 8 milliseconds\n
+    For documentation on this error, please visit: http://seleniumhq.org/exceptions/no_such_element.html\nBuild info: 
+    version: \'2.21.0\', revision: \'16552\', time: \'2012-04-11 19:08:38\'\nSystem info: os.name: \'Linux\', os.arch:
+    \'i386\', os.version: \'2.6.32-41-generic\', java.version: \'1.6.0_27\'\nDriver info: driver.version: EventFiring
+    WebDriver' ; Screenshot: available via screen ; Stacktrace: Method newInstance threw an error in None            
+    2012-08-14 18:23:46,538: Exception Encountered: 
+    http://ninja.mygazoo.com/rcat/detail?id=12-08-14-18-23-09-dsubramanian_4563-dsubramanian-lx
+    
+    Solve this issue
+*** TODO Test: /home/dsubramanian/dev/Voltage/proc_test/procurement_ui/purchase/build_validation/PROC_b103_Verify_add_items_to_cart.py
+    Exception: Exception: ERROR,Element xpath(//div[contains(@class,'m-productSeller')])[1]/text() not found
+    This is successful in selenium RC
+    
+    This is a bigger issue currently since the xpaths used in the selenium rc were returning texts and elements while
+    in case of webdriver, it only allows to return an element on the html page.
+    
+    The next step is to look at the file in dev/python-scripts/xpathtest.py to see the ways in which we can exploit 
+    the xpath of voltage to give this functionality
+
+*** TODO Look at alternatives on how this can be solved and talk to the testing team who frequently use xpaths.      
+    This is not supported by seleniumx2
+    
+* Personal Tasks
+** TODO Pay Electricity Bill
+** TODO Deposit Cheque
+   

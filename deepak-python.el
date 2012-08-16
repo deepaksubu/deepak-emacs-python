@@ -19,9 +19,12 @@
 (when (require 'anything-show-completion nil t)
    (use-anything-show-completion 'anything-ipython-complete
                                  '(length initial-pattern)))
-(define-key python-mode-map (kbd "M-") 'anything-ipython-complete)
-(define-key python-shell-map (kbd "M-") 'anything-ipython-complete)
-(define-key python-mode-map (kbd "C-c M") 'anything-ipython-import-modules-from-buffer)
+
+;;
+(require 'ac-python)
+;;(define-key python-mode-map (kbd "M-") 'anything-ipython-complete)
+;;(define-key python-shell-map (kbd "M-") 'anything-ipython-complete)
+;;(define-key python-mode-map (kbd "C-c M") 'anything-ipython-import-modules-from-buffer)
 
 ;;Deal with interpreter
 (require 'comint)
@@ -41,3 +44,5 @@
   (highlight-lines-matching-regexp "^[ 	]*import ipdb; ipdb.set_trace()"))
 
 (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)
+
+(setq ipython-completion-command-string "print(';'.join(get_ipython().Completer.complete('%s')[1])) #PYTHON-MODE SILENT\n")

@@ -1,0 +1,6 @@
+class A(object):
+    def hai():
+        print "A hai"
+    def bye():
+        print "A bye"
+class

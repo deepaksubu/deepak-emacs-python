@@ -79,6 +79,7 @@ function start {
          -Xmx${mem_max}M \
          -jar $remote \
          -ensureCleanSession \
+	 -Dwebdriver.chrome.driver=/home/dsubramanian/Downloads/chromedriver\
          -port $port \
          -singleWindow \
          -timeout $timeout \

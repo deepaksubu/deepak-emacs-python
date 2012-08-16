@@ -1,0 +1,346 @@
+"""
+Util Purpose
+++++++++++++
+The Purpose of this Util file is to have the utility fragments,
+which are being used by the Deem @Purchase automated test
+
+Rules
++++++
+As Group of Engineers is going to work on this file, So Following are some set of rules to follow
+1. Util method Should be Clean.
+2. Code should follow the Pep8 coding style.
+3. Documentations for the method .
+4. Methods name are organized in Alphabetic order.
+"""
+import time
+import os
+from voltage.config import Config
+
+config = Config()
+my_control = config.read_config_any("proc_test/procurement_ui/purchase/resource/control/ui_control.json")
+my_data = config.read_config_any("proc_test/procurement_ui/purchase/resource/data/ui_data.json")
+
+def get_login_args(config):
+    """ This util will return the args for the self service login """
+    args = {'anonymous': True}
+    if config.get('seed', True):
+        args['seed_type'] = "selfservice"
+        args['domain_type'] = "selfservice"
+        args['user_type'] = "proc_user"
+    else:
+        args["email"] = os.getenv("Purchase", config["procurement"]["username"])
+        args["password"] = config["procurement"]["password"]
+    return args
+
+def go_to_purchase_anony(browser, test, timeout):
+    """ This method will go to purchase page without login"""
+    if os.getenv("VOLTAGE"):
+        print os.getenv("VOLTAGE")
+        browser.open(os.getenv("VOLTAGE"))
+    else:
+        print test.config['procurement']['deem_purchase_url']
+        browser.open(test.config['procurement']['deem_purchase_url'])
+    browser.wait_for_page_to_load(timeout)
+
+def login(browser, test, timeout, **kwargs):
+    """ User login"""
+    browser.type(my_control["login"]["email"], "dbadesha@deem.com")
+    browser.type(my_control["login"]["password"], "abcd1234")
+    browser.click(my_control["login"]["sign_in"])
+    browser.wait_for_text("Continue", timeout)
+    browser.click(my_control["login"]["continue_button"])
+    browser.wait_for_page_to_load(timeout)
+
+def search_item(browser, timeout, **kwargs):
+    """This method will search and then go to select category page"""
+    browser.type(my_control["navigation"]["search_input_box"], kwargs.get("search_item", my_data["search_item"]["default"]))
+    browser.click(my_control["navigation"]["search_button"])
+    browser.wait_for_page_to_load(timeout)
+    if kwargs.get("no_results", False):
+        browser.wait_for_text("Products")
+    else:
+        browser.wait_for_text("Related searches")
+
+def click_cart(browser, timeout):
+    """ This method will go the cart store """
+    browser.click(my_control["navigation"]["cart"])
+    browser.wait_for_page_to_load(timeout)
+    browser.wait_for_text("Products")
+
+def click_add_to_cart_button(browser, timeout):
+    """ This method will show success prompt """
+    browser.click(my_control["product"]["add_to_cart"])
+    browser.wait_for_text("Added to Cart", timeout)
+
+def click_checkout_in_lightbox(browser, timeout):
+    """ This method will click checkout link in added to cart light box"""
+    browser.click(my_control["added_to_cart_lightbox"]["checkout"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_checkout_on_cart_page(browser, timeout):
+    """ This method will click checkout button on cart page"""
+    browser.click(my_control["cart_page"]["checkout_button"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_continue_shopping_button(browser, timeout):
+    """ This method will click continue shopping button on cart page"""
+    browser.click(my_control["cart_page"]["cancel_button"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_filter_options(browser, timeout):
+    """ This method will click filter options button"""
+    browser.click(my_control["search_result_page"]["filter_options"])
+    browser.wait_for_text("Show List", timeout)
+
+def click_new_billing_contact(browser, timeout):
+    """ This method will click new billing contact button"""
+    if browser.get_attribute(my_control["checkout_page_xpath"]["first_time_address_box_style"]) == "display: none;":
+        browser.click(my_control["checkout_page_css"]["new_billing_contact"])
+        browser.wait_for_text("Add Contact", timeout)
+    else:
+        browser.click(my_control["checkout_page_css"]["first_new_billing"])
+        browser.wait_for_text("Add Contact", timeout)
+
+def click_new_shipping_contact(browser, timeout):
+    """ This method will click new shipping contact button"""
+    if browser.get_attribute(my_control["checkout_page_xpath"]["first_time_address_box_style"]) == "display: none;":
+        browser.click(my_control["checkout_page_xpath"]["new_shipping_contact"])
+        browser.wait_for_text("Add Contact", timeout)
+    else:
+        browser.click(my_control["checkout_page_css"]["first_new_shipping"])
+        browser.wait_for_text("Add Contact", timeout)
+
+def click_edit_billing_contact_link(browser, timeout):
+    """ This method will click edit billing contact button"""
+    browser.click(my_control["checkout_page_css"]["edit_billing_contact"])
+    browser.wait_for_text("Edit Contact", timeout)
+
+def click_edit_shipping_contact(browser, timeout):
+    """ This method will click edit shipping contact button"""
+    browser.click(my_control["checkout_page_xpath"]["edit_shipping_contact"])
+    browser.wait_for_text("Edit Contact", timeout)
+
+def click_contact_submit_button(browser):
+    """ This method will click Add button in contact light box"""
+    browser.click(my_control["contact_lightbox_xpath"]["submit_button"])
+    browser.wait_for_seconds(3)
+
+def click_confirm_button(browser, timeout):
+    """ This method will click confirm button"""
+    if browser.is_element_present(my_control["checkout_page_css"]["confirm_original_address"]):
+        browser.click(my_control["checkout_page_css"]["confirm_original_address"])
+        browser.wait_for_text("Billing Contact")
+
+def enter_contact(browser, contact_list, index):
+    """ This method will enter billing or shipping contact"""
+    browser.type(my_control["contact_lightbox_css"]["contact_name"], contact_list[0])
+    browser.click(my_control["contact_lightbox_css"]["address_name_dropdown"])
+    browser.click(my_control["contact_lightbox_xpath"]["drop_down_option"] % (contact_list[1], index))
+    browser.type(my_control["contact_lightbox_css"]["company"], contact_list[2])
+    browser.type(my_control["contact_lightbox_css"]["address"], contact_list[3])
+    browser.type(my_control["contact_lightbox_css"]["city"], contact_list[4])
+    browser.click(my_control["contact_lightbox_css"]["state_dropdown"])
+    browser.click(my_control["contact_lightbox_xpath"]["drop_down_option"] % (contact_list[5], index))
+    browser.type(my_control["contact_lightbox_css"]["zip"], contact_list[6])
+    browser.type(my_control["contact_lightbox_css"]["email"], contact_list[7])
+    browser.click(my_control["contact_lightbox_css"]["phone_type_dropdown"])
+    browser.click(my_control["contact_lightbox_xpath"]["drop_down_option"] % (contact_list[8], index))
+    browser.type(my_control["contact_lightbox_css"]["phone_number"], contact_list[9])
+
+def click_new_payment_method(browser, timeout):
+    """ This method will click new payment method button"""
+    browser.click(my_control["checkout_page_css"]["new_payment_method"])
+    browser.wait_for_text("Cardholder Name", timeout)
+
+def click_edit_payment_method(browser, timeout):
+    """ This method will click edit payment method button"""
+    browser.click(my_control["checkout_page_css"]["edit_payment_method"])
+    browser.wait_for_text("Edit Payment Method", timeout)
+
+def click_payment_submit_button(browser, timeout):
+    """ This method will click submit button on payment method light box"""
+    browser.click(my_control["credit_card_lightbox_css"]["submit_button"])
+    browser.wait_for_text("Billing Contact", timeout)
+
+def click_payment_cancel_button(browser, timeout):
+    """ This method will click cancel button on payment method light box"""
+    browser.click(my_control["credit_card_lightbox_css"]["cancel_button"])
+    browser.wait_for_text("Payment Method", timeout)
+
+def enter_creditcard_info(browser, **kwargs):
+    """fill credit card information"""
+    cc_list = kwargs.get("cc_list", my_data["credit_card"])
+    browser.type(my_control["credit_card_lightbox_css"]["cardholder_name"], cc_list[0])
+    if kwargs.get("action", "new") == "new":
+        browser.select(my_control["credit_card_lightbox_css"]["type"], cc_list[1])
+        browser.type(my_control["credit_card_lightbox_css"]["number"], cc_list[2])
+    browser.select(my_control["credit_card_lightbox_css"]["month"], cc_list[3])
+    browser.select(my_control["credit_card_lightbox_css"]["year"], cc_list[4])
+    if kwargs.get("nick", True):
+        browser.type(my_control["credit_card_lightbox_css"]["nick_name"], cc_list[5] + str(time.strftime("%m%d%H%M%S")[0:11]))
+
+def click_submit_order_button(browser, timeout):
+    """ This method will click submit order button"""
+    browser.click(my_control["checkout_page_css"]["submit_button"])
+    browser.wait_for_page_to_load(timeout)
+
+def clear_cart(browser, timeout):
+    if browser.get_text(my_control["navigation"]["cart_badge"]):
+        browser.click(my_control["navigation"]["cart"])
+        browser.wait_for_page_to_load(timeout)
+        browser.wait_for_text("Products")
+        while True:
+            if int(browser.get_text(my_control["navigation"]["cart_badge"])) == 1:
+                browser.click(my_control["cart_page"]["product_delete"])
+                browser.wait_for_text("has been removed from your cart", timeout)
+                break
+            else:
+                browser.click(my_control["cart_page"]["product_delete"])
+                browser.wait_for_text("has been removed from your cart", timeout)
+        browser.click(my_control["navigation"]["back_home_purchase"])
+        browser.wait_for_page_to_load(timeout)
+    else:
+        pass
+
+def get_date_string(time_zone):
+    """ This method will return a date string"""
+    args = {"CST":"CST+6", "CDT":"CDT+5",
+            "EST":"EST+5", "EDT":"EDT+4",
+            "PST":"PST+8", "PDT":"PDT+7"}
+    os.environ["TZ"] = args.get(time_zone, time_zone)
+    time.tzset()
+    now = time.time()
+    local_time = time.localtime(now)
+    year = time.strftime("%Y", local_time)
+    month = time.strftime("%B", local_time)
+    day = time.strftime("%d", local_time)
+    date_string = my_data["confirmation_page"]["order_placed"] % (month, day, year)
+    return date_string
+
+def click_view_orders_link(browser, timeout):
+    """ This method will click view orders link on confirmation page"""
+    browser.click(my_control["confirmation_page_css"]["view_orders_link"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_view_order_details(browser, timeout, order_id):
+    """ This method will click view order details link on order page"""
+    browser.click(my_control["orders_page_xpath"]["view_order_details"] % order_id)
+    browser.wait_for_page_to_load(timeout)
+
+def click_cancel_order_button(browser, timeout):
+    """ This method will click cancel order button on order detail page"""
+    browser.click(my_control["order_detail_page_css"]["cancel_order_button"])
+    browser.wait_for_text("Are you sure you want to cancel the order", timeout)
+
+def click_cancel_confirm(browser, timeout):
+    """ This method will click cancel order confirm button on order detail page"""
+    browser.click(my_control["order_detail_page_css"]["cancel_confirm"])
+    browser.wait_for_page_to_load(timeout)
+
+def create_cart_multi_items(browser, timeout, **kwargs):
+    """ This method will create cart with multiple items"""
+    search_item(browser, timeout, search_item=kwargs.get("search_item", my_data["search_item"]["default"]))
+    click_add_to_cart_button(browser, timeout)
+    search_item(browser, timeout, search_item=kwargs.get("another_item", my_data["search_item"]["intraline"]))
+    click_add_to_cart_button(browser, timeout)
+    browser.click(my_control["product"]["add_another_to_cart"])
+    browser.wait_for_text("Added to Cart", timeout)
+    click_checkout_in_lightbox(browser, timeout)
+
+def hover_over_all_categories(browser, timeout):
+    """home page category mouse over function"""
+    browser.mouse_over(my_control["navigation"]["all_categories"])
+    browser.wait_for_text("Biggest Savings", timeout)
+
+def click_sign_out(browser, timeout):
+    """ This method will click sign out link"""
+    browser.click(my_control["sign_out"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_sign_in(browser, timeout):
+    """ This method will click sign in link"""
+    browser.click(my_control["sign_in"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_go_to_merchant_detail_page(browser, timeout):
+    """ This method will click go to merchant detail page"""
+    browser.click(my_control["product"]["item_name"])
+    browser.wait_for_page_to_load(timeout)
+    merchant_name = browser.get_text(my_control["item_detail_page"]["merchant_name_text"])
+    browser.click(my_control["item_detail_page"]["merchant_name"])
+    browser.wait_for_page_to_load(timeout)
+    return merchant_name
+
+def click_go_to_manufacturer_detail_page(browser, timeout):
+    """ This method will click go to manufacturer detail page"""
+    browser.click(my_control["product"]["item_name"])
+    browser.wait_for_page_to_load(timeout)
+    manufacturer_name = browser.get_text(my_control["item_detail_page"]["manufacturer_name"])
+    browser.click(my_control["item_detail_page"]["manufacturer_name"])
+    browser.wait_for_page_to_load(timeout)
+    return manufacturer_name
+
+def click_featured_product(browser, timeout):
+    """ This method will click recommended product"""
+    browser.click(my_control["product"]["item_name"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_home(browser, timeout):
+    """ This method will go the home page"""
+    browser.click(my_control["navigation"]["home_button"])
+    browser.wait_for_page_to_load(timeout)
+
+def goto_all_categories(browser, timeout):
+    """ This method will go the All Categories store """
+    browser.click(my_control["navigation"]["all_categories_link"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_orders(browser, timeout):
+    """ This method will go the Orders store """
+    browser.click(my_control["navigation"]["orders"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_purchase(browser, timeout):
+    """ This method will go purchase page"""
+    browser.click(my_control["navigation"]["back_home_purchase"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_view_cart_link_lightbox(browser, timeout):
+    """ This method will click view cart link on added to cart lightbox"""
+    browser.click(my_control["add_to_cart_lightbox"]["view_cart_link"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_merchant_link_on_cart_page(browser, timeout):
+    """ This method will click merchant link on cart page"""
+    browser.click(my_control["cart_page"]["merchant_link"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_thumbnail_link_on_cart_page(browser, timeout):
+    """ This method will click thumbnail link on cart page"""
+    browser.click(my_control["cart_page"]["thumbnail_link"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_item_name_link_on_cart_page(browser, timeout):
+    """ This method will click item name link on cart page"""
+    browser.click(my_control["cart_page"]["item_name_link"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_return_to_product_page_list(browser, timeout):
+    """ This method will click return back"""
+    browser.click(my_control["merchant_page"]["return_link"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_all_products_from_merchant(browser, timeout):
+    """ This method will click all products from merchant link"""
+    browser.click(my_control["merchant_page"]["store_front_link"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_item_thumbnail_fileld(browser, timeout):
+    """ This method will click item thumbnail fileld"""
+    browser.click(my_control["product"]["item_image"])
+    browser.wait_for_page_to_load(timeout)
+
+def click_biggest_savings_link(browser, timeout):
+    """ This method will click biggest saveings link on biggest saveings  page"""
+    browser.click(my_control["navigation"]["biggest_saveings_link"])
+    browser.wait_for_page_to_load(timeout)
