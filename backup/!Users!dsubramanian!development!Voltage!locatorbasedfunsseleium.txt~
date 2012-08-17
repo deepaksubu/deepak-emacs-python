@@ -1,0 +1,81 @@
+     click(self,locator):
+     double_click(self,locator):
+     context_menu(self,locator):
+     click_at(self,locator,coordString):
+     double_click_at(self,locator,coordString):
+     context_menu_at(self,locator,coordString):
+     fire_event(self,locator,eventName):
+     focus(self,locator):
+     key_press(self,locator,keySequence):
+     key_down(self,locator,keySequence):
+     key_up(self,locator,keySequence):
+     mouse_over(self,locator):
+     mouse_out(self,locator):
+     mouse_down(self,locator):
+     mouse_down_right(self,locator):
+     mouse_down_at(self,locator,coordString):
+     mouse_down_right_at(self,locator,coordString):
+     mouse_up(self,locator):
+     mouse_up_right(self,locator):
+     mouse_up_at(self,locator,coordString):
+     mouse_up_right_at(self,locator,coordString):
+     mouse_move(self,locator):
+     mouse_move_at(self,locator,coordString):
+     type(self,locator,value):
+     type_keys(self,locator,value):
+     check(self,locator):
+     uncheck(self,locator):
+     add_selection(self,locator,optionLocator):
+     remove_selection(self,locator,optionLocator):
+     remove_all_selections(self,locator):
+     select_frame(self,locator):
+     get_value(self,locator):
+     get_text(self,locator):
+     highlight(self,locator):
+     is_checked(self,locator):
+     is_element_present(self,locator):
+     is_visible(self,locator):
+     is_editable(self,locator):
+     dragdrop(self,locator,movementsString):
+     drag_and_drop(self,locator,movementsString):
+     drag_and_drop_to_object(self,locatorOfObjectToBeDragged,locatorOfDragDestinationObject):
+     set_cursor_position(self,locator,position):
+     get_element_index(self,locator):
+     is_ordered(self,locator1,locator2):
+     get_element_position_left(self,locator):
+     get_element_position_top(self,locator):
+     get_element_width(self,locator):
+     get_element_height(self,locator):
+     get_cursor_position(self,locator):
+     assign_id(self,locator,identifier):
+
+     for each function above,
+     	 strip to get the function only
+	 run a search in voltage and tests to see the tests using the above functions
+	 group the output by the number of functions
+	 analyse the usage of these functions in webdriver
+	 create a strategy for migrating each of the above functions for webdriver and also understand if we need
+	 	those or not for web driver
+
+
+read each line into a python variable
+
+for each function corresponding to the line read,
+   setup a counter for this function
+   do a recursive search in all the directory for files which have this function
+      write the match to a csv file
+
+
+#format of the csv file is function, filepath, match      
+functions_file_handle = open('locatorbasedfunsseleium.txt')
+setup a database file
+get the list of files in the main voltage directory
+
+for line in function_file_handle.readline():
+    isolate_function_from_line(line)
+    for each file in main voltage directory:
+    	search if function present in the file
+	write the function to the csv file
+	
+    
+	 

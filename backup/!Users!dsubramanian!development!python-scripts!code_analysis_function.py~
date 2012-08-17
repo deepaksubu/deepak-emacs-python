@@ -1,0 +1,41 @@
+#! /usr/bin/python
+import fnmatch
+import os
+import re
+
+def find_files_in_voltage():
+    matches = []
+    for root, dirnames, filenames in os.walk('/Users/dsubramanian/development/p4/dsubramanianmb-rcmain/TOOLS/Voltage'):
+        for filename in fnmatch.filter(filenames, '*.py'):
+            matches.append(os.path.join(root, filename))
+    return matches
+
+def isolate_function_name_from_line(line):
+    pat = re.compile("(.*)\((.*)")
+    return pat.match(line).group(1)
+
+def find_function_in_file(function,fi):
+    handle = open(fi)
+    pat = re.compile(".*browser."+function+".*")
+    #pat = re.compile(".*service\."+function+".*")
+    write_lines = []
+    for line in handle.readlines():
+           if pat.match(line):
+               write_lines.append(function+","+fi+","+pat.match(line).group(0).strip())
+    return write_lines
+
+if __name__ == "__main__":
+    try:
+        file_list = find_files_in_voltage()
+        function_list = []
+        for line in open("/Users/dsubramanian/development/Voltage/locatorbasedfunsseleium.txt").readlines():
+            func = isolate_function_name_from_line(line)
+            for fi in file_list:
+                function_list.append(find_function_in_file(func,fi))
+        print function_list
+    except Exception, ex:
+        print "excpetion%s",ex
+        pass
+
+
+

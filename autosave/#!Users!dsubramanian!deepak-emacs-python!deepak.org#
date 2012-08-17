@@ -159,5 +159,15 @@ http://www.aosabook.org/en/selenium.html
 
 
 Issue: how selenium RC finds elements is different from how selenium web driver finds elements
-Analysis: In case of selenium RC, there is a generic method called find elements and then depending on whether you give xpath or you give css selector, the RC does the right thing
+Analysis: In case of selenium RC, there is a generic method called find elements and then depending on whether you give xpath or you give css selector, the RC does the right thingx
+Selenium RC: Based on concept of a locator string. Depending on how the locator string is constructed, the output
+is different.
+The output is not restricted to a single element but it can also be an attribute of the element.
+
+Selenium WebDriver: Each of the above type of locator string is distilled into its own function.The output
+can only be an element.
+
+A single function call will now have multiple calls associated with it.
+
+Solution: For each type of locator, devise a strategy on how to map it to a corresponding selenium web driver.
 

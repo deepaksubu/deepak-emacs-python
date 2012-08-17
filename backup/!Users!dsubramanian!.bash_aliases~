@@ -1,1 +1,2 @@
-alias emacs="open /Applications/Emacs.app --args $PWD/$1"
+alias emacs="open /Applications/Emacs.app --args"
+alias volt="cd /Users/dsubramanian/development/p4/dsubramanianmb-rcmain/TOOLS/Voltage""

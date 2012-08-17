@@ -1,0 +1,8 @@
+import py
+import os
+def functionsample():
+    print "This is just a sample file"
+    return 1
+
+if "__name__" == "__main__":
+    functionsample()
