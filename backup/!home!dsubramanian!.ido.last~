@@ -28,25 +28,24 @@
  ("/home/dsubramanian/dev/Voltage/voltage/flow/dashboard/" . "config/")
  ("/home/dsubramanian/dev/Voltage/tests/dashboard/" . "runner/")
  ("/home/dsubramanian/dev/Voltage/tests/" . "userapp/")
- ("/home/dsubramanian/" . "dev/")
+ ("/home/dsubramanian/" . "deepak-emacs-python/")
  ("dev/Voltage/tests/procurement_ui/deem_purchase/shopping_cart/" . "add_to_cart/")
- ("/home/dsubramanian/dev/" . "python-scripts/")
+ ("/home/dsubramanian/dev/" . "Voltage/")
  ("/home/" . "dsubramanian/")
  ("/" . "home/")
  ("/home/dsubramanian/dev/Voltage/voltage/flow/" . "login/")
- ("/home/dsubramanian/dev/Voltage/voltage/" . "vendor/")
+ ("/home/dsubramanian/dev/Voltage/voltage/" . "procurement_ui/")
  ("/home/dsubramanian/dev/Voltage/" . "voltage/")
 )
 
 ;; ----- ido-work-directory-list -----
 (
- "/home/dsubramanian/dev/python-scripts/"
- "/home/dsubramanian/dev/Voltage/voltage/vendor/selenium/webdriver/remote/"
- "/home/dsubramanian/dev/"
- "/home/dsubramanian/dev/Voltage/voltage/vendor/selenium/"
- "/home/dsubramanian/dev/Voltage/voltage/"
  "/home/dsubramanian/deepak-emacs-python/"
+ "/home/dsubramanian/dev/"
+ "/home/dsubramanian/dev/Voltage/voltage/"
+ "/home/dsubramanian/dev/Voltage/voltage/vendor/selenium/"
  "/home/dsubramanian/dev/Voltage/proc_test/procurement_ui/purchase/build_validation/"
+ "/home/dsubramanian/dev/Voltage/voltage/vendor/selenium/webdriver/remote/"
  "/home/dsubramanian/dev/Voltage/proc_voltage/util/purchase/"
  "/home/dsubramanian/dev/p4/rcmain/TOOLS/Voltage/voltage/"
  "/home/dsubramanian/deepak-emacs-python/python/"
@@ -65,6 +64,7 @@
  "/home/dsubramanian/Documents/"
  "/home/dsubramanian/dev/Voltage/tests/userapp/carRental/"
  "/home/dsubramanian/dev/Voltage/tests/userapp/frenchcanadian/"
+ "/home/dsubramanian/dev/python-scripts/"
  "/home/dsubramanian/dev/Voltage/voltage/flow/login/"
  "/home/dsubramanian/dev/Voltage/voltage/mixins/"
  "/home/dsubramanian/dev/Voltage/voltage/fragment/"
@@ -93,31 +93,27 @@
 
 ;; ----- ido-work-file-list -----
 (
- "xpathtest.py"
- "webdriver.py"
- "run_voltage.sh"
- "selenium.py"
- "browser.py"
  "deepak.org"
+ "run_voltage.sh"
+ "browser.py"
  "deepak-python.el"
+ "selenium.py"
  "PROC_b111_Verify_the_order_totals.py"
+ "webdriver.py"
  "proc_util.py"
  "deepak-dot-emacs"
+ "test.py"
 )
 
 ;; ----- ido-dir-file-cache -----
 (
- ("/home/dsubramanian/dev/p4/rcmain/TOOLS/Voltage/voltage/" (20524 9454) "report.pyc" "procurement/" "pages/" "resourcebundle.py" "directory-tree" "businessLogic/" "selftest.py" "config.py" "__init__.py" "dvt/" "user_exceptions.pyc" "utils.pyc" "selftest.pyc" "mobile/" "utils.py" "test.pyc" "user_exceptions.py" "unittest.py" "procurement_ui/" "travel_rest_api/" "mixins/" "tomcat.py" "../" "signalhelper.py" "test.py" "config.pyc" "vendor/" "config_loader.pyc" "greplog.py" "rcat.pyc" "singleton_url_fetcher.py" "input_helper.pyc" "criteria/" "flow/" "collection.py" "report.py" "resources/" "browser.py" "config_loader.py" "browser_flymake.py" "procurement_rest/" "publish.py" "rcat.py" "flow2/" "greplog.pyc" "UI/" "input_helper.py" "actions/" "resourcebundle.pyc" "selenium.log" "testrunner/" "publish.pyc" "seed_webservice.py" "seed_webservice.pyc" "tomcat.pyc" "collection.pyc" "signalhelper.pyc" "singleton_url_fetcher.pyc" "__init__.pyc" "protocol/" "browser.pyc" "sessions/" "./" "fragment/" "platform_service.py" "definition/" "unittest.pyc")
+ ("/home/dsubramanian/dev/Voltage/voltage/" (20522 62971) "report.pyc" "procurement/" "pages/" "resourcebundle.py" "directory-tree" "businessLogic/" "selftest.py" "config.py" "__init__.py" "dvt/" "user_exceptions.pyc" "utils.pyc" "selftest.pyc" "mobile/" "utils.py" "test.pyc" "user_exceptions.py" "unittest.py" "procurement_ui/" "travel_rest_api/" "mixins/" "tomcat.py" "../" "signalhelper.py" "test.py" "config.pyc" "vendor/" "config_loader.pyc" "greplog.py" "rcat.pyc" "singleton_url_fetcher.py" "input_helper.pyc" "criteria/" "flow/" "collection.py" "report.py" "resources/" "browser.py" "config_loader.py" "browser_flymake.py" "procurement_rest/" "publish.py" "rcat.py" "flow2/" "greplog.pyc" "UI/" "input_helper.py" "actions/" "resourcebundle.pyc" "selenium.log" "testrunner/" "publish.pyc" "seed_webservice.py" "seed_webservice.pyc" "tomcat.pyc" "collection.pyc" "signalhelper.pyc" "singleton_url_fetcher.pyc" "__init__.pyc" "protocol/" "browser.pyc" "sessions/" "./" "fragment/" "platform_service.py" "definition/" "unittest.pyc")
 
- ("/home/dsubramanian/dev/Voltage/voltage/" (20524 9454) "report.pyc" "procurement/" "pages/" "resourcebundle.py" "directory-tree" "businessLogic/" "selftest.py" "config.py" "__init__.py" "dvt/" "user_exceptions.pyc" "utils.pyc" "selftest.pyc" "mobile/" "utils.py" "test.pyc" "user_exceptions.py" "unittest.py" "procurement_ui/" "travel_rest_api/" "mixins/" "tomcat.py" "../" "signalhelper.py" "test.py" "config.pyc" "vendor/" "config_loader.pyc" "greplog.py" "rcat.pyc" "singleton_url_fetcher.py" "input_helper.pyc" "criteria/" "flow/" "collection.py" "report.py" "resources/" "browser.py" "config_loader.py" "browser_flymake.py" "procurement_rest/" "publish.py" "rcat.py" "flow2/" "greplog.pyc" "UI/" "input_helper.py" "actions/" "resourcebundle.pyc" "selenium.log" "testrunner/" "publish.pyc" "seed_webservice.py" "seed_webservice.pyc" "tomcat.pyc" "collection.pyc" "signalhelper.pyc" "singleton_url_fetcher.pyc" "__init__.pyc" "protocol/" "browser.pyc" "sessions/" "./" "fragment/" "platform_service.py" "definition/" "unittest.pyc")
+ ("/home/dsubramanian/dev/" (20522 58891) "log-5th-Jul.txt" "setuptools-0.6c11-py2.6.egg" "python-scripts/" "chromedriver.log" "log.publish.2" "xdot.py" "../" "volt.png" "tmp/" "voltage-docs/" "voltage_test_py6.dot" "p4/" "Voltage/" "voltage_test_py6.png" "selenium.log" "voltage_overview_diagram.png" "run_voltage.sh" "log.publish.3" "output.png" "voltage_overview_diagram - edited.png" "./" "log.publish" "zgrviewer/")
 
- ("/home/dsubramanian/dev/Voltage/" (20524 11871) "proc_test/" "voltage_test_py4.dot" "tests/" "proc_voltage/" "Thoughts" "voltage_test_py2.dot" "chromedriver.log" "pom.xml" "MANIFEST.in" "filelists/" "_test.txt" "voltage_test_py.png" "voltage_test_py3.dot" "../" "selftests/" "voltage_test_py.dot" ".pydevproject" "config/" "complete_calls1.dot" "assembly.xml" "voltage_test_py6.dot" "selenium.log.1" "pip-log.txt" "build/" "bin/" "firefox-profile/" "str.occur.log" "complete_calls.dot" ".reviewboardrc" "voltage_test_py1.dot" "xpath.txt" "selenium.log" "setup.py" "lib/" "nbproject/" "packaging/" "docs/" "firefox-addons/" ".project" "./" "voltage_test_py5.dot" "voltage/")
+ ("/home/dsubramanian/" (20522 58694) "nick.key" ".ICEauthority" ".Xauthority" "voltage_docs/" ".ido.last" ".emacs~" "Desktop/" ".bash_aliases~" ".p4tickets" ".lesshst" "countones.svg" ".ipython_history" ".icedteaplugin/" "Music/" ".ljps/" ".themes/" "Public/" ".sudo_as_admin_successful" ".ssh/" "start-dwm" ".abbrev_defs" ".Xresources~" ".p4qt/" ".mozilla/" ".synergy.conf" "examples.desktop" "sleeper" ".shotwell/" ".kde/" ".Xresources" ".reviewboardrc.080912.bak" ".ipython/" ".fontconfig/" ".pylint.d/" "Downloads/" ".evolution/" ".purple/" "532304_409474655755360_1219313602_n.jpg" "../" ".quicksynergy/" "countones.png" ".htoprc" "nick.cer" ".netx/" ".eshell/" "deepak-emacs-python/" "Documents/" ".printer-groups.xml" ".local/" "Videos/" "._.DS_Store" "oradiag_dsubramanian/" "Pictures/" ".fehrc" ".xsession-errors" ".bash_logout" ".gnome2/" "voltage_test_py6.dot" "dwm.desktop" ".gnome2_private/" ".mission-control/" ".bash_aliases" ".p4ob/" "pip-log.txt" ".config/" "build/" ".post-review-cookies.txt" ".bashrc~" "bin/" ".mavenrc" ".icons/" ".profile" ".cache/" ".m2/" ".gstreamer-0.10/" ".gksu.lock" ".gconfd/" ".zgrviewer" ".reviewboardrc" "countones.py" ".conkeror.mozdev.org/" ".nvidia-settings-rc" "selenium.log" ".xsession-errors.old" ".qt/" ".recently-used.xbel" ".macromedia/" ".adobe/" ".pulse/" ".thumbnails/" "dev/" ".esd_auth" ".rnd" ".gegl-0.0/" ".nx/" ".bashrc" ".dmrc" ".gconf/" ".bash_history" ".p4merge/" ".gtk-bookmarks" ".update-notifier/" ".gimp-2.6/" ".keychain/" ".gitconfig" ".subversion/" ".nautilus/" "./" ".python_history" ".DS_Store" ".pulse-cookie" ".emacs.d/" "Templates/" ".sleeper" ".reardenrc" ".pki/" ".viminfo" ".emacs" ".dbus/" "countones.pyc" ".xinitrc~" ".gvfs/" "voltage/")
 
- ("/home/dsubramanian/deepak-emacs-python/" (20524 8782) "deepak-dot-emacs" "deepak-color-themes.el" "deepak-python.el" ".git/" ".#deepak.org" "../" "emacs-24.1/" "python/" "deepak-dot-emacs~" "backup/" "deepak-org-mode.el" "themes/" "deepak.org" "autosave/" "README" "deepak-js.el" "json-mode.el" "private/" "tramp" "./" "downloads/")
-
- ("/home/dsubramanian/dev/" (20523 63237) "log-5th-Jul.txt" "setuptools-0.6c11-py2.6.egg" "python-scripts/" "chromedriver.log" "log.publish.2" "xdot.py" "../" "volt.png" "tmp/" "voltage-docs/" "voltage_test_py6.dot" "p4/" "Voltage/" "voltage_test_py6.png" "selenium.log" "voltage_overview_diagram.png" "run_voltage.sh" "log.publish.3" "output.png" "voltage_overview_diagram - edited.png" "./" "log.publish" "zgrviewer/")
-
- ("/home/dsubramanian/" (20522 64176) "nick.key" ".ICEauthority" ".Xauthority" "voltage_docs/" ".ido.last" ".emacs~" "Desktop/" ".bash_aliases~" ".p4tickets" ".lesshst" "countones.svg" ".ipython_history" ".icedteaplugin/" "Music/" ".ljps/" ".themes/" "Public/" ".sudo_as_admin_successful" ".ssh/" "start-dwm" ".abbrev_defs" ".Xresources~" ".p4qt/" ".mozilla/" ".synergy.conf" "examples.desktop" "sleeper" ".shotwell/" ".kde/" ".Xresources" ".reviewboardrc.080912.bak" ".ipython/" ".fontconfig/" ".pylint.d/" "Downloads/" ".evolution/" ".purple/" "532304_409474655755360_1219313602_n.jpg" "../" ".quicksynergy/" "countones.png" ".htoprc" "nick.cer" ".netx/" ".eshell/" "deepak-emacs-python/" "Documents/" ".printer-groups.xml" ".local/" "Videos/" "._.DS_Store" "oradiag_dsubramanian/" "Pictures/" ".fehrc" ".xsession-errors" ".bash_logout" ".gnome2/" "voltage_test_py6.dot" "dwm.desktop" ".gnome2_private/" ".mission-control/" ".bash_aliases" ".p4ob/" "pip-log.txt" ".config/" "build/" ".post-review-cookies.txt" ".bashrc~" "bin/" ".mavenrc" ".icons/" ".profile" ".cache/" ".m2/" ".gstreamer-0.10/" ".gksu.lock" ".gconfd/" ".zgrviewer" ".reviewboardrc" "countones.py" ".conkeror.mozdev.org/" ".nvidia-settings-rc" "selenium.log" ".xsession-errors.old" ".qt/" ".recently-used.xbel" ".macromedia/" ".adobe/" ".pulse/" ".thumbnails/" "dev/" ".esd_auth" ".rnd" ".gegl-0.0/" ".nx/" ".bashrc" ".dmrc" ".gconf/" ".bash_history" ".p4merge/" ".gtk-bookmarks" ".update-notifier/" ".gimp-2.6/" ".keychain/" ".gitconfig" ".subversion/" ".nautilus/" "./" ".python_history" ".DS_Store" ".pulse-cookie" ".emacs.d/" "Templates/" ".sleeper" ".reardenrc" ".pki/" ".viminfo" ".emacs" ".dbus/" "countones.pyc" ".xinitrc~" ".gvfs/" "voltage/")
+ ("/home/dsubramanian/deepak-emacs-python/" (20522 54746) "deepak-dot-emacs" "deepak-color-themes.el" "deepak-python.el" ".git/" "../" "emacs-24.1/" "python/" "deepak-dot-emacs~" "backup/" "deepak-org-mode.el" "themes/" "deepak.org" "autosave/" "README" "deepak-js.el" "json-mode.el" "private/" "tramp" "./" "downloads/")
 
  ("/home/dsubramanian/deepak-emacs-python/python/" (20522 54686) "anything.el" "ac-python.el" "python-mode/" "../" "readline-6.2.2/" "ipython.el" "python-pylint.el" "ipython/" "python-pep8.el" "anything-show-completion.el" "./" "anything-ipython.el")
 
@@ -148,6 +144,8 @@
  ("/home/dsubramanian/dev/p4/rcmain/TOOLS/Voltage/voltage/testrunner/" (20514 57075) "baserunner.py" "__init__.py" "worker.py~" "tests.py" "../" "tests.pyc" "publisher.pyc" "worker.pyc" "runner.py~" "runner.py" "runner.pyc" "baserunner.pyc" "worker.py" "__init__.pyc" "publisher.py" "./" "testcase.pyc" "testcase.py")
 
  ("/home/dsubramanian/dev/p4/rcmain/TOOLS/Voltage/docs/library/" (20514 42680) "singleton_url_fetcher.rst" "test.rst" "rcat.rst" "signalhelper.rst" "publish.rst" "greplog.rst" "../" "selftest.rst" "browser.rst" "resources/" "utils.rst" "collection.rst" "config.rst" "testrunner/" "seed_webservice.rst" "protocol/" "user_exceptions.rst" "config_loader.rst" "input_helper.rst" "sessions/" "./" "index.rst" "glopro/")
+
+ ("/home/dsubramanian/dev/p4/rcmain/TOOLS/Voltage/voltage/" (20522 50845) "report.pyc" "procurement/" "pages/" "resourcebundle.py" "directory-tree" "businessLogic/" "selftest.py" "config.py" "__init__.py" "dvt/" "user_exceptions.pyc" "utils.pyc" "selftest.pyc" "mobile/" "utils.py" "test.pyc" "user_exceptions.py" "unittest.py" "procurement_ui/" "travel_rest_api/" "mixins/" "tomcat.py" "../" "signalhelper.py" "test.py" "config.pyc" "vendor/" "config_loader.pyc" "greplog.py" "rcat.pyc" "singleton_url_fetcher.py" "input_helper.pyc" "criteria/" "flow/" "collection.py" "report.py" "resources/" "browser.py" "config_loader.py" "browser_flymake.py" "procurement_rest/" "publish.py" "rcat.py" "flow2/" "greplog.pyc" "UI/" "input_helper.py" "actions/" "resourcebundle.pyc" "selenium.log" "testrunner/" "publish.pyc" "seed_webservice.py" "seed_webservice.pyc" "tomcat.pyc" "collection.pyc" "signalhelper.pyc" "singleton_url_fetcher.pyc" "__init__.pyc" "protocol/" "browser.pyc" "sessions/" "./" "fragment/" "platform_service.py" "definition/" "unittest.pyc")
 
  ("/home/dsubramanian/dev/Voltage/proc_voltage/util/purchase/" (20522 49541) "proc_util.py" "__init__.py" "../" "proc_util.pyc" "__init__.pyc" "./")
 
@@ -220,6 +218,8 @@
  ("/home/dsubramanian/dev/Voltage/voltage/flow/" (20504 24551) "__init__.py" "login/" "mobile/" "registration/" "base.py" "tcatadmin/" "../" "carservice/" "platform/" "profile/" "UI/" "base.pyc" "travel/" "__init__.pyc" "dashboard/" "airportparking/" "./")
 
  ("/home/dsubramanian/dev/Voltage/voltage/fragment/" (20504 24551) "url.pyc" "credit_card.py" "window.py" "__init__.py" "../" "platform/" "userapp/" "url.py" "window.pyc" "ExpMgmt/" "UI/" "partner/" "__init__.pyc" "dashboard/" "./")
+
+ ("/home/dsubramanian/dev/Voltage/" (20504 24495) "proc_test/" "voltage_test_py4.dot" "tests/" "proc_voltage/" "Thoughts" "voltage_test_py2.dot" "chromedriver.log" "pom.xml" "MANIFEST.in" "filelists/" "_test.txt" "voltage_test_py.png" "voltage_test_py3.dot" "../" "selftests/" "voltage_test_py.dot" ".pydevproject" "config/" "complete_calls1.dot" "assembly.xml" "voltage_test_py6.dot" "selenium.log.1" "pip-log.txt" "build/" "bin/" "firefox-profile/" "str.occur.log" "complete_calls.dot" ".reviewboardrc" "voltage_test_py1.dot" "selenium.log" "setup.py" "lib/" "nbproject/" "packaging/" "docs/" "firefox-addons/" ".project" "./" "voltage_test_py5.dot" "voltage/")
 
  ("/home/dsubramanian/dev/Voltage/tests/userapp/rail/" (20504 24590) "railOnlyHoldChangeStationPurchaseCancel.py" "railOnlyPrePurchaseChangeHoldCancel.py" "railOnlyPurchaseChangeDatesPurchaseCancel.py" "railOnlyPurchaseChangeStationsPurchaseCancel.pyc" "railOnlyFirstClassPurchaseChangeDatesPurchaseCancel.pyc" "railOnlyTravelprefSetMembershipNum.pyc" "railOnlyPurchaseChangeStationsPurchaseCancel.py" "railOnlyPrePurchaseChangeHoldPurchaseCancel.py" "../" "railOnlyTravelprefSetMembershipNum.py" "railOnlyHoldChangeDatesPurchaseCancelUkZeroTouch.pyc" "railOnlyMembershipNumForThreePassengersPurchaseCancel.py" "railOnlyTravelprefSetDefaultSearchRT.py" "railOnlyTBMPurchaseCancel.py" "railOnlyTBXPurchaseChangePurchaseCancel.py" "railOnlyTBMPurchaseCancel.pyc" "railOnlyTravelprefSetDefaultClassBusiness.py" "railOnlyHoldChangeDatesPurchaseCancel.py.bkup" "railOnlyMembershipNumHoldPurchaseCancel.pyc" "railOnlyServiceFeesHoldPurchaseCancel.py" "railOnlyTBMPurchaseCancelZeroTouch.pyc" "railOnlyOneWayBetween6To15DaysPurchaseCancel.py" "railOnlyMembershipNumHoldPurchaseCancel.py" "railOnlyTravelprefSetDefaultSearchOneWay.py" "railOnlyTBXPurchaseCancel.py" "railOnlyPrePurchaseChangeHoldPurchaseCancel.pyc" "railOnlyOneWayTicketingOptions6DaysBeforeDeparture.py" "./" "railOnlyTBMPurchaseCancelZeroTouch.py" "railOnlyServiceFeesPurchaseChangeDatesPurchaseCancel.py" "railOnlyFirstClassPurchaseChangeDatesPurchaseCancel.py" "railOnlyHoldChangeDatesPurchaseCancelUkZeroTouch.py" "railOnlyBusinessClassForThreePassengersPurchaseCancel.py")
 

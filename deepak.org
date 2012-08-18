@@ -229,8 +229,10 @@
 ** DONE Install emacs 2.4
    CLOSED: [2012-08-14 Tue 10:20]
 ** TODO Setup emacs for python
-** TODO Update the change to the mac
-** TODO Setup voltage on the mac
+** DONE Update the change to the mac
+   CLOSED: [2012-08-17 Fri 17:09]
+** DONE Setup voltage on the mac
+   CLOSED: [2012-08-17 Fri 17:09]
 ** TODO Find out the errrors which are occurring when using the webdriver
 *** DONE Find out the reason and the fix for the below errors for the test
     CLOSED: [2012-08-15 Wed 12:05]
