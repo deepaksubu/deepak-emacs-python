@@ -57,9 +57,9 @@
 ;;
 ;; (require 'anything-ipython)
 ;; (add-hook 'python-mode-hook #'(lambda ()
-;;                                 (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
+;;                                 (define-key python-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
 ;; (add-hook 'ipython-shell-hook #'(lambda ()
-;;                                   (define-key py-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
+;;                                   (define-key python-mode-map (kbd "M-<tab>") 'anything-ipython-complete)))
 ;;
 ;; If you want to use anything-show-completion.el,(facultative)
 ;; <http://www.emacswiki.org/cgi-bin/emacs/anything-show-completion.el>

@@ -1,0 +1,119 @@
+"""
+Created on May 31, 2012
+@author: zfan
+"""
+import voltage
+from proc_voltage.util.purchase import proc_util
+from proc_voltage.verification.purchase import proc_verification
+from voltage.config import Config
+from voltage.flow.login.selfservice import SimpleLogin
+
+def test_main():
+    """
+    Test Details
+    ++++++++++++
+    * Priority: P1
+    * Stores: Deem @ Procurement
+
+    Steps
+    +++++
+    #. Go to the Procurement App
+    #. Verify procurement home
+    #. Create cart with multiple items and then login to checkout page
+    #. Enter the Billing, shipping and Payment info
+    #. Get order info sub grand total and subtotals from order summary details module
+    #. Get order info summary subtotal and grand total from order total module
+    #. Verify summary subtotal equals sum of all the item total
+    #. Verify grand total equals item subtotal add shipping total
+    #. Submit the order and verify checkout page order total equals confirmation page order total
+    """
+
+    test = voltage.Test()
+    browser = test.browser()
+    assert isinstance(browser, voltage.Browser)
+    timeout = test.config.max_wait
+    config = Config()
+    my_control = config.read_config_any("proc_test/procurement_ui/purchase/resource/control/ui_control.json")
+    my_data = config.read_config_any("proc_test/procurement_ui/purchase/resource/data/ui_data.json")
+
+    try:
+        # Create cart with multiple items and then login to checkout page
+        proc_util.go_to_purchase_anony(browser, test, timeout)
+
+        import ipdb; ipdb.set_trace()
+        proc_util.create_cart_multi_items(browser, timeout)
+        args = proc_util.get_login_args(config)
+        browser.execute(test, SimpleLogin, args)
+
+        # Enter the Billing, shipping and Payment info
+        proc_util.click_new_billing_contact(browser, timeout)
+        proc_util.enter_contact(browser, my_data["billing_contact"], 1)
+        proc_util.click_contact_submit_button(browser)
+        proc_util.click_confirm_button(browser, timeout)
+        proc_util.click_new_shipping_contact(browser, timeout)
+        proc_util.enter_contact(browser, my_data["shipping_contact"], 2)
+        proc_util.click_contact_submit_button(browser)
+        proc_util.click_confirm_button(browser, timeout)
+        proc_util.click_new_payment_method(browser, timeout)
+        proc_util.enter_creditcard_info(browser)
+        proc_util.click_payment_submit_button(browser, timeout)
+
+        # Get order info sub grand total and subtotals from order summary details module
+        sub_grand_total = 0
+        item_total = 0
+        shipping = 0
+        subtotals = 0
+        supplier_count = browser.get_xpath_count(my_control["checkout_page_xpath"]["supplier_count"])
+        while(supplier_count > 0):
+            items_count = browser.get_xpath_count((my_control["checkout_page_xpath"]["items_count"]) % (supplier_count))
+            while(items_count > 0):
+                item_qty = int((browser.get_text((my_control["checkout_page_xpath"]["item_qty"]) % (supplier_count, items_count)).replace(",", "")))
+                unit_price = float((browser.get_text((my_control["checkout_page_xpath"]["unit_price"]) % (supplier_count, items_count)).replace(",", "").replace("$", "")))
+                item_sub_total = float(browser.get_text((my_control["checkout_page_xpath"]["item_sub_total"]) % (supplier_count, items_count)).replace(",", "").replace("$", ""))
+                item_total += item_sub_total
+                # Verify item sub total equals item quantity multiply unit price on checkout page
+                test.assert_equals(round(item_qty * unit_price, 2), item_sub_total, "item sub total not equal")
+                subtotals += item_sub_total
+                items_count -= 1
+            if browser.get_text((my_control["checkout_page_xpath"]["merchant_shipping"]) % (supplier_count)) == 'FREE':
+                shipping = 0
+            else:
+                shipping = float(browser.get_text((my_control["checkout_page_xpath"]["merchant_shipping"]) % (supplier_count)).replace(",", "").replace("$", ""))
+            merchant_total = float(browser.get_text((my_control["checkout_page_xpath"]["merchant_total"]) % (supplier_count)).replace(",", "").replace("$", ""))
+            # Verify merchant total equals item total add shipping on checkout page
+            test.assert_equals(round(item_total + shipping, 2), merchant_total, "merchant total not equal")
+            sub_grand_total += merchant_total
+            item_total = 0
+            supplier_count -= 1
+
+        # Get order info summary subtotal and grand total from order total module
+        summary_subtotal = float(browser.get_text(my_control["checkout_page_css"]["summary_subtotal"]).replace(",", "").replace("$", ""))
+        grand_total = float(browser.get_text(my_control["checkout_page_css"]["grand_total"]).replace(",", "").replace("$", ""))
+
+        # Verify summary subtotal equals sum of all the item total
+        test.assert_equals(round(subtotals, 2), summary_subtotal, 'Values subtotals and summary_subtotal do not equal')
+
+        # Verify grand total equals item subtotal add shipping total
+        test.assert_equals(round(sub_grand_total, 2), grand_total, 'Values sub_grand_total and grand_total do not equal')
+
+        # Submit the order and verify checkout page order total equals confirmation page order total
+        checkout_order_total = [browser.get_text(my_control["checkout_page_css"]["list_price"]),
+                                browser.get_text(my_control["checkout_page_css"]["summary_savings"]),
+                                browser.get_text(my_control["checkout_page_css"]["summary_subtotal"]),
+                                browser.get_text(my_control["checkout_page_css"]["summary_shipping"]),
+                                browser.get_text(my_control["checkout_page_css"]["summary_tax"]),
+                                browser.get_text(my_control["checkout_page_css"]["grand_total"])]
+
+        proc_util.click_submit_order_button(browser, timeout)
+        proc_verification.verify_confirmation_page(browser, test)
+        confirmation_order_total = [browser.get_text(my_control["confirmation_page_css"]["list_price"]),
+                                    browser.get_text(my_control["confirmation_page_css"]["summary_savings"]),
+                                    browser.get_text(my_control["confirmation_page_css"]["summary_subtotal"]),
+                                    browser.get_text(my_control["confirmation_page_css"]["summary_shipping"]),
+                                    browser.get_text(my_control["confirmation_page_css"]["summary_tax"]),
+                                    browser.get_text(my_control["confirmation_page_css"]["grand_total"])]
+        test.assert_equals(checkout_order_total, confirmation_order_total, 'Order total module do not equal')
+    except:
+        test.handle_exception()
+
+    return test.results()

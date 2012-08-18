@@ -136,7 +136,10 @@ class Test(dict):
         :rtype: :class:`voltage.browser.Browser`
 
         """
-        browser = voltage.Browser(self, config=self.config)
+        if utils.is_webdriver_enabled():
+            browser = voltage.WebDriverBrowser(self, config=self.config)
+        else:
+            browser = voltage.Browser(self, config=self.config)
         self._browsers.append(browser)
 
         return browser

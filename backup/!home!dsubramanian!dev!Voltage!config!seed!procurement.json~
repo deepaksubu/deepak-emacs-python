@@ -1,0 +1,13 @@
+{
+    "procurement":{
+    	"Auth":"Flase",
+        "guest_url":"https://procall01.rcqa3.com:8443/guestEntry/",
+        "auth_url":"https://procurement.rcqa3.com/authEntry/",
+        "url":"http://qa3-procurement-svc.west.rden.us",
+        "user_port":":48011",
+        "cart_port":":48031",
+        "order_port":":48021",
+        "iis_port":":48041",
+        "thub_port":":48061"
+    }
+    }

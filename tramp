@@ -2,6 +2,7 @@
 ;; Tramp connection history.  Don't change this file.
 ;; You can delete it, forcing Tramp to reapply the checks.
 
+<<<<<<< HEAD
 ((["ssh" nil "dsubramanian-lx.mygazoo.com" nil]
   ("uname" "Linux 2.6.32-41-generic")
   ("test" "test")
@@ -21,3 +22,6 @@
   ("local-decoding" base64-decode-region)
   ("remote-encoding" "base64")
   ("remote-decoding" "base64 -d")))
+=======
+(nil)
+>>>>>>> f80e344713880b97ef890b6cd853d8e9c3fef3c1

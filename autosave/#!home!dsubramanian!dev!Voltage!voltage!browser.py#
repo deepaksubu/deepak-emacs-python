@@ -16,7 +16,6 @@ from voltage.protocol import http_raw_client
 from voltage.vendor.selenium import selenium as selenium_rc
 
 # The selenium module expects itself to be in the PYTHONPATH
-
 SELENIUM_FOLDER = os.path.join(os.path.dirname(__file__), 'vendor')
 if SELENIUM_FOLDER not in sys.path:
     sys.path.insert(0, SELENIUM_FOLDER)

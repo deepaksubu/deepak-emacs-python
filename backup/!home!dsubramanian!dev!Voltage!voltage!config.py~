@@ -256,7 +256,7 @@ class Config(dict):
 
     def fetch_remote(self):
         servers = self['selenium']['servers']
-        print "Deepak here: servers", servers
+     
 
         try:
             self.lock.acquire()

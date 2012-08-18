@@ -7,6 +7,7 @@ import os
 import re
 import sys
 import time
+
 # Voltage imports
 import voltage
 from voltage import mixins
@@ -16,30 +17,22 @@ from voltage.protocol import http_raw_client
 from voltage.vendor.selenium import selenium as selenium_rc
 
 # The selenium module expects itself to be in the PYTHONPATH
-SELENIU_FOLDER = os.path.join(os.path.dirname(__file__), 'vendor')
+cmd_folder = os.path.join(os.path.dirname(__file__), 'vendor')
 if cmd_folder not in sys.path:
     sys.path.insert(0, cmd_folder)
 from selenium import webdriver
-from selenium.webdriver.remote.webdriver import WebDriver
+from selenium.webdriver.remote.webdriver import WebDriver as RemoteWebDriver
 
 FILESERVER = "http://ninja.mygazoo.com:5554/"
 RE_URL_PROTOCOL = re.compile(r'^(https|http|ftp)://')
 
 class Browser(selenium_rc, mixins.FlowMixin):
-    """
-    This is the main browser class. It is responsible for the creation of a browser instance. It is the primary interface for interacting with the html page displayed in the browser. It is also responsible for controlling the lifecycle of the browser sessions.
-
-    August 1, 2012  Added functionality for Selenium 2 WebDriver. Changes are made to the Browser class to the following functions
-    1) The __init__ function responsible for initializing the instance
-    2) Start functionw which starts the browser instance and gets the sessionid for that session from selenium
-    3) The click function which is now behaving correctly and does not interact with invisible elements as it should have done. This was a bug in Selenium RC and now seems to be fixed in this version. However, it remains to be seen how will this affect when porting legacy voltage tests to WebDriver
-    """
-    def __init__(self, test, config=None, use_webdriver=None):
+    def __init__(self, test, config=None):
         self.test = test
         self._logger = utils.get_logger()
 
         # Reset the pages count
-        self.pages_explored = set([])
+        self.pages_explored = set([]);
 
         if config is None:
             self.config = voltage.config_loader.get_config()
@@ -56,13 +49,6 @@ class Browser(selenium_rc, mixins.FlowMixin):
             remote = self.config.fetch_remote()
             self.host, self.port = remote.split(':')
             port = int(self.port)
-
-            # Added for web driver support
-            if use_webdriver:
-                self.use_webdriver = True
-                browser = "*webdriver"
-            else:
-                self.use_webdriver = False
 
             super(Browser, self).__init__(self.host, port, browser, target)
 
@@ -88,29 +74,11 @@ class Browser(selenium_rc, mixins.FlowMixin):
 
     def start(self, capture_network_traffic=False):
         """
-        A rewrite of the original selenium start method with support
-        for capturing network traffic
-
-        Changes:
-        July 31, 2012 - Added support for web driver.
+        Overloaded start method to add (optional) support for
+        capturing network traffic.
         """
 
         args = [self.browserStartCommand, self.browserURL, self.extensionJs]
-
-        # Changes made to accomodate web driver
-        if self.use_webdriver:
-            if self.config.browser == 'android':
-                desired_capabilities=webdriver.DesiredCapabilities.ANDROID
-            elif self.config.browser == 'iphone':
-                desired_capabilities=webdriver.DesiredCapabilities.IPHONE
-            elif self.config.browser == '*googlechrome':
-                desired_capabilities=webdriver.DesiredCapabilities.CHROME
-            else:
-                desired_capabilities=webdriver.DesiredCapabilities.FIREFOX
-            self.driver  = WebDriver(desired_capabilities = desired_capabilities)
-            id = self.driver.desired_capabilities['webdriver.remote.sessionid']
-            args.append('webdriver.remote.sessionid=%s' % id)
-
 
         # To bypass SSL certs in Chrome we need to pass an extra flag
         if self.config.browser == '*googlechrome':
@@ -161,19 +129,11 @@ class Browser(selenium_rc, mixins.FlowMixin):
     def screenshot(self, msg='No description provided'):
         try:
             #convert msg to utf-8 encoded string
-            if self.use_webdriver:
-                #convert msg to utf-8 encoded string
-                msg = utils.encode_str(msg)
-                base64 = self.driver.get_screenshot_as_base64()
-                ss = {'base64': base64, 'msg': msg}
-                self.test['_screenshots'].append(ss)
-            else:
-                msg = utils.encode_str(msg)
-                args = {'background':'white'}
-                base64 = self.capture_entire_page_screenshot_to_string(args)
-                ss = {'base64':base64, 'msg':msg}
-                self.test['_screenshots'].append(ss)
-
+            msg = utils.encode_str(msg)
+            args = {'background':'white'}
+            base64 = self.capture_entire_page_screenshot_to_string(args)
+            ss = {'base64':base64, 'msg':msg}
+            self.test['_screenshots'].append(ss)
         except Exception, ex:
             self._logger.exception('Unable to capture screenshot:')
 
@@ -324,12 +284,7 @@ class Browser(selenium_rc, mixins.FlowMixin):
 
     def click(self,locator):
         self.register_url()
-
-        #        import ipdb; ipdb.set_trace()
-        try:
-            super(Browser, self).click(locator)
-        except Exception:
-            print "In the stupid hidden element exception"
+        super(Browser, self).click(locator)
 
 #    def double_click(self,locator):
 #    def context_menu(self,locator):
@@ -403,46 +358,81 @@ class Browser(selenium_rc, mixins.FlowMixin):
 class NativeBrowserPopupException(Exception):
     pass
 
-class WebDriverBrowser(webdriver.Remote, mixins.FlowMixin):
+
+class WebDriverBrowser(Browser, mixins.FlowMixin):
+
     def __init__(self, test, config=None):
-        self.test = test
-        self._logger = utils.get_logger()
-
-        self.pages_explored = set([])
-
         if config is None:
             self.config = voltage.config_loader.get_config()
         else:
             self.config = config
 
         if self.config.browser == 'android':
-            desired_capabilities=webdriver.DesiredCapabilities.ANDROID
+            desired_capabilities = webdriver.DesiredCapabilities.ANDROID
         elif self.config.browser == 'iphone':
-            desired_capabilities=webdriver.DesiredCapabilities.IPHONE
+            desired_capabilities = webdriver.DesiredCapabilities.IPHONE
+        elif self.config.browser == '*googlechrome':
+            desired_capabilities = webdriver.DesiredCapabilities.CHROME
         else:
-            desired_capabilities=webdriver.DesiredCapabilities.FIREFOX
+            desired_capabilities = webdriver.DesiredCapabilities.FIREFOX
 
-        while True:
-            remote = self.config.fetch_remote()
-            self.host, self.port = remote.split(':')
+        self.driver = RemoteWebDriver(desired_capabilities=desired_capabilities)
 
-            try:
-                webdriver.Remote.__init__(
-                    self,
-                    command_executor='http://%s/wd/hub' % remote,
-                    desired_capabilities=desired_capabilities,
-                )
+        self.config.browser = "*webdriver"
 
-                self._logger.info('...Using browser via %s' % remote)
-                break
-            except Exception, ex:
-                self._logger.error('Unable to hit:%s\n%s' % (remote, ex))
-                self.config.dead_remote(remote)
-                pass
+        try:
+            super(WebDriverBrowser,self).__init__(test,self.config)
+        except Exception, ex:
+            self._logger.error('Unable to start a browser instance through WebDriver')
 
     def close(self):
         if self.config['selenium']['close_browser_on_completion']:
             super(WebDriverBrowser, self).close()
+
+    def click(self,locator):
+        try:
+            self.register_url()
+            super(Browser, self).click(locator)
+        except Exception, ex:
+            try:
+                element1 = self.driver.find_element_by_css_selector(locator.split('=')[1].split('.')[1])
+
+                import ipdb; ipdb.set_trace()
+                ex_string = 'var a = document.getElementsByClassName("'+locator.split('=')[1].split('.')[1]+'"); a[0].style.visibility="visible";'
+                element1.parent.execute_script(ex_string)
+                element1.click()
+            except Exception, ex:
+                self._logger.error('Unable to click the element %s through WebDriver: %s' % (locator,ex))
+
+    def start(self, capture_network_traffic=False):
+        """
+        Overloaded start method to add (optional) support for
+        capturing network traffic.
+        """
+
+        args = [self.browserStartCommand, self.browserURL, self.extensionJs]
+
+        driver_id = self.driver.desired_capabilities['webdriver.remote.sessionid']
+        args.append('webdriver.remote.sessionid=%s' % driver_id)
+
+
+        # To bypass SSL certs in Chrome we need to pass an extra flag
+        if self.config.browser == '*googlechrome':
+            args.append('commandLineFlags=--disable-web-security')
+
+        if capture_network_traffic:
+            args.append("captureNetworkTraffic=true")
+
+        result = self.get_string("getNewBrowserSession", args)
+
+        try:
+            self.sessionId = result
+        except ValueError:
+            raise Exception, result
+
+        self.register_url()
+
+
 
     def execute_flow(self, *args, **kwargs):
         super(WebDriverBrowser, self).execute_flow(self, *args, **kwargs)
@@ -451,11 +441,12 @@ class WebDriverBrowser(webdriver.Remote, mixins.FlowMixin):
         try:
             #convert msg to utf-8 encoded string
             msg = utils.encode_str(msg)
-            base64 = self.get_screenshot_as_base64()
+            base64 = self.driver.get_screenshot_as_base64()
             ss = {'base64': base64, 'msg': msg}
             self.test['_screenshots'].append(ss)
         except Exception, ex:
-            self._logger.exception('Unable to capture screenshot:')
+            self._logger.exception('Unable to capture screenshot:%s' % (ex))
+
 
 class WebDriverChromeBrowser(webdriver.Chrome, WebDriverBrowser):
     """
@@ -465,7 +456,7 @@ class WebDriverChromeBrowser(webdriver.Chrome, WebDriverBrowser):
         self.test = test
         self._logger = utils.get_logger()
 
-        self.pages_explored = set([])
+        self.pages_explored = set([]);
 
         if config is None:
             self.config = voltage.config_loader.get_config()
@@ -482,4 +473,3 @@ class WebDriverChromeBrowser(webdriver.Chrome, WebDriverBrowser):
             self.quit()
         else:
             super(WebDriverChromeBrowser, self).close()
-

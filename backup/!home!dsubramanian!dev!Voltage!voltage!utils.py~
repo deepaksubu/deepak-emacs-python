@@ -38,18 +38,18 @@ def clean_exit(config, ex, stack_trace=False):
         # to make sure the argument is an instance of Exception
         if isinstance(ex, Exception):
             ex_type, val, trace = sys.exc_info()
-             
+
             # type None indicates user defined exceptions and they need to be re raised a.k.a raise ex
             if ex_type:
                 # logging any exceptions to stderr before clean_exit
                 get_logger().error(ex, exc_info=True)
                 raise
             else:
-                # logging any exceptions to stderr before clean_exit                
+                # logging any exceptions to stderr before clean_exit
                 get_logger().error(ex)
                 raise ex
         else:
-            get_logger().error(ex)             
+            get_logger().error(ex)
             raise Exception(("Expected instance of Exception and not %s") % type(ex))
     else:
         # logging any exceptions to stderr before clean_exit
@@ -251,3 +251,13 @@ class InhibitFilter(object):
             return 0;
         else:
             return 1;
+
+
+def is_webdriver_enabled(config):
+    """ Function to test if webdriver has been enabled or not"""
+    try:
+        use_webdriver = config.get('use_webdriver')
+        use_webdriver = True
+    except Exception, ex:
+        get_logger().error('Errored at the check for use_webdriver flag:%s' % ex)
+    return use_webdriver

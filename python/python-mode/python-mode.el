@@ -13167,7 +13167,7 @@ These are Python temporary files awaiting execution."
 ;; inside python-mode already
 ;; (add-hook 'python-mode-hook
 ;;           (lambda ()
-;;             (defvar py-mode-map python-mode-map))
+;;             (defvar python-mode-map python-mode-map))
 ;;           (set (make-local-variable 'beginning-o1f-defun-function) 'py-beginning-of-def-or-class)
 ;;           (set (make-local-variable 'end-of-defun-function) 'py-end-of-def-or-class))
 
