@@ -1,0 +1,137 @@
+;;; -*- coding: utf-8 -*-
+
+;; ----- ido-last-directory-list -----
+(
+ ("/var/www/extension_cord/extension_cord/static/" . "js/")
+ ("/var/www/extension_cord/extension_cord/" . "templates/")
+ ("/var/www/extension_cord/ecapp/" . "views/")
+ ("/var/www/extension_cord/" . "extension_cord/")
+ ("/etc/apache2/" . "sites-enabled/")
+ ("/etc/" . "apache2/")
+ ("/var/www/" . "extension_cord/")
+ ("/var/" . "www/")
+ ("/home/deepak/deepak-emacs-python/themes/" . "color-theme-6.6.0/")
+ ("/home/deepak/deepak-emacs-python/" . "themes/")
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/tests/ExpMgmt/Functional/" . "AcceptanceTestSuite/")
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/tests/ExpMgmt/" . "Functional/")
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/tests/" . "ExpMgmt/")
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/config/" . "seed/")
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/voltage/" . "voltagedriver/")
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/" . "config/")
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/" . "Voltage/")
+ ("/home/deepak/p4/dsubramanian-p4voltage/" . "TOOLS/")
+ ("/home/deepak/p4/" . "dsubramanian-p4voltage/")
+ ("/" . "var/")
+ ("/home/" . "deepak/")
+ ("/home/deepak/" . "p4/")
+)
+
+;; ----- ido-work-directory-list -----
+(
+ "/var/www/extension_cord/extension_cord/templates/"
+ "/var/www/extension_cord/extension_cord/"
+ "/var/www/extension_cord/ecapp/"
+ "/var/www/extension_cord/extension_cord/static/js/"
+ "/var/www/extension_cord/ecapp/views/"
+ "/home/deepak/"
+ "/var/www/extension_cord/extension_cord/static/"
+ "/etc/"
+ "/etc/apache2/sites-enabled/"
+ "/etc/apache2/sites-available/"
+ "/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/config/"
+ "/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/voltage/"
+ "/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/voltage/voltagedriver/"
+ "/home/deepak/deepak-emacs-python/"
+ "/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/config/seed/"
+ "/home/deepak/Desktop/"
+ "/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/selftests/"
+ "/home/deepak/Downloads/"
+)
+
+;; ----- ido-work-file-list -----
+(
+ "test_plan_form.html"
+ "add_select_phase.html"
+ "test_case_form.html"
+ "add_to_test_plan.html"
+ "urls.py"
+ "settings.py"
+ "models.py"
+ "test_plan_form.js"
+ "TestPlanViews.py"
+ ".emacs"
+)
+
+;; ----- ido-dir-file-cache -----
+(
+ ("/var/www/extension_cord/extension_cord/templates/" (20587 24560) "success_test_case.html" "success_test_plan.html" ".#test_plan_form.html" "./" "rest_guide.html" "index.html" "add_select_phase.html" "test_case_form.html" "add_to_test_plan.html" "sql/" "base.html" "test_case_summary.html" "../" "test_plan_summary.html" "test_plan_id_view.html" "test_case_plot.html" ".#test_case_form.html" "test_plan_plot.html" "test_plan_form.html" "filter_base.html" "basic.html" "registration/" "add_to_test_plan.html~")
+
+ ("/var/www/extension_cord/extension_cord/" (20586 7452) "./" "static/" "urls.pyc" "templates/" "__init__.pyc" "urls.py" "settings.py" "__init__.py" "ldap_groups/" "wsgi.py" "../" "settings.pyc" "wsgi.pyc")
+
+ ("/var/www/extension_cord/ecapp/views/" (20587 23361) "RESTViews.pyc" "PlotUtils.pyc" ".#TestPlanViews.py" "./" "TestPlanViews.py" "__init__.pyc" "RESTViews.py" "OtherViews.pyc" "TestCaseViews.py" "PlotUtils.py" "__init__.py" "TestCaseViews.pyc" "../" "OtherViews.py" "utils.py" "TestPlanViews.pyc" "utils.pyc")
+
+ ("/var/www/extension_cord/extension_cord/static/js/" (20512 1581) "test_plan_id_view.js" "test_plan_plot.js" "test_plan_summary.js" "./" "test_plan_form.js" "design_steps.js" "test_case_form.js" "javascript.js" "test_case_plot.js" "../" "plot.js" "test_case_summary.js")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/selftests/" (20576 43774) "test_runner_args.py" "./" "selftest_common.py" "test_protocol/" "testwebdriver.py" "test_publish.py" "test_unknown_env.py" "../" "test_remote_execution.py" "test_bin_run_args.py" "test_unicode.py" "test_eclipse_run_args.py")
+
+ ("/home/deepak/Desktop/" (20576 56221) "./" "../" "Apress - Beginning CouchDB (December 2009) (ATTiCA).pdf" "new.txt" "firefox.desktop")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/config/seed/" (20580 60926) "lharper-mbp.json" "sariga-mbp.json" "travel_amtrk.json" "citithankyou.json" "mastercard_template.json" "tlee-mbp.json" "reardenqa.json" "expense_api_spices1.json" "expense_api_staff.json" "expense_webdriver.json" "avenkataraman-mbp.json" "chase.json" "procurement.json" "cwt.json" "aramanathan-mbp.json" "longtail.json" "./" "selfservice_homepage.json" "dashboard_regression_base.json" "selfservice_template.json" "travel.json" "amex.json" "payments.json" "expense_api_company1.json" "expense_api_spices2.json" "proc_all_2.json" "citiffy.json" "longtail_regression.json" "travel_regression.json~" "GLOPRO.json" "travel_new.json" "reardenseed.json" "amexItins.json" "expense_api_company2.json" "reardenos.json" "carservice.json" "selfservice_template_intuit.json" "groth-mbp.json" "mfrainier-mbp.json" "generic.json" "travel_regression.json" "cwt_site_creation.json" "Feedback_ue.json" "siemens.json" "billing_regression.json" "loginservice.json" "JnJ.json" "amex_open.json" "../" "travel_overrides_template.json" "agrande-mbp.json" "_overrides.json" "pyi-mbp.json" "bulk_site_onboarding.json" "SelfService_UE.json" "selfservice.json" "p4p_regression.json" "pyi-lx.json" "proc_all.json")
+
+ ("/home/deepak/deepak-emacs-python/" (20585 64922) "python/" "autosave/" "readline-6.2.2.tar.gz" "deepak-python.el" "./" "tramp" "README" "python-mode.el-6.0.10.tar.gz" "backup/" ".git/" "deepak-org-mode.el" "private/" "ipython-0.13.tar.gz" "deepak-dot-emacs~" "Untitled.rtf" "emacs-24.1/" "deepak.org" "deepak-js.el" "deepak-dot-emacs" "session.10a847b89c638c551134386307952588400000024440034" "themes/" "deepak-color-themes.el" "downloads/" "../" "json-mode.el")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/voltage/voltagedriver/" (20580 46954) "webdriver.pyc" "./" "webelement.py" "__init__.pyc" "__init__.py" "webelement.pyc" "../" "webdriver.py")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/voltage/" (20580 60774) "criteria/" "input_helper.py" "testrunner/" "publish.pyc" "flow2/" "ExpMgmt/" "UI/" "procurement_rest/" "fragment/" "vendor/" "test.pyc" "input_helper.pyc" "report.py" "./" "resources/" "browser.pyc" "rcat.pyc" "config.pyc" "config_loader.py" "selftest.py" "mixins/" "sessions/" "browser.py" "__init__.pyc" "signalhelper.pyc" "unittest.pyc" "resourcebundle.py" "mobile/" "report.pyc" "greplog.py" "actions/" "__init__.py" "tomcat.pyc" "config.py" "definition/" "travel_rest_api/" "singleton_url_fetcher.py" "protocol/" "test.py" "config_loader.pyc" "voltagedriver/" "user_exceptions.py" "singleton_url_fetcher.pyc" "publish.py" "platform_service.py" "collection.py" "../" "rcat.py" "tomcat.py" "pages/" "unittest.py" "procurement/" "seed_webservice.py" "collection.pyc" "signalhelper.py" "dvt/" "utils.py" "businessLogic/" "procurement_ui/" "flow/" "user_exceptions.pyc" "seed_webservice.pyc" "resourcebundle.pyc" "utils.pyc")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/config/" (20580 63516) "expense/" "global/" "_overrides.json~" "./" "rail_data.csv" "rail_uk_data.csv" ".crontab.conf" "seed/" ".logrotate.conf" "../" "qaenvs/" "devenvs/" "_overrides.json")
+
+ ("/etc/" (20585 59822) "rc5.d/" "crontab" "insserv/" "python/" "checkbox.d/" "pm/" "bash.bashrc" "rpc" "deluser.conf" "rmt" "blkid.conf" "ucf.conf" "hp/" "modules" "passwd-" "iproute2/" "UPower/" "zsh_command_not_found" "group-" "apt/" "popularity-contest.conf" "couchdb/" "sysctl.conf" "fstab" "console-setup/" "localtime" "ifplugd/" "gtk-2.0/" "debian_version" "skel/" "gnome-settings-daemon/" "gshadow" "logcheck/" "group" "groff/" "mtab.fuselock" "timezone" "gnome-app-install/" "at.deny" "udev/" "wodim.conf" "fuse.conf" "ppp/" "ldap/" "update-manager/" "grub.d/" "profile" "nsswitch.conf" "ConsoleKit/" "vtrgb" "services" "avahi/" "rc2.d/" "modprobe.d/" "magic.mime" "kernel-img.conf" "libnl-3/" "newt/" "obex-data-server/" "xdg/" "init/" "insserv.conf.d/" "ufw/" "ld.so.conf.d/" "foomatic/" "brltty/" "legal" "xml/" "bash_completion.d/" "ca-certificates/" "apparmor.d/" "depmod.d/" "sysctl.d/" "papersize" "bindresvport.blacklist" "doc-base/" "hdparm.conf" "ca-certificates.conf" "rsyslog.conf" "cron.d/" "terminfo/" "lsb-release" "compizconfig/" "kerneloops.conf" "default/" "xul-ext/" "dhcp3/" "shadow-" "inputrc" "lightdm/" "bluetooth/" "hosts.allow" "libpaper.d/" "dkms/" "emacs/" "kbd/" "rc.local" "sensors3.conf" "cron.daily/" "gshadow-" "usb_modeswitch.d/" "polkit-1/" "ssh/" "dbus-1/" "locale.alias" "rsyslog.d/" "wgetrc" "ld.so.conf" "mailcap.order" "calendar/" "screenrc" "passwd" "firefox/" "initramfs-tools/" "sound/" "anacrontab" "apm/" "host.conf" "rc3.d/" "login.defs" "bash_completion" "ginn/" "issue" "sudoers" "speech-dispatcher/" "apparmor/" "sgml/" "vpnc/" "cron.weekly/" "java-sun/" "dpkg/" "usb_modeswitch.conf" "dictionaries-common/" "brltty.conf" "mtab" "sane.d/" "acpi/" "fonts/" "pkcs11/" ".pwd.lock" "ssl/" "issue.net" "insserv.conf" "gdb/" "apport/" "gconf/" "environment" "rc4.d/" "adjtime" "ODBCDataSources/" "lsb-base-logging.sh" "pam.conf" "gnome-vfs-2.0/" "magic" "snmp/" "wpa_supplicant/" "motd" "gai.conf" "byobu/" "NetworkManager/" "mtools.conf" "resolv.conf" "odbc.ini" "cron.hourly/" "fstab.d/" "lsb-base/" "adduser.conf" "odbcinst.ini" "gnome/" "logrotate.conf" "rc1.d/" "mime.types" "gtk-3.0/" "security/" "shells" "securetty" "X11/" "protocols" "dictd/" "at-spi2/" "update-notifier/" "cron.monthly/" "hosts" "pnm2ppa.conf" "updatedb.conf" "bonobo-activation/" "pulse/" "networks" "init.d/" "brlapi.key" "colord.conf" "rc0.d/" "rcS.d/" "mysql/" "manpath.config" "vim/" "nanorc" "update-motd.d/" "pcmcia/" "hosts.deny" "profile.d/" "logrotate.d/" "dhcp/" "kernel/" "apg.conf" "apache2/" "network/" "emacs23/" "shadow" "netscsid.conf" "samba/" "alternatives/" "ltrace.conf" "blkid.tab" "sudoers.d/" "perl/" "pam.d/" "ld.so.cache" "python2.7/" "opt/" ".java/" "cupshelpers/" "chatscripts/" "sensors.d/" "cups/" "debconf.conf" "hosts.ac" "ghostscript/" "hostname" "mailcap" "mke2fs.conf" "resolvconf/" "rc6.d/" "systemd/" "../" "./")
+
+ ("/var/www/extension_cord/extension_cord/static/" (20585 12502) "./" "ajax-loader.gif" "js/" "jquery-1.7.2.min.js" "jqGrid/" "admins" "jquery.validate.min.js" "admin/" "scripts/" "bootstrap/" "jquery.numeric.js" "../" "dist/" "jquery/" "style.css" "favicon1.ico" "phase-adder.js")
+
+ ("/var/www/extension_cord/ecapp/" (20585 10991) "models.pyc" "migrations/" "admin.pyc" "./" "models.py" "__init__.pyc" "tests.py" "views/" "__init__.py" "logout.pyc" "login.py" "logout.py" "sql/" "../" "admin.py")
+
+ ("/home/deepak/" (20585 54329) "sampleweb.py" ".pulse/" ".local/" "websites/" ".vboxclient-display.pid" "Videos/" "deepak-emacs-python/" "couchdb/" ".dbus/" ".thumbnails/" ".xsession-errors.old" "./" ".eshell/" ".vboxclient-clipboard.pid" ".mission-control/" ".gvfs/" ".gconf/" "Public/" ".pulse-cookie" ".gitconfig" ".p4tickets" ".vboxclient-seamless.pid" ".fontconfig/" ".ido.last" "selenium/" ".bashrc" ".dmrc" ".cache/" "Desktop/" "deepak-voltage/" ".bash_history" ".gnome2_private/" ".bash_logout" "Downloads/" ".gksu.lock" ".lesshst" ".gstreamer-0.10/" ".mozilla/" ".bashrc~" ".emacs.d/" ".byobu/" ".gnome2/" "Music/" ".pki/" ".ICEauthority" ".p4admin/" ".p4qt/" ".pylint.d/" ".Xauthority" ".mysql/" "Pictures/" ".xsession-errors" "p4/" "examples.desktop" ".post-review-cookies.txt" ".ssh/" ".macromedia/" ".gtk-bookmarks" ".adobe/" "../" "sampleweb.py~" "Perforce/" ".screenrc" ".p4ob/" "Templates/" ".profile" ".config/" ".mysql_history" ".emacs" ".pip/" ".java/" ".anyconnect" ".p4merge/" "Documents/")
+
+ ("/etc/apache2/sites-enabled/" (20582 14696) "./" "reveal" "000-default.bkup" "../" "extension_cord")
+
+ ("/etc/apache2/sites-available/" (20548 22196) "./" "reveal" "default" "default-ssl" "default~" "../" "extension_cord")
+
+ ("/etc/apache2/" (20512 2489) "envvars" "mods-available/" "mods-enabled/" "./" "ports.conf" "conf.d/" "sites-enabled/" "magic" "apache2.conf" "../" "sites-available/" "httpd.conf")
+
+ ("/var/www/extension_cord/" (20512 1786) "manage.py" "./" ".git/" "SETTING_SUPERUSERS" "django.wsgi" "ecapp/" "../" "apache_files/" "extension_cord/")
+
+ ("/var/www/" (20548 19673) "manage.py" "./" ".git/" "reveal/" "SETTING_SUPERUSERS" "index.html" "test/" "../" "extension_cord/")
+
+ ("/var/" (20579 34281) "www/" "run/" "./" "lock/" "log/" "mail/" "cache/" "lib/" "crash/" "backups/" "spool/" "games/" "../" "local/" "tmp/" "opt/")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/" (20579 28784) "envstatus_tools/" "Voltageconfig/" "srv_tool/" "PROFILERS/" "scm_htdocs/" "eclipse/" "./" "PLUGINS/" "haproxy/" "build/" "scm_conf/" "atlas/" "activemq/" "Deployments/" "ASSEMBLIES/" "perfeng/" "tibco/" "Voltage/" "cacti_configs/" "freepaas/" "Internal/" "hotpatch/" "deepak-voltage.git/" "../" "Ninja/" "Builds/" "java_tmp/" "dynaTrace/" "Deployer/" "gtools/")
+
+ ("/home/deepak/deepak-emacs-python/themes/color-theme-6.6.0/" (20551 54170) "AUTHORS" "COPYING" "build-stamp" "./" "README" "color-theme.elc" "color-theme-autoloads.in" "Makefile.defs" "Makefile" "BUGS" "ChangeLog" "color-theme.el" "themes/" "../" "HACKING" "configure-stamp")
+
+ ("/home/deepak/deepak-emacs-python/themes/" (20551 54170) "color-theme-6.6.0/" "./" "zenburn.el" "../" "color-theme-6.6.0.tar")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/" (20579 28343) "@\317@@\360\227\370@8" "voltage/" "setup.py" "tests/" "proc_voltage/" "./" "proc_test/" ".git/" "filelists/" "config/" "ApiResponseTime.csv" "packaging/" "build/" "lib/" "pom.xml" "assembly.xml" "_test.txt" "nbproject/" "scripts/" "bin/" "MANIFEST.in" "../" "selftests/" "chromedriver.log" ".reviewboardrc" "firefox-profile/" ".project" "docs/" "firefox-addons/" ".pydevproject")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/tests/ExpMgmt/Functional/AcceptanceTestSuite/" (20576 58102) "TestItemizeLineItem.py" "TestTakeBackReport.pyc" "TestCreateAdjustment.pyc" "TestOutOfPolicyLineItem.pyc" "TestDeleteReport.py" "TestUploadReceiptReport.pyc" "TestDetailsSubmitReport.py" "TestDeleteReport.pyc" "./" "TestDeleteLineItem.py" "TestApproveReportDenyLineItem.pyc" "TestCreateLineItemDiffCurrency.py" "TestCreateLineItemDiffCurrency.pyc" "TestUpdateLineItem.py" "TestPayReport.pyc" "TestApproveReportDenyLineItem.py" "TestPayReport.py" "TestHistoryApprovedReport.py" "TestUpdateLineItem.pyc" "TestCreateLineItem.py" "TestTakeBackReport.py" "TestUploadReceiptReport.py" "TestCreateLineItem.pyc" "TestHistoryApprovedReport.pyc" "TestSubmitLineItem.pyc" "../" "TestOutOfPolicyLineItem.py" "TestCopyLineItem.pyc" "TestCreateAdjustment.py" "TestCopyLineItem.py" "TestItemizeLineItem.pyc" "TestApproverReport.pyc" "TestSubmitLineItem.py" "TestApproverReport.py" "TestDetailsSubmitReport.pyc" "TestDeleteLineItem.pyc")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/tests/ExpMgmt/Functional/" (20576 57232) "ReportAmountTest/" "Policy/" "./" "LIneItemOperations/" "DynamicLabelTransactionDrawer/" "ReportOperations/" "Adjustments/" "AcceptanceTestSuite/" "Currency/" "Receipts/" "../" "Webdriver2/" "HistoryDetails/" "Payment/")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/tests/ExpMgmt/" (20576 57232) "Archived/" "Functional/" "./" "Api/" "__init__.py" "data/" "scripts/" "../")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/TOOLS/Voltage/tests/" (20576 57230) "example.txt" "ExpMgmt/" "UI/" "example_unittest.txt" "location/" "demo.py" "./" "profile/" "SelfService_Help/" "ps/" "demo_webdriver.py" "dummy_tests/" "partner/" "__init__.py" "acceptance/" "shopwithpoints/" "platform/" "dashboard/" "travel_rest_api/" "tcatadmin/" "chase_automation_suite/" "userapp/" "channel_chase/" "Mobile/" "../" "gw/" "procurement/" "dvt/" "procurement_ui/")
+
+ ("/home/deepak/p4/dsubramanian-p4voltage/" (20576 57573) "./" "APPS/" "TOOLS/" "../" "3rdParty/")
+
+ ("/home/deepak/Downloads/" (20574 2130) "./" "jdk-6u32-linux-i586.bin" "screenshot.jpg" "chromedriver_linux32_23.0.1240.0.zip" "browser.py.backup" "jre-7u7-linux-i586.tar.gz" "firefox/" "google-chrome-stable_current_i386.deb" "chromedriver" "p4v-2012.1.490402/" "../" "jre1.7.0_07/" "p4v.tgz" "firefox-10.0.tar.bz2" "google-chrome-stable_current_i386(1).deb" "vpnsetup.sh")
+
+ ("/home/deepak/Documents/" (20485 65108) "./" "../")
+
+ ("/home/" (20485 64846) "./" "deepak/" "../")
+
+ ("/home/deepak/p4/" (20496 32803) "./" "dsubramanian-p4voltage/" "p4-voltage/" "../")
+)
+
+;; ----- ido-unc-hosts-cache -----
+t

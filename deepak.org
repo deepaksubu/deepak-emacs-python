@@ -245,12 +245,14 @@ Analysis: In case of selenium RC, there is a generic method called find elements
 
 ** DONE Install emacs 2.4
    CLOSED: [2012-08-14 Tue 10:20]
-** TODO Setup emacs for python
+** DONE Setup emacs for python
+   CLOSED: [2012-09-28 Fri 16:52]
 ** DONE Update the change to the mac
    CLOSED: [2012-08-17 Fri 17:09]
 ** DONE Setup voltage on the mac
    CLOSED: [2012-08-17 Fri 17:09]
-** TODO Find out the errrors which are occurring when using the webdriver
+** DONE Find out the errrors which are occurring when using the webdriver
+   CLOSED: [2012-09-28 Fri 16:52]
 *** DONE Find out the reason and the fix for the below errors for the test
     CLOSED: [2012-08-15 Wed 12:05]
     http://ninja.mygazoo.com/rcat/detail?id=12-08-13-11-28-06-dsubramanian_25124-qa3
@@ -290,6 +292,9 @@ xo
 *** TODO Look at alternatives on how this can be solved and talk to the testing team who frequently use xpaths.      
     This is not supported by seleniumx2
     
+
+** TODO Run Extension Cord
+
 * Personal Tasks
 ** TODO Pay Electricity Bill
 ** TODO Deposit Cheque

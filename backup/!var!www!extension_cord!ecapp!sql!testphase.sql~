@@ -1,0 +1,2 @@
+INSERT INTO ecapp_person (first_name, last_name) VALUES ('Phase1');
+INSERT INTO ecapp_person (first_name, last_name) VALUES ('Phase2');

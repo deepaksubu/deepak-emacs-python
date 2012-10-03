@@ -1,0 +1,152 @@
+{% extends "filter_base.html" %}
+
+{% block title %}
+Add Test Phase
+{% endblock %}
+
+{% block post_js %}
+{{ block.super }}
+
+<script type='text/javascript'>
+$(document).ready(function(){
+  makeRequired();
+})
+
+// RECEIVE JSON cat_map
+var cat_map = {{ cat_map|safe }}
+//cat_map is a dictionary with its key as the pk of a category, and its value as the category name
+// e.g cat_map[2] == "Policy"  is true
+
+
+// RECEIVE JSON prod_map. similar to cat_map
+var prod_map = {{ prod_map|safe }}
+
+// RECEIVE JSON currentEdit. similar to cat_map.
+// currentEdit is an array of strings with ID's that are already/going to be included in a testplan
+// e.g ['id_1','id_5']
+var currentEdit = {{ currentEdit|safe }}
+
+</script>
+
+<script src="/static/js/test_plan_form.js" type="text/javascript"></script>
+
+
+<style media="screen" type="text/css">
+    .defaultText { width: 300px; }
+    .defaultTextActive { color: #a1a1a1; font-style: italic; }
+</style>
+<script language="javascript">
+<!--
+$(document).ready(function()
+{
+    $(".defaultText").focus(function(srcc)
+    {
+        if ($(this).val() == $(this)[0].title)
+        {
+            $(this).removeClass("defaultTextActive");
+            $(this).val("");
+        }
+    });
+    
+    $(".defaultText").blur(function()
+    {
+        if ($(this).val() == "")
+        {
+            $(this).addClass("defaultTextActive");
+            $(this).val($(this)[0].title);
+        }
+    });
+    
+    $(".defaultText").blur();        
+});
+//-->
+</script>
+ <script language="javascript" type="text/javascript" src="/static/phase-adder.js"></script>
+{% endblock %}
+ 
+
+{% block content %}
+
+<div class="span10" id="content">
+<div class="well">
+<form method="post" action="." class="form-horizontal" id="Form">
+
+{% csrf_token %}
+<!-- interactive table starts here. where u add test cases -->
+<!-- a) Here you will have a lookup of test phases -->
+<!-- b) You will also have a means of creating a new test phase if the old ones are not sufficient -->
+<!-- c) Once the test phase is selected, each test case will now be associated with this phase
+  -->
+<div id="selectTestPhase">
+<legend><h2>Select Test Phase to add to the Test Plan {{ testplan }}</h2></legend>
+<select id="testPhaseSelector">
+{% for entry in phases %}
+<option id="phase_{{ entry.id }}" value = {{ entry.name }}>{{ entry.name }}</option>
+{% endfor %}
+</select>
+</div>
+
+<div id="addTestPhase">
+  <legend><h2>Add a new Test Phase Here if required</h2></legend>
+  <input class="defaultText" type="text" id="phasename" title="Press Return on adding the phase name"><br>
+  <span id="phaseAddMessage" visibility="visible"></span>
+ </div>
+<!-- interactive table starts here. where u add test cases -->
+<div id="addTestCases"  style="visibility:hidden;">
+  <legend><h2> Add test cases </h2></legend>
+  {% block filter_sidebar %} {{ block.super }} {% endblock %}
+  <div class="span9" id="bothTables">
+    <center>Add test cases from the bottom table to the top table with the "<i class="icon-plus"></i>" in order to include test cases.</center>
+    <br><br>
+    <input type="submit" class="btn btn-info" value="Submit"/>
+</form>
+
+    <!-- This div is where you see which test cases you have selected -->
+    <div class="span12" id="toEdit">
+      
+      <h2> Active Test Cases </h2>
+      <table class="table table-bordered table-condensed" id=toEditTable>
+	<thead>
+          <tr>
+            <th class="removeCol"> Remove </th>
+            <th> ID </th>
+            <th> Name </th>
+          </tr>
+	</thead>
+	<tbody>
+	</tbody>
+      </table>
+      
+    </div>  <!-- End id="toEdit where you view which test cases you have selected -->
+    <br>
+    
+    <!-- this div is where you see all the test cases and choose which to add -->
+  <div id="table" class="span12">
+    <h2> All Test Cases </h2>
+    <table class="table table-bordered table-condensed" id="activeTable">
+      <thead>
+	<tr>
+	  <th> Add </th>
+	  <th> ID </th>
+	  <th> Name </th>
+	  <th> Category </th>
+	</tr>
+      </thead>
+      <tbody>
+	{% for entry in tests %}
+	<tr>
+	  <td><a href="#" class="add" onclick="return false" id="id_{{entry.id}}" value={{entry.id}}> <i class="icon-plus" id="id_{{entry.id}}"></i> </a></td>
+	  <td> {{ entry.id }} </td>
+	  <td><a href="{{ entry.get_absolute_url }}" class="name" id="id_{{entry.id}}"> {{ entry.name }} </a></td>
+	  <td class="category" id="id_{{entry.id}}"> {{ entry.category }} </td>
+	</tr>
+	{% endfor %}
+      </tbody>
+    </table>
+    <!-- Next/Prev page links  -->
+    {% block ajaxPagination %}{{ block.super }}{% endblock %}
+    <!--- END pagination --->
+  </div> <!-- End id="table" , where you add test cases-->
+  </div> <!-- End id="bothTables" -->
+</div> <!-- End id="addTestCases" -->
+{% endblock %}
