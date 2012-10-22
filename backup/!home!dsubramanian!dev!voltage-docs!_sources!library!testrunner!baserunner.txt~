@@ -1,8 +1,0 @@
-:mod:`voltage.testrunner.baserunner` -- BaseRunner Object
-=================================================
-
-.. index::
-   single: baserunner
-
-.. automodule:: voltage.testrunner.BaseRunner
-   :members:

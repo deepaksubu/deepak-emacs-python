@@ -1,9 +1,0 @@
-;;add zenburn color theme
-;;;Deepak Python Support for emacs begin)
-(add-to-list 'load-path "~/.emacs.d/themes")
-(add-to-list 'load-path "~/.emacs.d/themes/color-theme-6.6.0")
-(add-to-list 'load-path "~/.emacs.d/themes/color-theme-6.6.0/themes")
-(require 'color-theme)
-(require 'zenburn)
-;; (color-theme-initialize)
-;;(color-theme-robin-hood)
