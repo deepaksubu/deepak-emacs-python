@@ -1,0 +1,7 @@
+1) Install south
+2) Edit settings to add south to installed apps
+3) do syncdb to add south to the database
+4) convert the ecapp app to south
+5) Checkout the master branch
+6) For any issues, you can do git clean  -d  -fx ""
+7) Run ./migrate ecapp --auto and south will apply all the necessary changes to the database
