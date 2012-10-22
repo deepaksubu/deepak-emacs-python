@@ -76,6 +76,10 @@ Complete or indent depending on the context.
 If content before pointer is all whitespace indent.  If not try
 to complete.
 
+empty-line-p
+------------
+Returns t if cursor is at an line with nothing but whitespace-characters, nil otherwise.
+
 py-count-lines
 --------------
 Count lines in accessible part until current line.
@@ -147,33 +151,6 @@ default (global) value to that.  The associated Python process is
 the one that gets input from M-x python-send-region et al when used
 in a buffer that doesn't have a local value of `python-buffer'.
 
-python-fill-paragraph
----------------------
-`fill-paragraph-function' handling multi-line strings and possibly comments.
-If any of the current line is in or at the end of a multi-line string,
-fill the string or the paragraph of it that point is in, preserving
-the string's indentation.
-
-python-shift-left
------------------
-Shift lines in region COUNT (the prefix arg) columns to the left.
-COUNT defaults to `py-indent-offset'.  If region isn't active, just shift
-current line.  The region shifted includes the lines in which START and
-END lie.  It is an error if any lines in the region are indented less than
-COUNT columns.
-
-python-shift-right
-------------------
-Shift lines in region COUNT (the prefix arg) columns to the right.
-COUNT defaults to `py-indent-offset'.  If region isn't active, just shift
-current line.  The region shifted includes the lines in which START and
-END lie.
-
-python-mark-block
------------------
-Mark the block around point.
-Uses `python-beginning-of-block', `python-end-of-block'.
-
 python-find-imports
 -------------------
 Find top-level imports, updating `python-imports'.
@@ -191,7 +168,7 @@ py-electric-comment
 -------------------
 Insert a comment. If starting a comment, indent accordingly.
 
-If a numeric argument ARG is provided, that many colons are inserted
+If a numeric argument ARG is provided, that many "#" are inserted
 non-electrically.
 With C-u "#" electric behavior is inhibited inside a string or comment.
 
@@ -204,7 +181,9 @@ non-electrically.
 
 Electric behavior is inhibited inside a string or
 comment or by universal prefix C-u.
-Default is nil, controlled by `py-electric-colon-active-p'
+
+Switched by `py-electric-colon-active-p', default is nil
+See also `py-electric-colon-greedy-p' 
 
 py-electric-backspace
 ---------------------
@@ -336,7 +315,6 @@ By default, make a buffer-local copy of `py-indent-offset' with the
 new value.
 With optional argument GLOBAL change the global value of `py-indent-offset'.
 
-Indent might be guessed savely only from beginning of a block.
 Returns `py-indent-offset'
 
 py-narrow-to-defun
@@ -812,6 +790,12 @@ py-statement-opens-def-or-class-p
 ---------------------------------
 Return `t' if the statement opens a functions or class definition, nil otherwise. 
 
+py-look-downward-for-clause
+---------------------------
+If beginning of other clause exists downward in current block.
+
+If succesful return position. 
+
 py-current-defun
 ----------------
 Go to the outermost method or class definition in current scope.
@@ -835,144 +819,174 @@ Return the name of the function or class, if curser is in, return nil otherwise.
 
 py-beginning-of-block
 ---------------------
-Returns beginning of block if successful, nil otherwise.
+Go to beginning of block.
+
+Returns beginning of block if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-end-of-block
 ---------------
-Go to the end of block.
+Go to end of block.
 
-Returns position reached, if any, nil otherwise.
+Returns end of block if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-beginning-of-clause
 ----------------------
-Returns beginning of clause if successful, nil otherwise.
+Go to beginning of clause.
+
+Returns beginning of clause if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-end-of-clause
 ----------------
-Go to the end of clause.
+Go to end of clause.
 
-Returns position reached, if any, nil otherwise.
+Returns end of clause if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-beginning-of-block-or-clause
 -------------------------------
-Returns beginning of block-or-clause if successful, nil otherwise.
+Go to beginning of block-or-clause.
+
+Returns beginning of block-or-clause if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-end-of-block-or-clause
 -------------------------
-Go to the end of block-or-clause.
+Go to end of block-or-clause.
 
-Returns position reached, if any, nil otherwise.
+Returns end of block-or-clause if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-beginning-of-def
 -------------------
-Returns beginning of def if successful, nil otherwise.
+Go to beginning of def.
+
+Returns beginning of def if successful, nil otherwise
+
+With M-x universal argument or `py-mark-decorators' set to `t', decorators are marked too.
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-end-of-def
 -------------
-Go to the end of def.
+Go to end of def.
 
-Returns position reached, if any, nil otherwise.
+Returns end of def if successful, nil otherwise
+
+With M-x universal argument or `py-mark-decorators' set to `t', decorators are marked too.
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-beginning-of-class
 ---------------------
-Returns beginning of class if successful, nil otherwise.
+Go to beginning of class.
+
+Returns beginning of class if successful, nil otherwise
+
+With M-x universal argument or `py-mark-decorators' set to `t', decorators are marked too.
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-end-of-class
 ---------------
-Go to the end of class.
+Go to end of class.
 
-Returns position reached, if any, nil otherwise.
+Returns end of class if successful, nil otherwise
+
+With M-x universal argument or `py-mark-decorators' set to `t', decorators are marked too.
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-beginning-of-def-or-class
 ----------------------------
-Returns beginning of def-or-class if successful, nil otherwise.
+Go to beginning of def-or-class.
+
+Returns beginning of def-or-class if successful, nil otherwise
+
+With M-x universal argument or `py-mark-decorators' set to `t', decorators are marked too.
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-end-of-def-or-class
 ----------------------
-Go to the end of def-or-class.
+Go to end of def-or-class.
 
-Returns position reached, if any, nil otherwise.
+Returns end of def-or-class if successful, nil otherwise
+
+With M-x universal argument or `py-mark-decorators' set to `t', decorators are marked too.
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-beginning-of-if-block
 ------------------------
-Returns beginning of if-block if successful, nil otherwise.
+Go to beginning of if-block.
+
+Returns beginning of if-block if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-end-of-if-block
 ------------------
-Go to the end of if-block.
+Go to end of if-block.
 
-Returns position reached, if any, nil otherwise.
+Returns end of if-block if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-beginning-of-try-block
 -------------------------
-Returns beginning of try-block if successful, nil otherwise.
+Go to beginning of try-block.
+
+Returns beginning of try-block if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-end-of-try-block
 -------------------
-Go to the end of try-block.
+Go to end of try-block.
 
-Returns position reached, if any, nil otherwise.
+Returns end of try-block if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-beginning-of-minor-block
 ---------------------------
-Returns beginning of minor-block if successful, nil otherwise.
+Go to beginning of minor-block.
+
+Returns beginning of minor-block if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
 
 py-end-of-minor-block
 ---------------------
-Go to the end of minor-block.
+Go to end of minor-block.
 
-Returns position reached, if any, nil otherwise.
+Returns end of minor-block if successful, nil otherwise
 
 Referring python program structures see for example:
 http://docs.python.org/reference/compound_stmts.html
@@ -980,6 +994,8 @@ http://docs.python.org/reference/compound_stmts.html
 py-beginning-of-expression
 --------------------------
 Go to the beginning of a compound python expression.
+
+With numeric ARG do it that many times.
 
 A a compound python expression might be concatenated by "." operator, thus composed by minor python expressions.
 
@@ -993,6 +1009,8 @@ py-end-of-expression
 --------------------
 Go to the end of a compound python expression.
 
+With numeric ARG do it that many times.
+
 A a compound python expression might be concatenated by "." operator, thus composed by minor python expressions.
 
 Expression here is conceived as the syntactical component of a statement in Python. See http://docs.python.org/reference
@@ -1003,6 +1021,8 @@ py-beginning-of-partial-expression
 ----------------------------------
 Go to the beginning of a minor python expression.
 
+With numeric ARG do it that many times.
+
 "." operators delimit a minor expression on their level.
 Expression here is conceived as the syntactical component of a statement in Python. See http://docs.python.org/reference
 Operators however are left aside resp. limit py-expression designed for edit-purposes.
@@ -1012,6 +1032,8 @@ If already at the beginning or before a partial-expression, go to next partial-e
 py-end-of-partial-expression
 ----------------------------
 Go to the end of a minor python expression.
+
+With numeric ARG do it that many times.
 
 "." operators delimit a minor expression on their level.
 Expression here is conceived as the syntactical component of a statement in Python. See http://docs.python.org/reference
@@ -1044,7 +1066,7 @@ py-end-of-statement
 -------------------
 Go to the last char of current statement.
 
-To go just beyond the final line of the current statement, use `py-down-statement-lc'. 
+To go just beyond the final line of the current statement, use `py-down-statement-bol'. 
 
 py-goto-statement-below
 -----------------------
@@ -1298,97 +1320,484 @@ Go to the beginning of a list.
 Optional ARG indicates a start-position for `parse-partial-sexp'.
 Return beginning position, nil if not inside.
 
-py-down-block-lc
-----------------
+py-beginning-of-block-bol-p
+---------------------------
+Returns position, if cursor is at the beginning of block, at beginning of line, nil otherwise. 
+
+py-beginning-of-block-bol
+-------------------------
+Goto beginning of line where block starts.
+  Returns position reached, if successful, nil otherwise.
+
+See also `py-up-block': up from current definition to next beginning of block above. 
+
+py-end-of-block-bol
+-------------------
 Goto beginning of line following end of block.
-
-Returns position reached, if successful, nil otherwise.
-
-"-lc" stands for "left-corner" - a complementary command travelling left, whilst `py-end-of-block' stops at right corner.
+  Returns position reached, if successful, nil otherwise.
 
 See also `py-down-block': down from current definition to next beginning of block below. 
 
-py-down-clause-lc
+py-mark-block-bol
 -----------------
+Mark block, take beginning of line positions.
+
+Returns beginning and end positions of region, a cons. 
+
+py-copy-block-bol
+-----------------
+Delete block bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-kill-block-bol
+-----------------
+Delete block bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-delete-block-bol
+-------------------
+Delete block bol at point.
+
+Don't store data in kill ring. 
+
+py-beginning-of-clause-bol-p
+----------------------------
+Returns position, if cursor is at the beginning of clause, at beginning of line, nil otherwise. 
+
+py-beginning-of-clause-bol
+--------------------------
+Goto beginning of line where clause starts.
+  Returns position reached, if successful, nil otherwise.
+
+See also `py-up-clause': up from current definition to next beginning of clause above. 
+
+py-end-of-clause-bol
+--------------------
 Goto beginning of line following end of clause.
-
-Returns position reached, if successful, nil otherwise.
-
-"-lc" stands for "left-corner" - a complementary command travelling left, whilst `py-end-of-clause' stops at right corner.
+  Returns position reached, if successful, nil otherwise.
 
 See also `py-down-clause': down from current definition to next beginning of clause below. 
 
-py-down-def-lc
---------------
+py-mark-clause-bol
+------------------
+Mark clause, take beginning of line positions.
+
+Returns beginning and end positions of region, a cons. 
+
+py-copy-clause-bol
+------------------
+Delete clause bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-kill-clause-bol
+------------------
+Delete clause bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-delete-clause-bol
+--------------------
+Delete clause bol at point.
+
+Don't store data in kill ring. 
+
+py-beginning-of-block-or-clause-bol-p
+-------------------------------------
+Returns position, if cursor is at the beginning of block-or-clause, at beginning of line, nil otherwise. 
+
+py-beginning-of-block-or-clause-bol
+-----------------------------------
+Goto beginning of line where block-or-clause starts.
+  Returns position reached, if successful, nil otherwise.
+
+See also `py-up-block-or-clause': up from current definition to next beginning of block-or-clause above. 
+
+py-end-of-block-or-clause-bol
+-----------------------------
+Goto beginning of line following end of block-or-clause.
+  Returns position reached, if successful, nil otherwise.
+
+See also `py-down-block-or-clause': down from current definition to next beginning of block-or-clause below. 
+
+py-mark-block-or-clause-bol
+---------------------------
+Mark block-or-clause, take beginning of line positions.
+
+Returns beginning and end positions of region, a cons. 
+
+py-copy-block-or-clause-bol
+---------------------------
+Delete block-or-clause bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-kill-block-or-clause-bol
+---------------------------
+Delete block-or-clause bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-delete-block-or-clause-bol
+-----------------------------
+Delete block-or-clause bol at point.
+
+Don't store data in kill ring. 
+
+py-beginning-of-def-bol-p
+-------------------------
+Returns position, if cursor is at the beginning of def, at beginning of line, nil otherwise. 
+
+py-beginning-of-def-bol
+-----------------------
+Goto beginning of line where def starts.
+  Returns position reached, if successful, nil otherwise.
+
+See also `py-up-def': up from current definition to next beginning of def above. 
+
+py-end-of-def-bol
+-----------------
 Goto beginning of line following end of def.
-
-Returns position reached, if successful, nil otherwise.
-
-"-lc" stands for "left-corner" - a complementary command travelling left, whilst `py-end-of-def' stops at right corner.
+  Returns position reached, if successful, nil otherwise.
 
 See also `py-down-def': down from current definition to next beginning of def below. 
 
-py-down-class-lc
-----------------
+py-mark-def-bol
+---------------
+Mark def, take beginning of line positions.
+
+With M-x universal argument or `py-mark-decorators' set to `t', decorators are marked too.
+Returns beginning and end positions of region, a cons. 
+
+py-copy-def-bol
+---------------
+Delete def bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-kill-def-bol
+---------------
+Delete def bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-delete-def-bol
+-----------------
+Delete def bol at point.
+
+Don't store data in kill ring. 
+
+py-beginning-of-class-bol-p
+---------------------------
+Returns position, if cursor is at the beginning of class, at beginning of line, nil otherwise. 
+
+py-beginning-of-class-bol
+-------------------------
+Goto beginning of line where class starts.
+  Returns position reached, if successful, nil otherwise.
+
+See also `py-up-class': up from current definition to next beginning of class above. 
+
+py-end-of-class-bol
+-------------------
 Goto beginning of line following end of class.
-
-Returns position reached, if successful, nil otherwise.
-
-"-lc" stands for "left-corner" - a complementary command travelling left, whilst `py-end-of-class' stops at right corner.
+  Returns position reached, if successful, nil otherwise.
 
 See also `py-down-class': down from current definition to next beginning of class below. 
 
-py-down-statement-lc
---------------------
+py-mark-class-bol
+-----------------
+Mark class, take beginning of line positions.
+
+With M-x universal argument or `py-mark-decorators' set to `t', decorators are marked too.
+Returns beginning and end positions of region, a cons. 
+
+py-copy-class-bol
+-----------------
+Delete class bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-kill-class-bol
+-----------------
+Delete class bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-delete-class-bol
+-------------------
+Delete class bol at point.
+
+Don't store data in kill ring. 
+
+py-beginning-of-def-or-class-bol-p
+----------------------------------
+Returns position, if cursor is at the beginning of def-or-class, at beginning of line, nil otherwise. 
+
+py-beginning-of-def-or-class-bol
+--------------------------------
+Goto beginning of line where def-or-class starts.
+  Returns position reached, if successful, nil otherwise.
+
+See also `py-up-def-or-class': up from current definition to next beginning of def-or-class above. 
+
+py-end-of-def-or-class-bol
+--------------------------
+Goto beginning of line following end of def-or-class.
+  Returns position reached, if successful, nil otherwise.
+
+See also `py-down-def-or-class': down from current definition to next beginning of def-or-class below. 
+
+py-mark-def-or-class-bol
+------------------------
+Mark def-or-class, take beginning of line positions.
+
+With M-x universal argument or `py-mark-decorators' set to `t', decorators are marked too.
+Returns beginning and end positions of region, a cons. 
+
+py-copy-def-or-class-bol
+------------------------
+Delete def-or-class bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-kill-def-or-class-bol
+------------------------
+Delete def-or-class bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-delete-def-or-class-bol
+--------------------------
+Delete def-or-class bol at point.
+
+Don't store data in kill ring. 
+
+py-beginning-of-statement-bol-p
+-------------------------------
+Returns position, if cursor is at the beginning of statement, at beginning of line, nil otherwise. 
+
+py-beginning-of-statement-bol
+-----------------------------
+Goto beginning of line where statement starts.
+  Returns position reached, if successful, nil otherwise.
+
+See also `py-up-statement': up from current definition to next beginning of statement above. 
+
+py-end-of-statement-bol
+-----------------------
 Goto beginning of line following end of statement.
-
-Returns position reached, if successful, nil otherwise.
-
-"-lc" stands for "left-corner" - a complementary command travelling left, whilst `py-end-of-statement' stops at right corner.
+  Returns position reached, if successful, nil otherwise.
 
 See also `py-down-statement': down from current definition to next beginning of statement below. 
 
-py-down-statement
------------------
-Go to the beginning of next statement below in buffer.
+py-mark-statement-bol
+---------------------
+Mark statement, take beginning of line positions.
 
-Returns indentation if statement found, nil otherwise. 
+Returns beginning and end positions of region, a cons. 
+
+py-copy-statement-bol
+---------------------
+Delete statement bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-kill-statement-bol
+---------------------
+Delete statement bol at point.
+
+Stores data in kill ring. Might be yanked back using `C-y'. 
+
+py-delete-statement-bol
+-----------------------
+Delete statement bol at point.
+
+Don't store data in kill ring. 
+
+py-up-block
+-----------
+Go to the beginning of next block upwards in buffer.
+
+Return position if block found, nil otherwise. 
+
+py-up-minor-block
+-----------------
+Go to the beginning of next minor-block upwards in buffer.
+
+Return position if minor-block found, nil otherwise. 
+
+py-up-clause
+------------
+Go to the beginning of next clause upwards in buffer.
+
+Return position if clause found, nil otherwise. 
+
+py-up-block-or-clause
+---------------------
+Go to the beginning of next block-or-clause upwards in buffer.
+
+Return position if block-or-clause found, nil otherwise. 
+
+py-up-def
+---------
+Go to the beginning of next def upwards in buffer.
+
+Return position if def found, nil otherwise. 
+
+py-up-class
+-----------
+Go to the beginning of next class upwards in buffer.
+
+Return position if class found, nil otherwise. 
+
+py-up-def-or-class
+------------------
+Go to the beginning of next def-or-class upwards in buffer.
+
+Return position if def-or-class found, nil otherwise. 
 
 py-down-block
 -------------
 Go to the beginning of next block below in buffer.
 
-Returns indentation if block found, nil otherwise. 
+Return position if block found, nil otherwise. 
+
+py-down-minor-block
+-------------------
+Go to the beginning of next minor-block below in buffer.
+
+Return position if minor-block found, nil otherwise. 
 
 py-down-clause
 --------------
 Go to the beginning of next clause below in buffer.
 
-Returns indentation if clause found, nil otherwise. 
+Return position if clause found, nil otherwise. 
 
 py-down-block-or-clause
 -----------------------
 Go to the beginning of next block-or-clause below in buffer.
 
-Returns indentation if block-or-clause found, nil otherwise. 
+Return position if block-or-clause found, nil otherwise. 
 
 py-down-def
 -----------
 Go to the beginning of next def below in buffer.
 
-Returns indentation if def found, nil otherwise. 
+Return position if def found, nil otherwise. 
 
 py-down-class
 -------------
 Go to the beginning of next class below in buffer.
 
-Returns indentation if class found, nil otherwise. 
+Return position if class found, nil otherwise. 
 
 py-down-def-or-class
 --------------------
 Go to the beginning of next def-or-class below in buffer.
 
-Returns indentation if def-or-class found, nil otherwise. 
+Return position if def-or-class found, nil otherwise. 
+
+py-up-block-bol
+---------------
+Go to the beginning of next block upwards in buffer.
+
+Go to beginning of line.
+Return position if block found, nil otherwise. 
+
+py-up-minor-block-bol
+---------------------
+Go to the beginning of next minor-block upwards in buffer.
+
+Go to beginning of line.
+Return position if minor-block found, nil otherwise. 
+
+py-up-clause-bol
+----------------
+Go to the beginning of next clause upwards in buffer.
+
+Go to beginning of line.
+Return position if clause found, nil otherwise. 
+
+py-up-block-or-clause-bol
+-------------------------
+Go to the beginning of next block-or-clause upwards in buffer.
+
+Go to beginning of line.
+Return position if block-or-clause found, nil otherwise. 
+
+py-up-def-bol
+-------------
+Go to the beginning of next def upwards in buffer.
+
+Go to beginning of line.
+Return position if def found, nil otherwise. 
+
+py-up-class-bol
+---------------
+Go to the beginning of next class upwards in buffer.
+
+Go to beginning of line.
+Return position if class found, nil otherwise. 
+
+py-up-def-or-class-bol
+----------------------
+Go to the beginning of next def-or-class upwards in buffer.
+
+Go to beginning of line.
+Return position if def-or-class found, nil otherwise. 
+
+py-down-block-bol
+-----------------
+Go to the beginning of next block below in buffer.
+
+Go to beginning of line
+Return position if block found, nil otherwise 
+
+py-down-minor-block-bol
+-----------------------
+Go to the beginning of next minor-block below in buffer.
+
+Go to beginning of line
+Return position if minor-block found, nil otherwise 
+
+py-down-clause-bol
+------------------
+Go to the beginning of next clause below in buffer.
+
+Go to beginning of line
+Return position if clause found, nil otherwise 
+
+py-down-block-or-clause-bol
+---------------------------
+Go to the beginning of next block-or-clause below in buffer.
+
+Go to beginning of line
+Return position if block-or-clause found, nil otherwise 
+
+py-down-def-bol
+---------------
+Go to the beginning of next def below in buffer.
+
+Go to beginning of line
+Return position if def found, nil otherwise 
+
+py-down-class-bol
+-----------------
+Go to the beginning of next class below in buffer.
+
+Go to beginning of line
+Return position if class found, nil otherwise 
+
+py-down-def-or-class-bol
+------------------------
+Go to the beginning of next def-or-class below in buffer.
+
+Go to beginning of line
+Return position if def-or-class found, nil otherwise 
 
 py-forward-into-nomenclature
 ----------------------------
@@ -1421,10 +1830,6 @@ Toggle py-execute-keep-temporary-file-p
 py-guess-default-python
 -----------------------
 Defaults to "python", if guessing didn't succeed. 
-
-py-set-shell-completion-environment
------------------------------------
-Sets `...-completion-command-string' and `py-complete-function'. 
 
 py-set-ipython-completion-command-string
 ----------------------------------------
@@ -1859,110 +2264,6 @@ Process "python filename",
 Optional OUTPUT-BUFFER and ERROR-BUFFER might be given.')
 
 
-py-execute-statement
---------------------
-Send statement at point to a Python interpreter.
-
-When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
-See also `py-force-py-shell-name-p'.
-
-When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
-
-When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
-
-Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
-
-py-execute-block
-----------------
-Send block at point to a Python interpreter.
-
-When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
-See also `py-force-py-shell-name-p'.
-
-When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
-
-When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
-
-Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
-
-py-execute-block-or-clause
---------------------------
-Send block-or-clause at point to a Python interpreter.
-
-When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
-See also `py-force-py-shell-name-p'.
-
-When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
-
-When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
-
-Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
-
-py-execute-def
---------------
-Send def at point to a Python interpreter.
-
-When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
-See also `py-force-py-shell-name-p'.
-
-When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
-
-When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
-
-Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
-
-py-execute-class
-----------------
-Send class at point to a Python interpreter.
-
-When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
-See also `py-force-py-shell-name-p'.
-
-When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
-
-When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
-
-Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
-
-py-execute-def-or-class
------------------------
-Send def-or-class at point to a Python interpreter.
-
-When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
-See also `py-force-py-shell-name-p'.
-
-When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
-
-When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
-
-Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
-
-py-execute-expression
----------------------
-Send expression at point to a Python interpreter.
-
-When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
-See also `py-force-py-shell-name-p'.
-
-When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
-
-When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
-
-Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
-
-py-execute-partial-expression
------------------------------
-Send partial-expression at point to a Python interpreter.
-
-When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
-See also `py-force-py-shell-name-p'.
-
-When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
-
-When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
-
-Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
-
 py-execute-line
 ---------------
 Send current line from beginning of indent to Python interpreter. 
@@ -2016,6 +2317,8 @@ py-find-imports
 ---------------
 Find top-level imports, updating `python-imports'.
 
+Returns python-imports
+
 py-eldoc-function
 -----------------
 Print help on symbol at point. 
@@ -2030,11 +2333,13 @@ py-describe-mode
 ----------------
 Dump long form of `python-mode' docs.
 
-py-find-function
-----------------
+py-find-definition
+------------------
 Find source of definition of function NAME.
 
 Interactively, prompt for name.
+
+Search in current buffer first. 
 
 py-update-imports
 -----------------
@@ -2138,11 +2443,7 @@ Transforms the item on current in a print statement.
 
 py-switch-imenu-index-function
 ------------------------------
-For development only. Good old renamed `py-imenu-create-index'-function hangs with medium size files already. Working `py-imenu-create-index-new' is active by default.
-
-Switch between classic index machine `py-imenu-create-index'-function and new `py-imenu-create-index-new'.
-
-The former may provide a more detailed report, thus delivering two different index-machines is considered. 
+Switch between series 5. index machine `py-imenu-create-index' and `py-imenu-create-index-new', which also lists modules variables 
 
 py-choose-shell-by-path
 -----------------------
@@ -2214,6 +2515,24 @@ py-smart-indentation-off
 Make sure, `py-smart-indentation' is off.
 
 Returns value of `py-smart-indentation'. 
+
+py-toggle-smart-operator
+------------------------
+If `py-smart-operator-mode-p' should be on or off.
+
+Returns value of `py-smart-operator-mode-p' switched to. 
+
+py-smart-operator-mode-on
+-------------------------
+Make sure, `py-smart-operator-mode-p' is on.
+
+Returns value of `py-smart-operator-mode-p'. 
+
+py-smart-operator-mode-off
+--------------------------
+Make sure, `py-smart-operator-mode-p' is off.
+
+Returns value of `py-smart-operator-mode-p'. 
 
 py-toggle-split-windows-on-execute
 ----------------------------------
@@ -2292,68 +2611,13 @@ Returns `t' if successful.
 py-guess-py-install-directory
 -----------------------------
 Takes value of user directory aka $HOME
-if `(locate-library "python-mode")' is not succesful. 
+if `(locate-library "python-mode")' is not succesful.
+
+Used only, if `py-install-directory' is empty. 
 
 py-set-load-path
 ----------------
 Include needed subdirs of python-mode directory. 
-
-autopair-insert-or-skip-quote
------------------------------
-Insert or possibly skip over a quoting character.
-
-Works by scheduling possible autopair behaviour, then calls
-original command as if autopair didn't exist.
-
-autopair-insert-opening
------------------------
-Insert opening delimiter and possibly automatically close it.
-
-Works by scheduling possible autopair behaviour, then calls
-original command as if autopair didn't exist.
-
-autopair-skip-close-maybe
--------------------------
-Insert or possibly skip over a closing delimiter.
-
-Works by scheduling possible autopair behaviour, then calls
-original command as if autopair didn't exist.
-
-autopair-backspace
-------------------
-Possibly delete a pair of paired delimiters.
-
-Works by scheduling possible autopair behaviour, then calls
-original command as if autopair didn't exist.
-
-autopair-newline
-----------------
-Do a smart newline when right between parenthesis.
-
-In other words, insert an extra newline along with the one inserted normally
-by this command. Then place point after the first, indented.
-
-Works by scheduling possible autopair behaviour, then calls
-original command as if autopair didn't exist.
-
-autopair-extra-insert-opening
------------------------------
-Insert (an extra) opening delimiter and possibly automatically close it.
-
-Works by scheduling possible autopair behaviour, then calls
-original command as if autopair didn't exist.
-
-autopair-extra-skip-close-maybe
--------------------------------
-Insert or possibly skip over a (and extra) closing delimiter.
-
-Works by scheduling possible autopair behaviour, then calls
-original command as if autopair didn't exist.
-
-autopair-insert-or-skip-paired-delimiter
-----------------------------------------
-Insert or possibly skip over a character with a syntax-class of "paired delimiter".Works by scheduling possible autopair behaviour, then calls
-original command as if autopair didn't exist.
 
 py-edit-abbrevs
 ---------------
@@ -2460,7 +2724,9 @@ py-script-complete
 
 py-python-script-complete
 -------------------------
-Complete word before point, if any. Otherwise insert TAB. 
+Complete word before point, if any.
+
+When `py-no-completion-calls-dabbrev-expand-p' is non-nil, try dabbrev-expand. Otherwise, when `py-indent-no-completion-p' is non-nil, call `tab-to-tab-stop'. 
 
 py-python2-shell-complete
 -------------------------
@@ -2563,6 +2829,110 @@ Issue a virtualenvwrapper-like virtualenv-workon command
 py-toggle-local-default-use
 ---------------------------
 
+
+py-execute-statement
+--------------------
+Send statement at point to a Python interpreter.
+
+When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
+See also `py-force-py-shell-name-p'.
+
+When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
+
+When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
+
+Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
+
+py-execute-block
+----------------
+Send block at point to a Python interpreter.
+
+When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
+See also `py-force-py-shell-name-p'.
+
+When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
+
+When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
+
+Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
+
+py-execute-block-or-clause
+--------------------------
+Send block-or-clause at point to a Python interpreter.
+
+When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
+See also `py-force-py-shell-name-p'.
+
+When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
+
+When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
+
+Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
+
+py-execute-def
+--------------
+Send def at point to a Python interpreter.
+
+When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
+See also `py-force-py-shell-name-p'.
+
+When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
+
+When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
+
+Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
+
+py-execute-class
+----------------
+Send class at point to a Python interpreter.
+
+When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
+See also `py-force-py-shell-name-p'.
+
+When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
+
+When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
+
+Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
+
+py-execute-def-or-class
+-----------------------
+Send def-or-class at point to a Python interpreter.
+
+When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
+See also `py-force-py-shell-name-p'.
+
+When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
+
+When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
+
+Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
+
+py-execute-expression
+---------------------
+Send expression at point to a Python interpreter.
+
+When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
+See also `py-force-py-shell-name-p'.
+
+When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
+
+When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
+
+Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
+
+py-execute-partial-expression
+-----------------------------
+Send partial-expression at point to a Python interpreter.
+
+When called with M-x univeral-argument, execution through `default-value' of `py-shell-name' is forced.
+See also `py-force-py-shell-name-p'.
+
+When called with M-x univeral-argument followed by a number different from 4 and 1, user is prompted to specify a shell. This might be the name of a system-wide shell or include the path to a virtual environment.
+
+When called from a programm, it accepts a string specifying a shell which will be forced upon execute as argument.
+
+Optional arguments DEDICATED (boolean) and SWITCH (symbols 'noswitch/'switch)
 
 py-execute-statement-python
 ---------------------------
@@ -4411,4 +4781,11 @@ Send line at point to Python3.2 unique interpreter.
 py-execute-line-python3\.2-dedicated-switch
 -------------------------------------------
 Send line at point to Python3.2 unique interpreter and switch to result. 
+
+py-load-pymacs
+--------------
+Load Pymacs as delivered with python-mode.el.
+
+Pymacs has been written by François Pinard and many others.
+See original source: http://pymacs.progiciels-bpi.ca
 
