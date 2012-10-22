@@ -37,6 +37,13 @@
 (require 'python-pep8)
 (require 'python-pylint)
 
+(add-hook 'python-mode-hook
+          #'(lambda () (push '(?' . ?')
+                              (getf autopair-extra-pairs :code))
+ (setq autopair-handle-action-fns
+      (list #'autopair-default-handle-action
+            #'autopair-python-triple-quote-action))))
+
 (defun python-add-breakpoint ()
   (interactive)
   (py-newline-and-indent)
