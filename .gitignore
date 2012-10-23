@@ -1,0 +1,6 @@
+autosave
+backup
+*.gz
+*.bz2
+*.zip
+downloads
