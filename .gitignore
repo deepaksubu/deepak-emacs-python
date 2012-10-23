@@ -4,3 +4,5 @@ backup
 *.bz2
 *.zip
 downloads
+private
+emacs-24.1
