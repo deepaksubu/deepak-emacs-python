@@ -6,3 +6,6 @@ backup
 downloads
 private
 emacs-24.1
+*~
+session.*
+*.rtf
