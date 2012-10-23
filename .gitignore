@@ -1,0 +1,11 @@
+autosave
+backup
+*.gz
+*.bz2
+*.zip
+downloads
+private
+emacs-24.1
+*~
+session.*
+*.rtf
