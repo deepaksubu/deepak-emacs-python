@@ -18,7 +18,7 @@
 ;;add auto indentation support with each new line
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
-(define-key global-map (kbd "f2 c") 'helm-browse-code)
+(define-key global-map (kbd "<f2>") 'helm-browse-code)
 
 ;;line number support
 (global-linum-mode 1)
@@ -30,12 +30,32 @@
 (ido-mode 1)
 (setq ido-enable-flex-matching t)
 
+
+(require 'comint)
+(define-key comint-mode-map (kbd "M-") 'comint-next-input)
+(define-key comint-mode-map (kbd "M-") 'comint-previous-input)
+(define-key comint-mode-map [down] 'comint-next-matching-input-from-input)
+(define-key comint-mode-map [up] 'comint-previous-matching-input-from-input)
+
+
 ;;Inhibit the startup screen in emacs
 (setq inhibit-startup-message t
       inhibit-startup-echo-area-message t)
 
 ;;move between frames using shift keys
 (windmove-default-keybindings)
+
+;;autocomplete
+(add-to-list 'load-path "/home/dsubramanian/.emacs.d/autocomplete/")
+(require 'auto-complete-config)
+(add-to-list 'ac-dictionary-directories "/home/dsubramanian/.emacs.d/autocomplete//ac-dict")
+(ac-config-default)
+
+;;yassnippet
+(add-to-list 'load-path
+              "~/.emacs.d/yasnippet")
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;;python support
 (add-to-list 'load-path "~/.emacs.d/deepak-python.el")
@@ -75,6 +95,11 @@
       (if first-time
 	  (server-start))))
 (byte-recompile-directory "~/.emacs.d/" 0)
+
+;; Add Emacs close confirmation
+(setq kill-emacs-query-functions
+      (cons (lambda () (yes-or-no-p "Really kill Emacs?"))
+     kill-emacs-query-functions))
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.

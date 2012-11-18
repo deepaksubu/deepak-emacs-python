@@ -1,4 +1,3 @@
-;;ewjdsfjsdjfdflkja;sdfjk
 ;;Deepak Python Support for emacs begin
 (add-to-list 'load-path "~/.emacs.d/python/python-mode") 
 (setq py-install-directory "~/.emacs.d/python/python-mode")
@@ -6,32 +5,14 @@
 (add-to-list 'auto-mode-alist '("\\.py\\'" . python-mode))
 (add-to-list 'interpreter-mode-alist '("python" . python-mode))
 
-;;Deepak Support for Ipython
+(add-to-list 'load-path "~/.emacs.d/python") 
+(require 'pymacs)
+(pymacs-load "ropemacs" "rope-")
+(setq ropemacs-enable-autoimport t)
+
 (add-to-list 'load-path "~/.emacs.d/python")
 (require 'ipython)
-;;(setq ipython-command "/.emacs.d/python/ipython")
 
-
-;;Support for autocomplete
-;; (add-to-list 'load-path "~/.emacs.d/python")
-;; (require 'anything)
-;; (require 'anything-ipython)
-;; (when (require 'anything-show-completion nil t)
-;;    (use-anything-show-completion 'anything-ipython-complete
-;;                                  '(length initial-pattern)))
-
-;;
-;;(require 'ac-python)
-;;(define-key python-mode-map (kbd "M-") 'anything-ipython-complete)
-;;(define-key python-shell-map (kbd "M-") 'anything-ipython-complete)
-;;(define-key python-mode-map (kbd "C-c M") 'anything-ipython-import-modules-from-buffer)
-
-;;Deal with interpreter
-(require 'comint)
-(define-key comint-mode-map (kbd "M-") 'comint-next-input)
-(define-key comint-mode-map (kbd "M-") 'comint-previous-input)
-(define-key comint-mode-map [down] 'comint-next-matching-input-from-input)
-(define-key comint-mode-map [up] 'comint-previous-matching-input-from-input)
 
 ;;Add pep8 and pylint to the mix
 (require 'python-pep8)
@@ -52,4 +33,19 @@
 
 (define-key python-mode-map (kbd "C-c C-t") 'python-add-breakpoint)
 
+(autoload 'pymacs-apply "pymacs")
+(autoload 'pymacs-call "pymacs")
+(autoload 'pymacs-eval "pymacs" nil t)
+(autoload 'pymacs-exec "pymacs" nil t)
+(autoload 'pymacs-load "pymacs" nil t)
+(autoload 'pymacs-autoload "pymacs")
+
+(add-to-list 'load-path "~/.emacs.d/django-mode") 
+(require 'django-html-mode)
+(require 'django-mode)
+(yas/load-directory "~/.emacs.d/django-mode/snippets")
+(add-to-list 'auto-mode-alist '("\\.djhtml$" . django-html-mode))
+
+;;(eval-after-load "pymacs"
+;;  '(add-to-list 'pymacs-load-path YOUR-PYMACS-DIRECTORY"))
 ;;(setq ipython-completion-command-string "print(';'.join(get_ipython().Completer.complete('%s')[1])) #PYTHON-MODE SILENT\n")
