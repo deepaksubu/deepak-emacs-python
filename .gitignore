@@ -2,7 +2,7 @@
 *.zip
 *.bz2
 *.elc
-%backup%
+%backup*
 autosave/
 backup/
 private/
