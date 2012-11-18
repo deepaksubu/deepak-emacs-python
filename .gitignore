@@ -3,6 +3,9 @@
 *.bz2
 *.elc
 %backup*
+*.rtf
+*~
+.#
 autosave/
 backup/
 private/
