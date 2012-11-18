@@ -18,7 +18,7 @@
 ;;add auto indentation support with each new line
 (define-key global-map (kbd "RET") 'newline-and-indent)
 
-(define-key global-map (kbd "<f2>-c") 'helm-browse-code)
+(define-key global-map (kbd "f2 c") 'helm-browse-code)
 
 ;;line number support
 (global-linum-mode 1)
@@ -74,7 +74,7 @@
     (progn
       (if first-time
 	  (server-start))))
-(byte-recompile-directory "." 0)
+(byte-recompile-directory "~/.emacs.d/" 0)
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.
