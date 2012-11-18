@@ -1,3 +1,10 @@
+;; Sources Credit
+;; Django mode is from https://github.com/myfreeweb/django-mode.git
+;; autocomplete is version 1.3.1 from http://cx4a.org/software/auto-complete/
+;; setup is inspired from http://www.saltycrane.com/blog/2010/05/my-emacs-python-environment/
+;; pymacs is version 1.25
+;; rope and ropemacs are the latest versions
+
 ;;Deepak Python Support for emacs begin
 (add-to-list 'load-path "~/.emacs.d/python/python-mode") 
 (setq py-install-directory "~/.emacs.d/python/python-mode")
