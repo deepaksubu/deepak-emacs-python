@@ -3,3 +3,5 @@
 *.bz2
 autosave/
 backup/
+private/
+download/
