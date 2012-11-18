@@ -1,6 +1,7 @@
 *.gz
 *.zip
 *.bz2
+*.elc
 autosave/
 backup/
 private/
