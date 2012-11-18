@@ -17,9 +17,11 @@
 (pymacs-load "ropemacs" "rope-")
 (setq ropemacs-enable-autoimport t)
 
+;;below is a hack to make ipython work
+(defvar py-mode-map python-mode-map)
+
 (add-to-list 'load-path "~/.emacs.d/python")
 (require 'ipython)
-
 
 ;;Add pep8 and pylint to the mix
 (require 'python-pep8)
@@ -50,7 +52,7 @@
 (add-to-list 'load-path "~/.emacs.d/django-mode") 
 (require 'django-html-mode)
 (require 'django-mode)
-(yas/load-directory "~/.emacs.d/django-mode/snippets")
+(yas-load-directory "~/.emacs.d/django-mode/snippets")
 (add-to-list 'auto-mode-alist '("\\.djhtml$" . django-html-mode))
 
 ;;(eval-after-load "pymacs"
