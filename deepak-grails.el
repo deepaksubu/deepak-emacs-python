@@ -1,0 +1,5 @@
+(add-to-list 'load-path "~/.emacs.d/Emacs-Groovy-Mode")
+(require 'groovy-mode)
+(require 'grails-mode)
+(require 'inf-groovy)
+(require 'groovy-electric)
