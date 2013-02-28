@@ -245,12 +245,14 @@ Analysis: In case of selenium RC, there is a generic method called find elements
 
 ** DONE Install emacs 2.4
    CLOSED: [2012-08-14 Tue 10:20]
-** TODO Setup emacs for python
+** DONE Setup emacs for python
+   CLOSED: [2012-09-28 Fri 16:52]
 ** DONE Update the change to the mac
    CLOSED: [2012-08-17 Fri 17:09]
 ** DONE Setup voltage on the mac
    CLOSED: [2012-08-17 Fri 17:09]
-** TODO Find out the errrors which are occurring when using the webdriver
+** DONE Find out the errrors which are occurring when using the webdriver
+   CLOSED: [2012-09-28 Fri 16:52]
 *** DONE Find out the reason and the fix for the below errors for the test
     CLOSED: [2012-08-15 Wed 12:05]
     http://ninja.mygazoo.com/rcat/detail?id=12-08-13-11-28-06-dsubramanian_25124-qa3
@@ -290,6 +292,53 @@ xo
 *** TODO Look at alternatives on how this can be solved and talk to the testing team who frequently use xpaths.      
     This is not supported by seleniumx2
     
+
+** DONE Run Extension Cord
+   CLOSED: [2012-10-05 Fri 11:51]
+
+** DONE Complete the webdriver review comments
+   CLOSED: [2012-10-05 Fri 12:45]
+** TODO Architect extension cord
+   Current Issues:
+   Unable to report based on phase
+   Currently, Quality Center is organized into folders and each team has a varying folder depth. 
+   Structure of the folders
+   Use a tag based structure for organizing test cases
+   First Issue
+   Each test case gets tagged depending on its path
+   http://stackoverflow.com/questions/20856/how-do-you-recommend-implementing-tags-or-tagging
+
+   A test has the following properties
+   1) It belongs to a product and a category
+   2) It belongs to a release and phase under the release
+
+   Constant
+   1) Product
+   2) Category
+   3) TestCase Name
+      
+  
+      
+  Quality Center
+  
+  For each release, each test case is repeated for each phase
+
+1) Attach django-taggit to the testplan-testcase model - DONE - is a decent way to proceed
+2) Show this in the test plan page - This can be tricky.
+
+   a) The issue is that currently editing the details of a test plan and adding test cases to a test plan are at the same places. Split it into two pages.
+   Edit TestPlan Details
+   Add TestCases
+   
+   This will mean that in the TestPlan, there will be two columns. one is to add testcases and the other is to edit testplan details
+
+   There will be two pages for each of these actions
+   
+   Once the user has created a test plan, he can add test cases to the test plan
+   
+   
+   
+   
 * Personal Tasks
 ** TODO Pay Electricity Bill
 ** TODO Deposit Cheque

@@ -77,11 +77,18 @@
 ;; tramp support
 (require 'tramp)
 
+<<<<<<< HEAD
 ;;groovy / grails support
 (add-to-list 'load-path "~/.emacs.d/deepak-grails.el")
 (load "~/.emacs.d/deepak-grails.el")
 
 
+=======
+;;
+(autoload 'autopair-global-mode "autopair" nil t)
+(autopair-global-mode)
+(add-hook 'lisp-mode-hook #'(lambda () (setq autopair-dont-activate t)))
+;; tab to spaces
 (setq-default indent-tabs-mode nil)
 
 (add-to-list 'load-path "~/.emacs.d/python/helm")
@@ -100,6 +107,7 @@
 (setq kill-emacs-query-functions
       (cons (lambda () (yes-or-no-p "Really kill Emacs?"))
      kill-emacs-query-functions))
+>>>>>>> ubun2
 
 (custom-set-variables
   ;; custom-set-variables was added by Custom.

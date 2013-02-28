@@ -77,11 +77,11 @@
 ;; tramp support
 (require 'tramp)
 
-;;groovy / grails support
-(add-to-list 'load-path "~/.emacs.d/deepak-grails.el")
-(load "~/.emacs.d/deepak-grails.el")
-
-
+;;
+(autoload 'autopair-global-mode "autopair" nil t)
+(autopair-global-mode)
+(add-hook 'lisp-mode-hook #'(lambda () (setq autopair-dont-activate t)))
+;; tab to spaces
 (setq-default indent-tabs-mode nil)
 
 (add-to-list 'load-path "~/.emacs.d/python/helm")

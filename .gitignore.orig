@@ -1,0 +1,29 @@
+<<<<<<< HEAD
+autosave
+backup
+*.gz
+*.bz2
+*.zip
+downloads
+private
+emacs-24.1
+*~
+session.*
+*.rtf
+=======
+*.gz
+*.zip
+*.bz2
+*.elc
+%backup*
+*.rtf
+*~
+.#*
+*%*%
+autosave/
+backup/
+private/
+download/
+python-backup/
+test/
+>>>>>>> ubun2

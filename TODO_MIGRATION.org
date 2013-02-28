@@ -1,0 +1,130 @@
+* DONE Archived
+  CLOSED: [2012-10-30 Tue 12:59]
+
+** DONE Migrate to south
+   CLOSED: [2012-10-24 Wed 17:42]
+1) Install south
+2) Edit settings to add south to installed apps
+3) do syncdb to add south to the database
+4) convert the ecapp app to south
+5) Checkout the master branch
+6) For any issues, you can do git clean  -d  -fx ""
+7) Run ./migrate ecapp --auto and south will apply all the necessary changes to the database
+
+
+** DONE 23rd October 
+   CLOSED: [2012-10-30 Tue 12:47]
+*** TODO Make the folder and the tests independent
+*** DONE Put all the folder updates in the filter html
+    CLOSED: [2012-10-24 Wed 15:57]
+*** DONE Make the filter to appear when creating test plan - done
+   CLOSED: [2012-10-24 Wed 15:57]
+*** TODO TestCases to TestPlan is broken. Fix it
+*** DONE Make the tree update whenever a folder is added or removed
+   CLOSED: [2012-10-24 Wed 15:58]
+
+   
+*** TODO Add folder id to the folders and use this as the key to the dynatree tree
+
+Changes made
+1) Made the folder tree code more robust and removed dependency on TREE global variable
+2) Adde
+
+** DONE 26th October 
+   CLOSED: [2012-10-30 Tue 12:47]
+*** Add a new home page which shows timeline
+*** Remove the success home page
+*** Cleanup TestCasea and TestPlan
+*** Improve REST API
+
+** DONE Priority and Bugs
+   CLOSED: [2012-10-30 Tue 12:47]
+   
+*** DONE Repository Page - Home Page
+    CLOSED: [2012-10-30 Tue 12:37]
+**** DONE 1 Make disabled button work or hide it for now
+     CLOSED: [2012-10-27 Sat 16:13]
+**** DONE 2 Fetch all test cases when the test repo loads
+     CLOSED: [2012-10-27 Sat 13:50]
+**** DONE 3 Convert create testcases to a button or show it in a more organic way
+     CLOSED: [2012-10-27 Sat 18:41]
+**** DONE 4 Bug when a new folder is created. The problem is because addfolder has not been changed to reflect the key as part of the json
+     CLOSED: [2012-10-27 Sat 16:36]
+
+*** DONE Create TestPlan Page
+    CLOSED: [2012-10-30 Tue 12:37]
+**** TODO Show all test cases when the page first loads
+**** TODO 
+
+**** [#B] 2 Remove category from the active table
+**** [#B] 3 Replace ID by a sequence
+**** [#B] 4 On submitting, redirect to the testplan page or the home page rather than the success page
+
+*** DONE base filter
+    CLOSED: [2012-10-30 Tue 12:38]
+**** 1 Shade the NOFOLDER differently
+
+     
+*** DONE test_plan edit
+    CLOSED: [2012-10-30 Tue 12:38]
+**** 1 Fix the toedit table to show test case names rather than nulls
+**** 2 Make the edit page and the new test plan page work with root folder
+**** 3 Make the edit page load the current test cases in a test plan for the first load
+
+     
+* TODO Improve reporting on extension cord
+    Setup a demo with the QA
+ 
+* TODO REST API to work with voltage and improve it if possible
+    P1 Give test names as parameters in the API instead of test ids
+    
+* TODO Search
+
+* TODO Improve UI Usability
+  
+  Requirements
+- Add test cases to test plans
+  This will be a two part flow.
+  In the first part, the user will be asked to enter the grimy details of the test plan.
+  Once the user submits the form, we now take him to the place where he/she adds the test cases.
+  Supposed the user is of the dashboard team who wants to add 20 test cases to a form
+  ** Ability to add entire folders
+  ** Ability to add single tests
+  Indicate which test cases have been added to the test plan - gmail idea of showing a colored notification at the top
+  No need to go to home
+
+  Process
+  First the user is presented with the test plan form. He adds the necessary data to the test plan form. 
+  Present the user with a save button.
+  Once the user clicks save, the test case is saved.
+  
+  Once the test case is saved, the user is now shown the addtest cases to the plan button.
+  When the user clicks on this button, it goes to the next screen.
+  The next screen consists of the folder tree on the left and the test cases list on the right
+  Whenever the user clicks on any node of the folder tree, the node expands and the test cases under it are shown to the user
+  Each test case has a select radio button on its left. At one time, multiple tests can be selected. 
+  Once the user selects the tests, he can click on a button add to test plan between the path and the pagination which will add the test cases to the test plan
+  and show a notification to the user saying that the test cases have been added to the test plan. There will also be an undo link
+  There will also be a button besides the add which will add the entire folder to the plan
+  Once the user is done, he wil go to review page.
+  In the review page,
+  on the left side, you can see the folder tree which has the folders.
+  on the right side, you can those tests which are under the test plan for this particular
+  folder.
+  If he notices that something is wrong, he can click on modify plan and it will take him back to the previous
+  page where he can do the test plan editing again
+
+  
+
+He then clicks button "Add Tests"
+
+* TODO cleanup testplanviews
+* TODO The QA needs flexibility in how to organize their testplans. For example, they need to view plans by teams or by releases
+Create a release folder and an integration folder inside it
+1) create testplans in them.
+   Attach testplans to folders
+   Now, report on hummer => postintegration
+   
+
+
+
