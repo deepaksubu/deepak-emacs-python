@@ -59,10 +59,10 @@
 (ac-config-default)
 
 ;;yassnippet
-;;(add-to-list 'load-path
+(add-to-list 'load-path
 ;;              "~/.emacs.d/yasnippet")
-;;(require 'yasnippet)
-;;(yas-global-mode 1)
+(require 'yasnippet)
+(yas-global-mode 1)
 
 ;;python support
 ;;(add-to-list 'load-path "~/.emacs.d/deepak-python.el")
