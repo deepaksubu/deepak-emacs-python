@@ -13,3 +13,5 @@ private/
 download/
 python-backup/
 test/
+*.out
+*.log
