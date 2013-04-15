@@ -20,6 +20,13 @@
 
 (define-key global-map (kbd "<f2>") 'helm-browse-code)
 
+(setq browse-url-browser-function 'browse-url-generic
+ browse-url-generic-program "google-chrome")
+
+;;global undo support
+(require 'undo-tree)
+(global-undo-tree-mode)
+
 ;;line number support
 (global-linum-mode 1)
 
@@ -52,14 +59,14 @@
 (ac-config-default)
 
 ;;yassnippet
-(add-to-list 'load-path
-              "~/.emacs.d/yasnippet")
-(require 'yasnippet)
-(yas-global-mode 1)
+;;(add-to-list 'load-path
+;;              "~/.emacs.d/yasnippet")
+;;(require 'yasnippet)
+;;(yas-global-mode 1)
 
 ;;python support
-(add-to-list 'load-path "~/.emacs.d/deepak-python.el")
-(load "~/.emacs.d/deepak-python.el" )
+;;(add-to-list 'load-path "~/.emacs.d/deepak-python.el")
+;;(load "~/.emacs.d/deepak-python.el" )
 
 (load "~/.emacs.d/git.el" )
 (load "~/.emacs.d/git-blame.el" )
@@ -84,8 +91,8 @@
 
 (setq-default indent-tabs-mode nil)
 
-(add-to-list 'load-path "~/.emacs.d/python/helm")
-(require 'helm-config)
+;;(add-to-list 'load-path "~/.emacs.d/python/helm")
+;;(require 'helm-config)
 
 (define-key input-decode-map "\e[1;2A" [S-up])
 
