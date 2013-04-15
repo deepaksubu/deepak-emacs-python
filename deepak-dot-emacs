@@ -85,8 +85,8 @@
 (require 'tramp)
 
 ;;groovy / grails support
-(add-to-list 'load-path "~/.emacs.d/deepak-grails.el")
-(load "~/.emacs.d/deepak-grails.el")
+;;(add-to-list 'load-path "~/.emacs.d/deepak-grails.el")
+;;(load "~/.emacs.d/deepak-grails.el")
 
 
 (setq-default indent-tabs-mode nil)
