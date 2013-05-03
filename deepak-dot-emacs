@@ -107,9 +107,9 @@ line instead."
 (global-linum-mode 1)                    ;; show line numbers
 (column-number-mode t)                   ;; show column numbers
 (size-indication-mode t)                 ;; show file size (emacs 22+)
-(menu-bar-mode 1)                       ;; remove the menu bar
-(tool-bar-mode -1)                       ;; remove the tool bar 
-(scroll-bar-mode -1)                     ;; remove the scroll bar
+;;(menu-bar-mode 1)                       ;; remove the menu bar
+;;(tool-bar-mode -1)                       ;; remove the tool bar 
+;;(scroll-bar-mode -1)                     ;; remove the scroll bar
 
 
 ;;INTERACTIVE MODE FOR EMACS
