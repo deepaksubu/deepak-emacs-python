@@ -14,5 +14,9 @@ download/
 python-backup/
 test/
 thirdparty/
+cache/
+history/
+url
+*tramp
 *.out
 *.log
