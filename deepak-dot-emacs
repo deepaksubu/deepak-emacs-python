@@ -30,13 +30,11 @@
 (add-to-list 'load-path (concatenate 'string third-party-dir "/yasnippet"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/emacs-soap-client/"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/org-jira/"))
-(add-to-list 'load-path (concatenate 'string third-party-dir "/themes"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/themes/color-theme-6.6.0"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/themes/color-theme-6.6.0/themes"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/org-mode/lisp"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/org-mode/contrib/lisp") t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
 
 ;;ORG MODE
 (require 'org-install)
@@ -50,7 +48,7 @@
 (require 'color-theme)
 (color-theme-initialize)
 (load (concatenate 'string third-party-dir "/themes/zenburn"))
-(color-theme-zenburn)
+;;(color-theme-zenburn)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -164,8 +162,8 @@ line instead."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; GIT MODE
-(load (concatenate 'string third-party-dir "/git.el"))
-(load (concatenate 'string third-party-dir "/git-blame.el" ))
+;;(load (concatenate 'string third-party-dir "/git.el"))
+;;(load (concatenate 'string third-party-dir "/git-blame.el" ))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;support for copy to and from system clipboard
