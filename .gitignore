@@ -15,8 +15,9 @@ python-backup/
 test/
 thirdparty/
 cache/
-history/
+history
 url
 *tramp
 *.out
 *.log
+*.dat
