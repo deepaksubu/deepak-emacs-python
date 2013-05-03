@@ -1,89 +1,237 @@
-;;-*- Emacs-Lisp -*-
+;; -*-mode: Emacs-Lisp; folding-mode:t-*-
 ;;load the path to the directory
 (require 'cl) ; a rare necessary use of REQUIRE
 (defvar *emacs-load-start* (current-time))
-
-(add-to-list 'load-path "~/.emacs.d/")
-
 (defvar first-time t
-  "flag signifying this is the first time that .emacs has been evaled")
+  "flag signifying this is the first time that .emacs has been eval'ed")
 
-;;; backup/autosave
-(defvar backup-dir (expand-file-name "~/.emacs.d/backup/"))
-(defvar autosave-dir (expand-file-name "~/.emacs.d/autosave/"))
+(setq initial-scratch-message
+  ";; scratch buffer created -- One mode to rule them all\n")
+
+(setq emacs-dir "~/.emacs.d")
+(setq third-party-dir (concatenate 'string emacs-dir "/thirdparty"))
+
+(setq-default
+ frame-title-format
+ '(:eval
+   (format "%s@%s:%s"
+           (or (file-remote-p default-directory 'user) user-login-name)
+           (or (file-remote-p default-directory 'host) system-name)
+           (file-name-nondirectory (or (buffer-file-name) default-directory)))))
+
+(put 'narrow-to-region 'disabled nil)    ;; enable...
+(put 'erase-buffer 'disabled nil)        ;; ... useful things
+(file-name-shadow-mode t)                ;; be smart about filenames in mbuf
+
+;;;LOAD DIR;;;
+(add-to-list 'load-path emacs-dir)
+(add-to-list 'load-path third-party-dir)
+(add-to-list 'load-path (concatenate 'string third-party-dir "/autocomplete/"))
+(add-to-list 'load-path (concatenate 'string third-party-dir "/yasnippet"))
+(add-to-list 'load-path (concatenate 'string third-party-dir "/emacs-soap-client/"))
+(add-to-list 'load-path (concatenate 'string third-party-dir "/org-jira/"))
+(add-to-list 'load-path (concatenate 'string third-party-dir "/themes"))
+(add-to-list 'load-path (concatenate 'string third-party-dir "/themes/color-theme-6.6.0"))
+(add-to-list 'load-path (concatenate 'string third-party-dir "/themes/color-theme-6.6.0/themes"))
+(add-to-list 'load-path (concatenate 'string third-party-dir "/org-mode/lisp"))
+(add-to-list 'load-path (concatenate 'string third-party-dir "/org-mode/contrib/lisp") t)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;ORG MODE
+(require 'org-install)
+(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
+(setq org-log-done t)
+(setq org-todo-keywords'(sequence "TODO"  "INPROGRESS" "|" "DONE"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;COLOR THEMES
+(require 'color-theme)
+(color-theme-initialize)
+(load (concatenate 'string third-party-dir "/themes/zenburn"))
+(color-theme-zenburn)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;ORG JIRA
+(setq jiralib-url "http://jira")
+                                        ; you need make sure the jiralib-url is correct. Login your jira
+                                        ; server in browser, the home page URL should be like:
+                                        ; https://issues.apache.org/jira/secure/Dashboard.jspa
+                                        ; remove the "/secure/Dashboard.jspa" part and you get the jiralib-url: 
+                                        ; "https://issues.apache.org/jira"
+(require 'org-jira) 
+                                        ; jiralib is not explicitly required, since org-jira will load it
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+
+;;;BACKUP/AUTOSAVE
+(defvar backup-dir (expand-file-name (concatenate 'string emacs-dir "/backup/")))
+(defvar autosave-dir (expand-file-name (concatenate 'string emacs-dir "/autosave/")))
 (setq backup-directory-alist (list (cons ".*" backup-dir)))
 (setq auto-save-list-file-prefix autosave-dir)
 (setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;add auto indentation support with each new line
-(define-key global-map (kbd "RET") 'newline-and-indent)
+;; slick-copy: make copy-past a bit more intelligent
+;; from: http://www.emacswiki.org/emacs/SlickCopy
+(defadvice kill-ring-save (before slick-copy activate compile)
+  "When called interactively with no active region, copy a single
+line instead."
+  (interactive
+    (if mark-active (list (region-beginning) (region-end))
+      (message "Copied line")
+      (list (line-beginning-position)
+               (line-beginning-position 2)))))
 
-(define-key global-map (kbd "<f2>") 'helm-browse-code)
+(defadvice kill-region (before slick-cut activate compile)
+  "When called interactively with no active region, kill a single
+line instead."
+  (interactive
+    (if mark-active (list (region-beginning) (region-end))
+      (list (line-beginning-position)
+        (line-beginning-position 2)))))
 
+;;DEFAULT BROWSER
 (setq browse-url-browser-function 'browse-url-generic
- browse-url-generic-program "google-chrome")
+      browse-url-generic-program "google-chrome")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;global undo support
+
+;;GLOBAL UNDO SUPPORT
 (require 'undo-tree)
 (global-undo-tree-mode)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;line number support
-(global-linum-mode 1)
 
-;;Remove the annoying toolbars and stuff
-(menu-bar-mode -1) (tool-bar-mode -1) (scroll-bar-mode -1)
 
-;;Add the interactive mode for emacs
-(ido-mode 1)
-(setq ido-enable-flex-matching t)
+(global-linum-mode 1)                    ;; show line numbers
+(column-number-mode t)                   ;; show column numbers
+(size-indication-mode t)                 ;; show file size (emacs 22+)
+(menu-bar-mode 1)                       ;; remove the menu bar
+(tool-bar-mode -1)                       ;; remove the tool bar 
+(scroll-bar-mode -1)                     ;; remove the scroll bar
 
+
+;;INTERACTIVE MODE FOR EMACS
+(require 'ido) 
+(ido-mode 'both) ;; for buffers and files
+(setq 
+  ido-save-directory-list-file (concatenate 'string emacs-dir "/cache/ido.last")
+  ido-ignore-buffers ;; ignore these guys
+  '("\\` " "^\*Mess" "^\*Back" ".*Completion" "^\*Ido" "^\*trace"
+     "^\*compilation" "^\*GTAGS" "^session\.*" "^\*")
+  ido-work-directory-list '("~/" "~/Desktop" "~/Documents" "~src")
+  ido-case-fold  t                 ; be case-insensitive
+  ido-enable-last-directory-history t ; remember last used dirs
+  ido-max-work-directory-list 30   ; should be enough
+  ido-max-work-file-list      50   ; remember many
+  ido-use-filename-at-point nil    ; don't use filename at point (annoying)
+  ido-use-url-at-point nil         ; don't use url at point (annoying)
+  ido-enable-flex-matching nil     ; don't try to be too smart
+  ido-max-prospects 8              ; don't spam my minibuffer
+  ido-confirm-unique-completion t) ; wait for RET, even with unique completion
+
+;; when using ido, the confirmation is rather annoying...
+ (setq confirm-nonexistent-file-or-buffer nil)
+
+;; increase minibuffer size when ido completion is active
+(add-hook 'ido-minibuffer-setup-hook 
+  (function
+    (lambda ()
+      (make-local-variable 'resize-minibuffer-window-max-height)
+      (setq resize-minibuffer-window-max-height 1))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'comint)
-(define-key comint-mode-map (kbd "M-") 'comint-next-input)
-(define-key comint-mode-map (kbd "M-") 'comint-previous-input)
-(define-key comint-mode-map [down] 'comint-next-matching-input-from-input)
-(define-key comint-mode-map [up] 'comint-previous-matching-input-from-input)
 
-
-;;Inhibit the startup screen in emacs
 (setq inhibit-startup-message t
-      inhibit-startup-echo-area-message t)
+      inhibit-startup-echo-area-message t) ;;Inhibit the startup screen in emacs
 
 ;;move between frames using shift keys
 (windmove-default-keybindings)
 
-;;autocomplete
-(add-to-list 'load-path "/home/dsubramanian/.emacs.d/autocomplete/")
+;;AUTOCOMPLETE
 (require 'auto-complete-config)
-(add-to-list 'ac-dictionary-directories "/home/dsubramanian/.emacs.d/autocomplete//ac-dict")
+(add-to-list 'ac-dictionary-directories (concatenate 'string third-party-dir "/autocomplete/ac-dict"))
 (ac-config-default)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;yassnippet
-(add-to-list 'load-path
-              "~/.emacs.d/yasnippet")
+;;YASSNIPPET
 (require 'yasnippet)
 (yas-global-mode 1)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;python support
-;;(add-to-list 'load-path "~/.emacs.d/deepak-python.el")
-;;(load "~/.emacs.d/deepak-python.el" )
-
-(load "~/.emacs.d/git.el" )
-(load "~/.emacs.d/git-blame.el" )
-
-;;zenbburn color theme for emacs
-(add-to-list 'load-path "~/.emacs.d/deepak-color-themes.el")
-(load "~/.emacs.d/deepak-color-themes.el")
+;; GIT MODE
+(load (concatenate 'string third-party-dir "/git.el"))
+(load (concatenate 'string third-party-dir "/git-blame.el" ))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;support for copy to and from system clipboard
 (setq x-select-enable-clipboard t)
 
-(add-to-list 'load-path "~/.emacs.d/deepak-org-mode.el")
-(load "~/.emacs.d/deepak-org-mode.el")
+;; uniquify: unique buffer names
+(require 'uniquify) ;; make buffer names more unique
+(setq 
+  uniquify-buffer-name-style 'post-forward
+  uniquify-separator ":"
+  uniquify-after-kill-buffer-p t
+  uniquify-ignore-buffers-re "^\\*")
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; tramp support
 (require 'tramp)
+(setq shell-prompt-pattern "^[^a-zA-Z].*[#$%>] *")
+(setq
+  tramp-default-method "ssh"
+  tramp-persistency-file-name (concatenate 'string emacs-dir "/cache/tramp"))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+
+;; hl-line: highlight the current line
+(when (fboundp 'global-hl-line-mode)
+  (global-hl-line-mode t)) ;; turn it on for all modes by default
+
+;; http://www.emacswiki.org/cgi-bin/wiki/ShowParenMode
+(when (fboundp 'show-paren-mode)
+  (show-paren-mode t)
+  (setq show-paren-style 'parenthesis))
+
+;; overrride the default function....
+(defun emacs-session-filename (SESSION-ID)
+  (concatenate 'string emacs-dir "/cache/session." SESSION-ID))
+
+;; bookmarks
+(setq bookmark-default-file (concatenate 'string emacs-dir "/data/bookmarks") ;; bookmarks
+  bookmark-save-flag 1)                            ;; autosave each change
+
+;; saveplace: save location in file when saving files
+(setq save-place-file (concatenate 'string emacs-dir "/cache/saveplace"))
+(setq-default save-place t)            ;; activate it for all buffers
+(require 'saveplace)                   ;; get the package
+;;
+;; savehist: save some history
+(setq savehist-additional-variables    ;; also save...
+  '(search ring regexp-search-ring)    ;; ... my search entries
+  savehist-autosave-interval 60        ;; save every minute (default: 5 min)
+  savehist-file (concatenate 'string emacs-dir "/cache/savehist"))   ;; keep my home clean
+(savehist-mode t)                      ;; do customization before activation
+
+;;; More packages
+;; the in-frame speedbar
+(when (require 'sr-speedbar nil 'noerror)
+  (setq speedbar-supported-extension-expressions
+    '(".org" ".[ch]\\(\\+\\+\\|pp\\|c\\|h\\|xx\\)?"
+       ".tex\\(i\\(nfo\\)?\\)?" ".el"
+       ".java" ".p[lm]" ".pm" ".py"  ".s?html"  "Makefile.am" "configure.ac"))
+  (setq
+    sr-speedbar-width-x 20
+    sr-speedbar-right-side t))
+
+
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;groovy / grails support
 ;;(add-to-list 'load-path "~/.emacs.d/deepak-grails.el")
 ;;(load "~/.emacs.d/deepak-grails.el")
@@ -94,7 +242,32 @@
 ;;(add-to-list 'load-path "~/.emacs.d/python/helm")
 ;;(require 'helm-config)
 
+;; xml pretty printing
+(defun bf-pretty-print-xml-region (begin end)
+  "Pretty format XML markup in region. You need to have nxml-mode
+http://www.emacswiki.org/cgi-bin/wiki/NxmlMode installed to do
+this.  The function inserts linebreaks to separate tags that have
+nothing but whitespace between them.  It then indents the markup
+by using nxml's indentation rules."
+  (interactive "r")
+  (save-excursion
+    (nxml-mode)
+    (goto-char begin)
+    (while (search-forward-regexp "\>[ \\t]*\<" nil t) 
+      (backward-char) (insert "\n"))
+    (indent-region begin end))
+  (message "Ah, much better!"))
+
+;; define custom keys
 (define-key input-decode-map "\e[1;2A" [S-up])
+(define-key comint-mode-map (kbd "M-") 'comint-next-input)
+(define-key comint-mode-map (kbd "M-") 'comint-previous-input)
+(define-key comint-mode-map [down] 'comint-next-matching-input-from-input)
+(define-key comint-mode-map [up] 'comint-previous-matching-input-from-input)
+(define-key global-map (kbd "RET") 'newline-and-indent)
+(define-key global-map (kbd "<f2>") 'helm-browse-code)
+(define-key global-map "\C-cl" 'org-store-link)
+(define-key global-map "\C-ca" 'org-agenda)
 
 ;; Under UNIX
 (if (not (equal system-type 'ms-dos))
@@ -106,19 +279,32 @@
 ;; Add Emacs close confirmation
 (setq kill-emacs-query-functions
       (cons (lambda () (yes-or-no-p "Really kill Emacs?"))
-     kill-emacs-query-functions))
+            kill-emacs-query-functions))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;; safe locals
+;; we mark these as 'safe', so emacs22+ won't give us annoying
+;; warnings
+(setq safe-local-variable-values
+      (quote ((auto-recompile . t)
+              (folding-mode . t)
+              (outline-minor-mode . t)
+              auto-recompile outline-minor-mode)))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
 
 (custom-set-variables
-  ;; custom-set-variables was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
-)
+ ;; custom-set-variables was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 (custom-set-faces
-  ;; custom-set-faces was added by Custom.
-  ;; If you edit it by hand, you could mess it up, so be careful.
-  ;; Your init file should contain only one such instance.
-  ;; If there is more than one, they won't work right.
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
  )
 (message "My .emacs loaded in %ds" (destructuring-bind (hi lo ms) (current-time)
-                           (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
+                                     (- (+ hi lo) (+ (first *emacs-load-start*) (second *emacs-load-start*)))))
+(put 'upcase-region 'disabled nil)
