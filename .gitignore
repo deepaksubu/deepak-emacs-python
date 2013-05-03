@@ -20,4 +20,4 @@ url
 *tramp
 *.out
 *.log
-*.dat
+ac-comphist.dat
