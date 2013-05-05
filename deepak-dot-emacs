@@ -27,6 +27,7 @@
 (add-to-list 'load-path emacs-dir)
 (add-to-list 'load-path third-party-dir)
 (add-to-list 'load-path (concatenate 'string third-party-dir "/autocomplete/"))
+(add-to-list 'load-path (concatenate 'string third-party-dir "/ert/lisp/emacs-lisp/"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/yasnippet"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/emacs-soap-client/"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/org-jira/"))
@@ -35,8 +36,36 @@
 (add-to-list 'load-path (concatenate 'string third-party-dir "/themes/color-theme-6.6.0/themes"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/org-mode/lisp"))
 (add-to-list 'load-path (concatenate 'string third-party-dir "/org-mode/contrib/lisp") t)
+(add-to-list 'load-path (concatenate 'string third-party-dir "/emacs-eclim/") t)
+(add-to-list 'load-path (concatenate 'string third-party-dir "/company-mode/") t)
+(add-to-list 'load-path (concatenate 'string third-party-dir "/sr-speedbar/") t)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;EMACS-ECLIM MODE
+(require 'eclim)
+(global-eclim-mode)
+
+;; Variables
+(setq eclim-auto-save t
+      eclim-executable "/opt/eclipse/eclim"
+      eclimd-executable "/opt/eclipse/eclimd"
+      eclimd-wait-for-process nil
+      eclimd-default-workspace ":~/dev/eclim-workspace"
+      help-at-pt-display-when-idle t
+      help-at-pt-timer-delay 0.1
+      ac-delay 0.5
+      )
+
+;; Call the help framework with the settings above & activate
+;; eclim-mode
+(help-at-pt-set-timer)
+
+;; Hook eclim up with auto complete mode
+(require 'auto-complete-config)
+(ac-config-default)
+(require 'ac-emacs-eclim-source)
+(ac-emacs-eclim-config)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;ORG MODE
 (require 'org-install)
@@ -48,9 +77,6 @@
 
 ;;COLOR THEMES
 (require 'color-theme)
-(color-theme-initialize)
-(load (concatenate 'string third-party-dir "/themes/zenburn"))
-(color-theme-zenburn)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
@@ -74,8 +100,8 @@
 (setq auto-save-file-name-transforms `((".*" ,autosave-dir t)))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; slick-copy: make copy-past a bit more intelligent
-;; from: http://www.emacswiki.org/emacs/SlickCopy
+;;slick-copy: make copy-past a bit more intelligent
+;;from: http://www.emacswiki.org/emacs/SlickCopy
 (defadvice kill-ring-save (before slick-copy activate compile)
   "When called interactively with no active region, copy a single
 line instead."
@@ -92,6 +118,7 @@ line instead."
     (if mark-active (list (region-beginning) (region-end))
       (list (line-beginning-position)
         (line-beginning-position 2)))))
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;DEFAULT BROWSER
 (setq browse-url-browser-function 'browse-url-generic
