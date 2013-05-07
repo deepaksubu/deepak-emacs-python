@@ -37,18 +37,9 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;ORG MODE
-(require 'org-install)
-(add-to-list 'auto-mode-alist '("\\.org$" . org-mode))
 (setq org-log-done t)
-(setq org-todo-keywords'(sequence "TODO"  "INPROGRESS" "|" "DONE"))
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-
-;;COLOR THEMES
-(require 'color-theme)
-(color-theme-initialize)
-(load (concatenate 'string third-party-dir "/themes/zenburn"))
-;;(color-theme-zenburn)
+;;(setq org-todo-keywords '(sequence "TODO"  "INPROGRESS" "|" "DONE"))
+(setq org-todo-keywords '((sequence "TODO" "FEEDBACK" "VERIFY" "|" "DONE" "DELEGATED")))
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 
