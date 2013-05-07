@@ -16,3 +16,8 @@ test/
 thirdparty/
 *.out
 *.log
+url/
+cache/
+*.dat
+tramp
+history
